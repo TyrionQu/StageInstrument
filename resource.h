@@ -59,6 +59,8 @@
 #define ID_VIEW_APPLOOK_WINDOWS_7       219
 #define ID_TOOLS_OPTIONS                220
 #define ID_VIEW_CAPTION_BAR             221
+#define ID_VIEW_FILEVIEW				222
+#define ID_VIEW_CLASSVIEW				223
 #define IDB_INFO                        230
 #define IDS_CAPTION_BUTTON              231
 #define IDS_CAPTION_BUTTON_TIP          232
@@ -84,8 +86,15 @@
 #define IDB_FILE_VIEW                   321
 #define IDB_FILE_VIEW_24                322
 #define IDB_EXPLORER_24                 323
-#define IDR_TOOLBAR2                    324
 #define IDR_EXPLORER                    324
+#define IDI_CLASS_VIEW_HC               326
+#define IDI_FILE_VIEW_HC                328
+#define IDI_OUTPUT_WND_HC               329
+#define IDI_PROPERTIES_WND_HC           330
+#define IDS_FILE_VIEW                   400
+#define IDS_CLASS_VIEW                  401
+#define IDS_OUTPUT_WND                  402
+#define IDS_PROPERTIES_WND              403
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_OPEN                         32771
 #define ID_OPEN_WITH                    32772
@@ -96,9 +105,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        326
+#define _APS_NEXT_RESOURCE_VALUE        500
 #define _APS_NEXT_COMMAND_VALUE         32775
 #define _APS_NEXT_CONTROL_VALUE         1000
-#define _APS_NEXT_SYMED_VALUE           314
+#define _APS_NEXT_SYMED_VALUE           600
 #endif
 #endif

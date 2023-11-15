@@ -17,6 +17,7 @@
 #include "StageInstrument.h"
 
 #include "MainFrm.h"
+#include "Resource.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,8 +32,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_COMMAND(ID_WINDOW_MANAGER, &CMainFrame::OnWindowManager)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
-	ON_COMMAND(ID_VIEW_CAPTION_BAR, &CMainFrame::OnViewCaptionBar)
-	ON_UPDATE_COMMAND_UI(ID_VIEW_CAPTION_BAR, &CMainFrame::OnUpdateViewCaptionBar)
 	ON_COMMAND(ID_TOOLS_OPTIONS, &CMainFrame::OnOptions)
 END_MESSAGE_MAP()
 
@@ -89,19 +88,21 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// Navigation pane will be created at left, so temporary disable docking at the left side:
 	EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM | CBRS_ALIGN_RIGHT);
 
-	// Create and setup "Outlook" navigation bar:
-	if (!CreateOutlookBar(m_wndNavigationBar, ID_VIEW_NAVIGATION, m_wndTree, m_wndCalendar, 250))
+	// create docking windows
+	if (!CreateDockingWindows())
 	{
-		TRACE0("Failed to create navigation pane\n");
-		return -1;      // fail to create
+		TRACE0("Failed to create docking windows\n");
+		return -1;
 	}
 
-	// Create a caption bar:
-	if (!CreateCaptionBar())
-	{
-		TRACE0("Failed to create caption bar\n");
-		return -1;      // fail to create
-	}
+	m_wndFileView.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndClassView.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndFileView);
+	CDockablePane* pTabbedBar = nullptr;
+	m_wndClassView.AttachToTabWnd(&m_wndFileView, DM_SHOW, TRUE, &pTabbedBar);
+	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndProperties);
+
 
 	// Outlook bar is created and docking on the left side should be allowed.
 	EnableDocking(CBRS_ALIGN_LEFT);
@@ -129,92 +130,6 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
-BOOL CMainFrame::CreateOutlookBar(CMFCOutlookBar& bar, UINT uiID, CMFCShellTreeCtrl& tree, CCalendarBar& calendar, int nInitialWidth)
-{
-	bar.SetMode2003();
-
-	BOOL bNameValid;
-	CString strTemp;
-	bNameValid = strTemp.LoadString(IDS_SHORTCUTS);
-	ASSERT(bNameValid);
-	if (!bar.Create(strTemp, this, CRect(0, 0, nInitialWidth, 32000), uiID, WS_CHILD | WS_VISIBLE | CBRS_LEFT))
-	{
-		return FALSE; // fail to create
-	}
-
-	CMFCOutlookBarTabCtrl* pOutlookBar = (CMFCOutlookBarTabCtrl*)bar.GetUnderlyingWindow();
-
-	if (pOutlookBar == nullptr)
-	{
-		ASSERT(FALSE);
-		return FALSE;
-	}
-
-	pOutlookBar->EnableInPlaceEdit(TRUE);
-
-	static UINT uiPageID = 1;
-
-	// can float, can autohide, can resize, CAN NOT CLOSE
-	DWORD dwStyle = AFX_CBRS_FLOAT | AFX_CBRS_AUTOHIDE | AFX_CBRS_RESIZE;
-
-	CRect rectDummy(0, 0, 0, 0);
-	const DWORD dwTreeStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS;
-
-	tree.Create(dwTreeStyle, rectDummy, &bar, 1200);
-	bNameValid = strTemp.LoadString(IDS_FOLDERS);
-	ASSERT(bNameValid);
-	pOutlookBar->AddControl(&tree, strTemp, 2, TRUE, dwStyle);
-
-	calendar.Create(rectDummy, &bar, 1201);
-	bNameValid = strTemp.LoadString(IDS_CALENDAR);
-	ASSERT(bNameValid);
-	pOutlookBar->AddControl(&calendar, strTemp, 3, TRUE, dwStyle);
-
-	bar.SetPaneStyle(bar.GetPaneStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
-
-	pOutlookBar->SetImageList(theApp.m_bHiColorIcons ? IDB_PAGES_HC : IDB_PAGES, 24);
-	pOutlookBar->SetToolbarImageList(theApp.m_bHiColorIcons ? IDB_PAGES_SMALL_HC : IDB_PAGES_SMALL, 16);
-	pOutlookBar->RecalcLayout();
-
-	BOOL bAnimation = theApp.GetInt(_T("OutlookAnimation"), TRUE);
-	CMFCOutlookBarTabCtrl::EnableAnimation(bAnimation);
-
-	bar.SetButtonsFont(&afxGlobalData.fontBold);
-
-	return TRUE;
-}
-
-BOOL CMainFrame::CreateCaptionBar()
-{
-	if (!m_wndCaptionBar.Create(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, this, ID_VIEW_CAPTION_BAR, -1, TRUE))
-	{
-		TRACE0("Failed to create caption bar\n");
-		return FALSE;
-	}
-
-	BOOL bNameValid;
-
-	CString strTemp, strTemp2;
-	bNameValid = strTemp.LoadString(IDS_CAPTION_BUTTON);
-	ASSERT(bNameValid);
-	m_wndCaptionBar.SetButton(strTemp, ID_TOOLS_OPTIONS, CMFCCaptionBar::ALIGN_LEFT, FALSE);
-	bNameValid = strTemp.LoadString(IDS_CAPTION_BUTTON_TIP);
-	ASSERT(bNameValid);
-	m_wndCaptionBar.SetButtonToolTip(strTemp);
-
-	bNameValid = strTemp.LoadString(IDS_CAPTION_TEXT);
-	ASSERT(bNameValid);
-	m_wndCaptionBar.SetText(strTemp, CMFCCaptionBar::ALIGN_LEFT);
-
-	m_wndCaptionBar.SetBitmap(IDB_INFO, RGB(255, 255, 255), FALSE, CMFCCaptionBar::ALIGN_LEFT);
-	bNameValid = strTemp.LoadString(IDS_CAPTION_IMAGE_TIP);
-	ASSERT(bNameValid);
-	bNameValid = strTemp2.LoadString(IDS_CAPTION_IMAGE_TEXT);
-	ASSERT(bNameValid);
-	m_wndCaptionBar.SetImageToolTip(strTemp, strTemp2);
-
-	return TRUE;
-}
 
 // CMainFrame diagnostics
 
@@ -321,17 +236,6 @@ void CMainFrame::OnUpdateApplicationLook(CCmdUI* pCmdUI)
 	pCmdUI->SetRadio(theApp.m_nAppLook == pCmdUI->m_nID);
 }
 
-void CMainFrame::OnViewCaptionBar()
-{
-	m_wndCaptionBar.ShowWindow(m_wndCaptionBar.IsVisible() ? SW_HIDE : SW_SHOW);
-	RecalcLayout(FALSE);
-}
-
-void CMainFrame::OnUpdateViewCaptionBar(CCmdUI* pCmdUI)
-{
-	pCmdUI->SetCheck(m_wndCaptionBar.IsVisible());
-}
-
 void CMainFrame::OnOptions()
 {
 	CMFCRibbonCustomizeDialog *pOptionsDlg = new CMFCRibbonCustomizeDialog(this, &m_wndRibbonBar);
@@ -341,3 +245,54 @@ void CMainFrame::OnOptions()
 	delete pOptionsDlg;
 }
 
+BOOL CMainFrame::CreateDockingWindows()
+{
+	BOOL bNameValid;
+
+	// Create class view
+	CString strClassView;
+	bNameValid = strClassView.LoadString(IDS_CLASS_VIEW);
+	ASSERT(bNameValid);
+	if (!m_wndClassView.Create(strClassView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_CLASSVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Failed to create Class View window\n");
+		return FALSE; // failed to create
+	}
+
+	// Create file view
+	CString strFileView;
+	bNameValid = strFileView.LoadString(IDS_FILE_VIEW);
+	ASSERT(bNameValid);
+	if (!m_wndFileView.Create(strFileView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_FILEVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Failed to create File View window\n");
+		return FALSE; // failed to create
+	}
+
+	// Create properties window
+	CString strPropertiesWnd;
+	bNameValid = strPropertiesWnd.LoadString(IDS_PROPERTIES_WND);
+	ASSERT(bNameValid);
+	if (!m_wndProperties.Create(strPropertiesWnd, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Failed to create Properties window\n");
+		return FALSE; // failed to create
+	}
+
+	SetDockingWindowIcons();
+	return TRUE;
+}
+
+void CMainFrame::SetDockingWindowIcons()
+{
+	HICON hFileViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_FILE_VIEW_HC), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
+	m_wndFileView.SetIcon(hFileViewIcon, FALSE);
+
+	HICON hClassViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_CLASS_VIEW_HC), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
+	m_wndClassView.SetIcon(hClassViewIcon, FALSE);
+
+	HICON hPropertiesBarIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_PROPERTIES_WND_HC), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
+	m_wndProperties.SetIcon(hPropertiesBarIcon, FALSE);
+
+	UpdateMDITabbedBarsIcons();
+}
