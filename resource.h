@@ -3,7 +3,7 @@
 // Used by StageInstrument.rc
 //
 #define IDD_ABOUTBOX                    100
-#define IDP_OLE_INIT_FAILED             100
+#define IDP_OLE_INIT_FAILED             101
 #define IDB_WRITESMALL                  110
 #define IDB_WRITELARGE                  111
 #define IDB_MAIN                        112
@@ -59,8 +59,8 @@
 #define ID_VIEW_APPLOOK_WINDOWS_7       219
 #define ID_TOOLS_OPTIONS                220
 #define ID_VIEW_CAPTION_BAR             221
-#define ID_VIEW_FILEVIEW				222
-#define ID_VIEW_CLASSVIEW				223
+#define ID_VIEW_FILEVIEW                222
+#define ID_VIEW_CLASSVIEW               223
 #define IDB_INFO                        230
 #define IDS_CAPTION_BUTTON              231
 #define IDS_CAPTION_BUTTON_TIP          232
@@ -95,19 +95,26 @@
 #define IDS_CLASS_VIEW                  401
 #define IDS_OUTPUT_WND                  402
 #define IDS_PROPERTIES_WND              403
+#define IDB_ANALYSIS_VIEW               502
+#define IDD_MEASURE_SETUP_BOX           503
+#define IDC_TAB1                        1000
+#define IDC_OPTIONS_TAB                 1000
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_OPEN                         32771
 #define ID_OPEN_WITH                    32772
 #define ID_DUMMY_COMPILE                32773
 #define ID_PROPERTIES                   32774
+#define ID_BTN_START                    32775
+#define ID_BTN_PAUSE                    32777
+#define ID_BTN_STOP                     32778
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        500
-#define _APS_NEXT_COMMAND_VALUE         32775
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_RESOURCE_VALUE        505
+#define _APS_NEXT_COMMAND_VALUE         32779
+#define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           600
 #endif
 #endif

@@ -63,6 +63,10 @@ protected:
 
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons();
+public:
+	afx_msg void OnBtnStart();
+	afx_msg void OnBtnPause();
+	afx_msg void OnBtnStop();
 };
 
 

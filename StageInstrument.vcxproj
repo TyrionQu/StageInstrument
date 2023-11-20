@@ -220,6 +220,9 @@
     <ResourceCompile Include="StageInstrument.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\Analysis.bmp" />
+    <Image Include="res\Analysis.png" />
+    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\buttons.bmp" />
     <Image Include="res\classview.bmp" />
     <Image Include="res\classview_hc.bmp" />

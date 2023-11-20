@@ -201,6 +201,15 @@
     <Image Include="res\properties_wnd_hc.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Analysis.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Analysis.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ribbon.mfcribbon-ms">

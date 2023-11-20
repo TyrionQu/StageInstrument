@@ -33,6 +33,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
 	ON_COMMAND(ID_TOOLS_OPTIONS, &CMainFrame::OnOptions)
+	ON_COMMAND(ID_BTN_START, &CMainFrame::OnBtnStart)
+	ON_COMMAND(ID_BTN_PAUSE, &CMainFrame::OnBtnPause)
+	ON_COMMAND(ID_BTN_STOP, &CMainFrame::OnBtnStop)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -295,4 +298,22 @@ void CMainFrame::SetDockingWindowIcons()
 	m_wndProperties.SetIcon(hPropertiesBarIcon, FALSE);
 
 	UpdateMDITabbedBarsIcons();
+}
+
+
+void CMainFrame::OnBtnStart()
+{
+	MessageBox(L"Start");
+}
+
+
+void CMainFrame::OnBtnPause()
+{
+	MessageBox(L"Pause");
+}
+
+
+void CMainFrame::OnBtnStop()
+{
+	MessageBox(L"Stop");
 }
