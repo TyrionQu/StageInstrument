@@ -21,7 +21,7 @@
 
 #include "ChildFrm.h"
 #include "StageInstrumentDoc.h"
-#include "StageInstrumentView.h"
+#include "CameraFormView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -129,7 +129,7 @@ BOOL CStageInstrumentApp::InitInstance()
 	pDocTemplate = new CMultiDocTemplate(IDR_StageInstrumentTYPE,
 		RUNTIME_CLASS(CStageInstrumentDoc),
 		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-		RUNTIME_CLASS(CStageInstrumentView));
+		RUNTIME_CLASS(CCameraFormView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);

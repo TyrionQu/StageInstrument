@@ -4,6 +4,7 @@
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             101
+#define IDD_CAMERA_FORMVIEW             101
 #define IDB_WRITESMALL                  110
 #define IDB_WRITELARGE                  111
 #define IDB_MAIN                        112
@@ -99,6 +100,15 @@
 #define IDD_MEASURE_SETUP_BOX           503
 #define IDC_TAB1                        1000
 #define IDC_OPTIONS_TAB                 1000
+#define IDC_SLIDER_ZOOM                 1001
+#define IDC_SLIDER_INTENSITY            1002
+#define IDC_EDIT_INTENSITY              1003
+#define IDC_BTN_SAMPLE_1                1004
+#define IDC_BTN_SAMPLE_2                1005
+#define IDC_BTN_SAMPLE_3                1006
+#define IDC_BTN_SAMPLE_4                1007
+#define IDC_BTN_SAMPLE_5                1008
+#define IDC_BTN_SAMPLE_6                1009
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_OPEN                         32771
 #define ID_OPEN_WITH                    32772
@@ -112,9 +122,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        505
+#define _APS_NEXT_RESOURCE_VALUE        506
 #define _APS_NEXT_COMMAND_VALUE         32779
-#define _APS_NEXT_CONTROL_VALUE         1001
+#define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           600
 #endif
 #endif
