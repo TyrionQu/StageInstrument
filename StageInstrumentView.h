@@ -46,6 +46,7 @@ public:
 #endif
 
 protected:
+	HWND m_hCamera;
 
 // Generated message map functions
 protected:
@@ -53,6 +54,9 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual void OnInitialUpdate();
+	virtual void OnFinalRelease();
 };
 
 #ifndef _DEBUG  // debug version in StageInstrumentView.cpp

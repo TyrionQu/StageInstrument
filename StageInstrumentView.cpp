@@ -27,6 +27,8 @@
 #define new DEBUG_NEW
 #endif
 
+#include <Vfw.h>
+
 
 // CStageInstrumentView
 
@@ -136,3 +138,27 @@ CStageInstrumentDoc* CStageInstrumentView::GetDocument() const // non-debug vers
 
 
 // CStageInstrumentView message handlers
+
+
+void CStageInstrumentView::OnInitialUpdate()
+{
+	CView::OnInitialUpdate();
+
+	m_hCamera = capCreateCaptureWindow(TEXT("监控摄像头窗口"), WS_CHILD | WS_VISIBLE, 10, 10, 640, 480, this->m_hWnd, 12345);
+	if (capDriverConnect(m_hCamera, 0) == FALSE)
+	{
+		MessageBox(L"监控摄像头没有正确连接！");
+		return;
+	}
+
+	capPreviewRate(m_hCamera, 66);
+	capPreview(m_hCamera, TRUE);
+}
+
+
+void CStageInstrumentView::OnFinalRelease()
+{
+	capPreview(m_hCamera, FALSE);
+
+	CView::OnFinalRelease();
+}
