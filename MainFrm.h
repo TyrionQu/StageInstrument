@@ -16,6 +16,7 @@
 #include "FileView.h"
 #include "ClassView.h"
 #include "PropertiesWnd.h"
+#include "AutoMeasureBox.h"
 
 
 class CMainFrame : public CMDIFrameWndEx
@@ -51,6 +52,7 @@ protected:  // control bar embedded members
 	CFileView         m_wndFileView;
 	CClassView        m_wndClassView;
 	CPropertiesWnd    m_wndProperties;
+	CAutoMeasureBox* m_pAutoMeasureBox{ nullptr };
 
 // Generated message map functions
 protected:
@@ -67,6 +69,7 @@ public:
 	afx_msg void OnBtnStart();
 	afx_msg void OnBtnPause();
 	afx_msg void OnBtnStop();
+	void DisableAutoMeasure();
 };
 
 

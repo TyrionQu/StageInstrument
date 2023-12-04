@@ -19,6 +19,7 @@
 #include "MainFrm.h"
 #include "Resource.h"
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -303,17 +304,53 @@ void CMainFrame::SetDockingWindowIcons()
 
 void CMainFrame::OnBtnStart()
 {
-	MessageBox(L"Start");
+	if (m_pAutoMeasureBox == nullptr)
+	{
+		m_pAutoMeasureBox = new CAutoMeasureBox(this);
+		if (m_pAutoMeasureBox->Create())
+		{
+			// Ribbon menu item can't disable directly.
+		//	GetDlgItem(ID_BTN_START)->EnableWindow(FALSE);
+		//	GetDlgItem(ID_BTN_PAUSE)->EnableWindow(TRUE);
+		//	GetDlgItem(ID_BTN_STOP)->EnableWindow(TRUE);
+			CRect curMainRect, curBoxRect;
+			GetWindowRect(&curMainRect);
+			m_pAutoMeasureBox->GetWindowRect(&curBoxRect);
+			LONG boxWidth = curBoxRect.Width();
+			LONG boxHeight = curBoxRect.Height();
+			curBoxRect.left = curMainRect.left + (curMainRect.right - curMainRect.left) / 3;
+			curBoxRect.top = curMainRect.top + (curMainRect.bottom - curMainRect.top) / 3;
+			curBoxRect.right = curBoxRect.left + boxWidth;
+			curBoxRect.bottom = curBoxRect.top + boxHeight;
+			m_pAutoMeasureBox->MoveWindow(curBoxRect);
+			m_pAutoMeasureBox->ShowWindow(SW_SHOW);
+		}
+	}
+	else
+		m_pAutoMeasureBox->SetActiveWindow();
 }
 
 
 void CMainFrame::OnBtnPause()
 {
-	MessageBox(L"Pause");
+	//GetDlgItem(ID_BTN_START)->EnableWindow(FALSE);
+	//GetDlgItem(ID_BTN_PAUSE)->EnableWindow(TRUE);
+	//GetDlgItem(ID_BTN_STOP)->EnableWindow(TRUE);
 }
 
 
 void CMainFrame::OnBtnStop()
 {
-	MessageBox(L"Stop");
+	//GetDlgItem(ID_BTN_START)->EnableWindow(TRUE);
+	//GetDlgItem(ID_BTN_PAUSE)->EnableWindow(FALSE);
+	//GetDlgItem(ID_BTN_STOP)->EnableWindow(FALSE);
+}
+
+
+void CMainFrame::DisableAutoMeasure()
+{
+	m_pAutoMeasureBox = nullptr;
+	//GetDlgItem(ID_BTN_START)->EnableWindow(TRUE);
+	//GetDlgItem(ID_BTN_PAUSE)->EnableWindow(FALSE);
+	//GetDlgItem(ID_BTN_STOP)->EnableWindow(FALSE);
 }

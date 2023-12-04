@@ -98,6 +98,7 @@
 #define IDS_PROPERTIES_WND              403
 #define IDB_ANALYSIS_VIEW               502
 #define IDD_MEASURE_SETUP_BOX           503
+#define IDD_AUTOMEASURE_BOX             507
 #define IDC_TAB1                        1000
 #define IDC_OPTIONS_TAB                 1000
 #define IDC_SLIDER_ZOOM                 1001
@@ -109,6 +110,13 @@
 #define IDC_BTN_SAMPLE_4                1007
 #define IDC_BTN_SAMPLE_5                1008
 #define IDC_BTN_SAMPLE_6                1009
+#define IDC_TITLE_BAR                   1011
+#define IDC_CANCEL                      1012
+#define IDC_STATIC_PERCENT              1013
+#define IDC_PROGRESS1                   1014
+#define IDC_STATIC_TIME                 1015
+#define IDC_STATIC_TYPE                 1016
+#define IDC_STATIC_TIME2                1017
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_OPEN                         32771
 #define ID_OPEN_WITH                    32772
@@ -122,9 +130,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        506
+#define _APS_NEXT_RESOURCE_VALUE        509
 #define _APS_NEXT_COMMAND_VALUE         32779
-#define _APS_NEXT_CONTROL_VALUE         1005
+#define _APS_NEXT_CONTROL_VALUE         1016
 #define _APS_NEXT_SYMED_VALUE           600
 #endif
 #endif

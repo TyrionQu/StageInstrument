@@ -184,10 +184,12 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AutoMeasureBox.h" />
     <ClInclude Include="calendarbar.h" />
     <ClInclude Include="CameraFormView.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="ClassView.h" />
+    <ClInclude Include="ColorStatic.h" />
     <ClInclude Include="DigitalEdit.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
@@ -202,10 +204,12 @@
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AutoMeasureBox.cpp" />
     <ClCompile Include="calendarbar.cpp" />
     <ClCompile Include="CameraFormView.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="ClassView.cpp" />
+    <ClCompile Include="ColorStatic.cpp" />
     <ClCompile Include="DigitalEdit.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="MainFrm.cpp" />

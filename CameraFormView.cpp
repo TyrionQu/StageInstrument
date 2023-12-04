@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "StageInstrument.h"
 #include "CameraFormView.h"
+#include "StageInstrumentDoc.h"
 
 #include <Vfw.h>
 
@@ -54,7 +55,9 @@ void CCameraFormView::Dump(CDumpContext& dc) const
 void CCameraFormView::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
+	m_pDocument->SetTitle(L"实时视频");
 
+	// 12345 is just temp ID, latterly we should define one constant to handle related mess
 	m_hCamera = capCreateCaptureWindow(TEXT("监控摄像头窗口"), WS_CHILD | WS_VISIBLE, 10, 100, 640, 480, this->m_hWnd, 12345);
 	if (capDriverConnect(m_hCamera, 0) == FALSE)
 	{

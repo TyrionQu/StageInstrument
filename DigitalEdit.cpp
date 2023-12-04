@@ -49,8 +49,10 @@ void CDigitalEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CDigitalEdit::OnWindowPosChanging(WINDOWPOS* lpwndpos)
 {
-	lpwndpos->x = m_nX;
-	lpwndpos->y = m_nY;
+	// the following two lines will change edit position into left-top
+	// Original codes is used for editable cell.
+	//lpwndpos->x = m_nX;
+	//lpwndpos->y = m_nY;
 
 	CEdit::OnWindowPosChanging(lpwndpos);
 }
