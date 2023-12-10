@@ -52,7 +52,10 @@ protected:  // control bar embedded members
 	CFileView         m_wndFileView;
 	CClassView        m_wndClassView;
 	CPropertiesWnd    m_wndProperties;
-	CAutoMeasureBox* m_pAutoMeasureBox{ nullptr };
+	CAutoMeasureBox*  m_pAutoMeasureBox{ nullptr };
+	BOOL              m_bStartButton{ TRUE };
+	BOOL              m_bPauseButton{ FALSE };
+	BOOL              m_bStopButton{ FALSE };
 
 // Generated message map functions
 protected:
@@ -70,6 +73,9 @@ public:
 	afx_msg void OnBtnPause();
 	afx_msg void OnBtnStop();
 	void DisableAutoMeasure();
+	afx_msg void OnUpdateBtnPause(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateBtnStart(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateBtnStop(CCmdUI* pCmdUI);
 };
 
 

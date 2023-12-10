@@ -56,7 +56,7 @@ void CCameraFormView::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
 	m_pDocument->SetTitle(L"实时视频");
-
+	// Here should calculate bottom of button areas, not real number.
 	// 12345 is just temp ID, latterly we should define one constant to handle related mess
 	m_hCamera = capCreateCaptureWindow(TEXT("监控摄像头窗口"), WS_CHILD | WS_VISIBLE, 10, 100, 640, 480, this->m_hWnd, 12345);
 	if (capDriverConnect(m_hCamera, 0) == FALSE)
@@ -72,7 +72,8 @@ void CCameraFormView::OnInitialUpdate()
 
 void CCameraFormView::OnFinalRelease()
 {
-	// TODO: Add your specialized code here and/or call the base class
+	capPreview(m_hCamera, FALSE);
+	::DestroyWindow(m_hCamera);
 
 	CFormView::OnFinalRelease();
 }

@@ -37,6 +37,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_COMMAND(ID_BTN_START, &CMainFrame::OnBtnStart)
 	ON_COMMAND(ID_BTN_PAUSE, &CMainFrame::OnBtnPause)
 	ON_COMMAND(ID_BTN_STOP, &CMainFrame::OnBtnStop)
+	ON_UPDATE_COMMAND_UI(ID_BTN_PAUSE, &CMainFrame::OnUpdateBtnPause)
+	ON_UPDATE_COMMAND_UI(ID_BTN_START, &CMainFrame::OnUpdateBtnStart)
+	ON_UPDATE_COMMAND_UI(ID_BTN_STOP, &CMainFrame::OnUpdateBtnStop)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -57,14 +60,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 
 	BOOL bNameValid;
-
-	CMDITabInfo mdiTabParams;
-	mdiTabParams.m_style = CMFCTabCtrl::STYLE_3D_ONENOTE; // other styles available...
-	mdiTabParams.m_bActiveTabCloseButton = TRUE;      // set to FALSE to place close button at right of tab area
-	mdiTabParams.m_bTabIcons = FALSE;    // set to TRUE to enable document icons on MDI taba
-	mdiTabParams.m_bAutoColor = TRUE;    // set to FALSE to disable auto-coloring of MDI tabs
-	mdiTabParams.m_bDocumentMenu = TRUE; // enable the document menu at the right edge of the tab area
-	EnableMDITabbedGroups(TRUE, mdiTabParams);
 
 	m_wndRibbonBar.Create(this);
 	m_wndRibbonBar.LoadFromResource(IDR_RIBBON);
@@ -307,12 +302,13 @@ void CMainFrame::OnBtnStart()
 	if (m_pAutoMeasureBox == nullptr)
 	{
 		m_pAutoMeasureBox = new CAutoMeasureBox(this);
+		theApp.CreateNewMeasureView();
+		OnMDIWindowCmd(ID_WINDOW_TILE_VERT);
 		if (m_pAutoMeasureBox->Create())
 		{
-			// Ribbon menu item can't disable directly.
-		//	GetDlgItem(ID_BTN_START)->EnableWindow(FALSE);
-		//	GetDlgItem(ID_BTN_PAUSE)->EnableWindow(TRUE);
-		//	GetDlgItem(ID_BTN_STOP)->EnableWindow(TRUE);
+			m_bStartButton = FALSE;
+			m_bPauseButton = TRUE;
+			m_bStopButton = TRUE;
 			CRect curMainRect, curBoxRect;
 			GetWindowRect(&curMainRect);
 			m_pAutoMeasureBox->GetWindowRect(&curBoxRect);
@@ -333,24 +329,41 @@ void CMainFrame::OnBtnStart()
 
 void CMainFrame::OnBtnPause()
 {
-	//GetDlgItem(ID_BTN_START)->EnableWindow(FALSE);
-	//GetDlgItem(ID_BTN_PAUSE)->EnableWindow(TRUE);
-	//GetDlgItem(ID_BTN_STOP)->EnableWindow(TRUE);
+	m_bStartButton = FALSE;
+	m_bPauseButton = TRUE;
+	m_bStopButton = TRUE;
 }
 
 
 void CMainFrame::OnBtnStop()
 {
-	//GetDlgItem(ID_BTN_START)->EnableWindow(TRUE);
-	//GetDlgItem(ID_BTN_PAUSE)->EnableWindow(FALSE);
-	//GetDlgItem(ID_BTN_STOP)->EnableWindow(FALSE);
+	m_bStartButton = TRUE;
+	m_bPauseButton = FALSE;
+	m_bStopButton = FALSE;
+	m_pAutoMeasureBox->OnBnClickedCancel();
 }
-
 
 void CMainFrame::DisableAutoMeasure()
 {
 	m_pAutoMeasureBox = nullptr;
-	//GetDlgItem(ID_BTN_START)->EnableWindow(TRUE);
-	//GetDlgItem(ID_BTN_PAUSE)->EnableWindow(FALSE);
-	//GetDlgItem(ID_BTN_STOP)->EnableWindow(FALSE);
+	m_bStartButton = TRUE;
+	m_bPauseButton = FALSE;
+	m_bStopButton = FALSE;
+}
+
+void CMainFrame::OnUpdateBtnPause(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(m_bPauseButton);
+}
+
+
+void CMainFrame::OnUpdateBtnStart(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(m_bStartButton);
+}
+
+
+void CMainFrame::OnUpdateBtnStop(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(m_bStopButton);
 }

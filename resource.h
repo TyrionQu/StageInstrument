@@ -114,9 +114,9 @@
 #define IDC_CANCEL                      1012
 #define IDC_STATIC_PERCENT              1013
 #define IDC_PROGRESS1                   1014
+#define IDC_PROGRESS_MEASURE            1014
 #define IDC_STATIC_TIME                 1015
 #define IDC_STATIC_TYPE                 1016
-#define IDC_STATIC_TIME2                1017
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_OPEN                         32771
 #define ID_OPEN_WITH                    32772

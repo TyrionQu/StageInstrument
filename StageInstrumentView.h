@@ -56,7 +56,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual void OnInitialUpdate();
-	virtual void OnFinalRelease();
+	afx_msg void OnPaint();
 };
 
 #ifndef _DEBUG  // debug version in StageInstrumentView.cpp

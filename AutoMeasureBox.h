@@ -32,6 +32,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CColorStatic m_staticTitle;
+	UINT32  m_nProgress{ 0 };
 	afx_msg void OnBnClickedCancel();
 	virtual void PostNcDestroy();
+	CProgressCtrl m_progressMeasure;
+	virtual BOOL OnInitDialog();
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	CStatic m_staticTimer;
+	CStatic m_staticPercent;
 };

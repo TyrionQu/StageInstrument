@@ -32,6 +32,8 @@ public:
 
 // Overrides
 public:
+	CMultiDocTemplate* m_pCameraMDT{ nullptr };
+	CMultiDocTemplate* m_pMeasureMDT{ nullptr };
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 
@@ -45,6 +47,9 @@ public:
 
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
+public:
+	BOOL CreateNewCameraView();
+	BOOL CreateNewMeasureView();
 };
 
 extern CStageInstrumentApp theApp;
