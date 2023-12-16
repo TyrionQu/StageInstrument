@@ -25,10 +25,18 @@
 
 #include "Process.h"
 
+#include "input/CryptoppVikey/include/CryptoppVikey.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
+#if defined _M_X64 && defined(_MSC_VER) && (_MSC_VER >= 1920)
+#pragma comment(lib, "input/CryptoppVikey/lib/libCryptoppVikey.lib")
+#pragma comment(lib, "input/CryptoppVikey/lib/cryptlib.lib")
+#pragma comment(lib, "input/CryptoppVikey/lib/ViKey_X64_VS2019_MT.lib")
+#pragma comment(lib, "input/CryptoppVikey/lib/atls.lib")
+#endif
 
 // CStageInstrumentApp
 
@@ -76,6 +84,13 @@ CStageInstrumentApp theApp;
 
 BOOL CStageInstrumentApp::InitInstance()
 {
+	CryptoppVikey vikey;
+	DWORD dwRetCode = vikey.verifyVikey("ec.public.key");
+	if (dwRetCode) {
+		::MessageBoxA(NULL, "Verify Vikey failed!", "Verify Vikey", MB_OK);
+		return FALSE;
+	}
+
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.

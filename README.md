@@ -16,3 +16,9 @@ will download the setup file if the response from server is updated.
 TODO:
 0. setup file is not verified now so will be deleted by the system after download.
 1. update app should block the main app
+
+
+How to verify the app?
+---------------
+The repo for the verify lib is
+https://github.com/DaisyKid/libCryptoppVikey/tree/master
