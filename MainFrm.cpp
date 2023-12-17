@@ -18,6 +18,10 @@
 
 #include "MainFrm.h"
 
+#include "input/CryptoppVikey/include/CryptoppVikey.h"
+
+#include <iostream>
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -34,7 +38,17 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_COMMAND(ID_VIEW_CAPTION_BAR, &CMainFrame::OnViewCaptionBar)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_CAPTION_BAR, &CMainFrame::OnUpdateViewCaptionBar)
 	ON_COMMAND(ID_TOOLS_OPTIONS, &CMainFrame::OnOptions)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
+
+#if defined _M_X64 && defined(_MSC_VER) && (_MSC_VER >= 1920)
+#pragma comment(lib, "input/CryptoppVikey/lib/libCryptoppVikey.lib")
+#pragma comment(lib, "input/CryptoppVikey/lib/cryptlib.lib")
+#pragma comment(lib, "input/CryptoppVikey/lib/ViKey_X64_VS2019_MT.lib")
+#pragma comment(lib, "input/CryptoppVikey/lib/atls.lib")
+#endif
+
+static const UINT_PTR IDT_VIKEY_CHECK_TIMER = 1;
 
 // CMainFrame construction/destruction
 
@@ -42,10 +56,42 @@ CMainFrame::CMainFrame() noexcept
 {
 	// TODO: add member initialization code here
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_OFF_2007_BLUE);
+	m_bNeedToPop = true;
 }
 
 CMainFrame::~CMainFrame()
 {
+	KillTimer(IDT_VIKEY_CHECK_TIMER); //TODO
+}
+
+void CMainFrame::OnTimer(UINT_PTR nIDEvent)
+{
+	if (nIDEvent == IDT_VIKEY_CHECK_TIMER)
+	{
+		OnTimerEvent();
+	}
+	CFrameWnd::OnTimer(nIDEvent);
+}
+
+void CMainFrame::OnTimerEvent()
+{
+	CryptoppVikey vikey;
+	DWORD dwRetCode = vikey.verifyVikey("ec.public.key");
+	std::cout << "dwRetCode=" << dwRetCode << std::endl;
+	if (dwRetCode && m_bNeedToPop) {
+		m_bNeedToPop = false;
+		int result = AfxMessageBox(_T("Verify Vikey failed!"), MB_OK);
+		if (result == IDOK) {
+			dwRetCode = vikey.verifyVikey("ec.public.key");
+			std::cout << "newRetCode=" << dwRetCode << std::endl;
+			if (dwRetCode) {
+				PostQuitMessage(0);
+			}
+		}
+	}
+	if (!dwRetCode) {
+		m_bNeedToPop = true;
+	}
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -115,6 +161,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// Switch the order of document name and application name on the window title bar. This
 	// improves the usability of the taskbar because the document name is visible with the thumbnail.
 	ModifyStyle(0, FWS_PREFIXTITLE);
+
+	SetTimer(IDT_VIKEY_CHECK_TIMER, 5000, nullptr);
 
 	return 0;
 }
