@@ -193,7 +193,23 @@
     <ClInclude Include="DigitalEdit.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="graph\coords.h" />
+    <ClInclude Include="graph\f2doff.h" />
+    <ClInclude Include="graph\gen_prop_dlgs.h" />
+    <ClInclude Include="graph\graphcombobox.h" />
+    <ClInclude Include="graph\GraphContainer.h" />
+    <ClInclude Include="graph\GraphFrame.h" />
+    <ClInclude Include="graph\graphpanel.h" />
+    <ClInclude Include="graph\GraphWnd.h" />
+    <ClInclude Include="graph\graph_general.h" />
+    <ClInclude Include="graph\graph_props.h" />
+    <ClInclude Include="graph\gruler.h" />
+    <ClInclude Include="graph\pch.h" />
+    <ClInclude Include="graph\points.h" />
+    <ClInclude Include="graph\pviewbar.h" />
+    <ClInclude Include="graph\sizecbar.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MeasureOptionsBox.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
@@ -212,7 +228,22 @@
     <ClCompile Include="ColorStatic.cpp" />
     <ClCompile Include="DigitalEdit.cpp" />
     <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="graph\coords.cpp" />
+    <ClCompile Include="graph\f2doff.cpp" />
+    <ClCompile Include="graph\gen_prop_dlgs.cpp" />
+    <ClCompile Include="graph\graphcombobox.cpp" />
+    <ClCompile Include="graph\GraphContainer.cpp" />
+    <ClCompile Include="graph\GraphFrame.cpp" />
+    <ClCompile Include="graph\graphpanel.cpp" />
+    <ClCompile Include="graph\GraphWnd.cpp" />
+    <ClCompile Include="graph\graph_general.cpp" />
+    <ClCompile Include="graph\graph_props.cpp" />
+    <ClCompile Include="graph\gruler.cpp" />
+    <ClCompile Include="graph\points.cpp" />
+    <ClCompile Include="graph\pviewbar.cpp" />
+    <ClCompile Include="graph\sizecbar.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MeasureOptionsBox.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

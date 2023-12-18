@@ -3,14 +3,18 @@
 // Used by StageInstrument.rc
 //
 #define IDD_ABOUTBOX                    100
-#define IDP_OLE_INIT_FAILED             101
 #define IDD_CAMERA_FORMVIEW             101
+#define IDD_GRAPH_GRAPH_PROP_PAGE       102
+#define IDD_GRAPH_AXIS_PROP_PAGE        103
+#define IDD_GRAPH_GRAPHICS_PROPS        104
+#define IDP_OLE_INIT_FAILED             105
 #define IDB_WRITESMALL                  110
 #define IDB_WRITELARGE                  111
 #define IDB_MAIN                        112
 #define IDB_BUTTONS                     113
 #define IDB_FILELARGE                   114
 #define IDB_FILESMALL                   115
+#define IDD_GRAPH_CHANGE_TITLE          116
 #define IDR_POPUP_EDIT                  119
 #define ID_STATUSBAR_PANE1              120
 #define ID_STATUSBAR_PANE2              121
@@ -99,7 +103,6 @@
 #define IDB_ANALYSIS_VIEW               502
 #define IDD_MEASURE_SETUP_BOX           503
 #define IDD_AUTOMEASURE_BOX             507
-#define IDC_TAB1                        1000
 #define IDC_OPTIONS_TAB                 1000
 #define IDC_SLIDER_ZOOM                 1001
 #define IDC_SLIDER_INTENSITY            1002
@@ -113,10 +116,31 @@
 #define IDC_TITLE_BAR                   1011
 #define IDC_CANCEL                      1012
 #define IDC_STATIC_PERCENT              1013
-#define IDC_PROGRESS1                   1014
 #define IDC_PROGRESS_MEASURE            1014
 #define IDC_STATIC_TIME                 1015
 #define IDC_STATIC_TYPE                 1016
+#define IDC_XTITLE                      1017
+#define IDC_XUOM                        1018
+#define IDC_YTITLE                      1019
+#define IDC_YUOM                        1020
+#define IDC_XAXIS_PRECISION             1021
+#define IDC_YAXIS_PRECISION             1022
+#define IDC_GRAPH_CHOICE                1023
+#define IDC_GRAPH_HIDESHOW              1024
+#define IDC_GRAPH_POINTMARKS            1025
+#define IDC_GRAPH_MOUSECOORDS           1026
+#define IDC_GRAPHS_SHOWALL              1027
+#define IDC_GRAPH_TITLE                 1028
+#define IDC_GRAPH_CH_TITLE              1029
+#define IDC_GRAPH_CH_COLOR              1030
+#define IDC_TITLE_STRING                1031
+#define IDC_X1                          1032
+#define IDC_X2                          1033
+#define IDC_Y1                          1034
+#define IDC_Y2                          1035
+#define IDC_GEN_GRAPH_PROPS_AXIS        1036
+#define IDD_MEASURE_PORP_BOX            1037
+#define IDC_TAB_MEASURE_OPTIONS         1038
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_OPEN                         32771
 #define ID_OPEN_WITH                    32772
@@ -130,9 +154,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        509
+#define _APS_NEXT_RESOURCE_VALUE        511
 #define _APS_NEXT_COMMAND_VALUE         32779
-#define _APS_NEXT_CONTROL_VALUE         1016
+#define _APS_NEXT_CONTROL_VALUE         1039
 #define _APS_NEXT_SYMED_VALUE           600
 #endif
 #endif
