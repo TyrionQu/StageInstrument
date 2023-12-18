@@ -40,6 +40,8 @@ BEGIN_MESSAGE_MAP(CStageInstrumentView, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_PAINT()
+	ON_WM_CREATE()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CStageInstrumentView construction/destruction
@@ -150,6 +152,7 @@ void CStageInstrumentView::OnInitialUpdate()
 
 void CStageInstrumentView::OnPaint()
 {
+#if 0
 	CPaintDC dc(this); // device context for painting
 
 	int i, nUnitX, nUnitY, nLength;
@@ -208,4 +211,25 @@ void CStageInstrumentView::OnPaint()
 //	CRect drawRect(drawLT, drawRB);
 //	CBrush greyBrush(RGB(192, 192, 192));
 //	dc.FillRect(&drawRect, &greyBrush);
+#endif
+}
+
+
+int CStageInstrumentView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	CRect rect;
+	GetClientRect(rect);
+	m_wndDrawing.Create(_T("Graph Window"), rect, this, 11000);
+
+	return 0;
+}
+
+
+void CStageInstrumentView::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
+	m_wndDrawing.MoveWindow(0, 0, cx, cy);
 }

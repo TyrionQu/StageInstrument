@@ -14,6 +14,7 @@
 
 #pragma once
 
+#include "graph/GraphWnd.h"
 
 class CStageInstrumentView : public CView
 {
@@ -46,7 +47,7 @@ public:
 #endif
 
 protected:
-	HWND m_hCamera;
+	CGraphWnd m_wndDrawing;
 
 // Generated message map functions
 protected:
@@ -57,6 +58,8 @@ protected:
 public:
 	virtual void OnInitialUpdate();
 	afx_msg void OnPaint();
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
 
 #ifndef _DEBUG  // debug version in StageInstrumentView.cpp
