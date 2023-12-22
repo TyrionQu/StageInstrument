@@ -320,6 +320,11 @@ void CMainFrame::OnBtnStart()
 			curBoxRect.bottom = curBoxRect.top + boxHeight;
 			m_pAutoMeasureBox->MoveWindow(curBoxRect);
 			m_pAutoMeasureBox->ShowWindow(SW_SHOW);
+
+			// Redraw the framework
+			UINT nflags = RDW_ALLCHILDREN | RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW;
+			RedrawWindow(NULL, NULL, nflags);
+
 		}
 	}
 	else
