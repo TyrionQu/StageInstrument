@@ -152,6 +152,7 @@ void CStageInstrumentView::OnInitialUpdate()
 
 void CStageInstrumentView::OnPaint()
 {
+	CView::OnPaint();
 #if 0
 	CPaintDC dc(this); // device context for painting
 
