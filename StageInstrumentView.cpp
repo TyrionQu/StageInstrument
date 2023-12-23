@@ -39,7 +39,6 @@ BEGIN_MESSAGE_MAP(CStageInstrumentView, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CStageInstrumentView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
-	ON_WM_PAINT()
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 END_MESSAGE_MAP()
@@ -150,71 +149,6 @@ void CStageInstrumentView::OnInitialUpdate()
 #define BUFSIZE 4096
 #define MARGIN_SIZE 40
 
-void CStageInstrumentView::OnPaint()
-{
-	CView::OnPaint();
-#if 0
-	CPaintDC dc(this); // device context for painting
-
-	int i, nUnitX, nUnitY, nLength;
-	CRect curRect;
-	GetClientRect(&curRect);
-	dc.MoveTo(MARGIN_SIZE, 5);
-	CPoint drawLT(MARGIN_SIZE, MARGIN_SIZE), drawRB(curRect.Height() - MARGIN_SIZE, curRect.Width() - MARGIN_SIZE);
-
-	dc.LineTo(MARGIN_SIZE, curRect.bottom - MARGIN_SIZE);
-	nUnitY = (curRect.bottom - 2 * MARGIN_SIZE) / 10;
-	dc.TextOut(MARGIN_SIZE, curRect.bottom - 30, L"0");
-	dc.TextOut(MARGIN_SIZE + 2, 5, L"高度(ms)");
-	nLength = curRect.bottom - MARGIN_SIZE;
-	nUnitX = (curRect.right - 2 * MARGIN_SIZE) / 15;
-
-	for (i = 0; i < 10; i++)
-	{
-		CString strUnit;
-		double nIndex = 0.25 * (i - 4);
-		strUnit.Format(L"%0.2f", nIndex);
-		nLength -= nUnitY;
-		if (nIndex < 10)
-		{
-			dc.TextOut(4, nLength - 5, strUnit);
-		}
-		else if (nIndex < 100)
-		{
-			dc.TextOut(10, nLength - 5, strUnit);
-		}
-		else if (nIndex < 1000)
-		{
-			dc.TextOut(4, nLength - 5, strUnit);
-		}
-		else
-		{
-			dc.TextOut(10, nLength - 5, strUnit);
-		}
-		dc.MoveTo(MARGIN_SIZE, nLength);
-		dc.LineTo(MARGIN_SIZE + nUnitX * 14, nLength); // 14 is the second value of  the following for loop
-	}
-	dc.MoveTo(MARGIN_SIZE, curRect.bottom - MARGIN_SIZE);
-	dc.LineTo(curRect.right - MARGIN_SIZE, curRect.bottom - MARGIN_SIZE);
-
-	nLength = nUnitX;
-	for (i = 1; i < 15; i++)
-	{
-		CString strUnit;
-		strUnit.Format(L"%d", (int)(i*100));
-		dc.MoveTo(nLength + MARGIN_SIZE, curRect.bottom - MARGIN_SIZE);
-		dc.LineTo(nLength + MARGIN_SIZE, curRect.bottom - nUnitY * 10 - MARGIN_SIZE);  // 10 is the second value of the above for loop
-		dc.TextOut(nLength + MARGIN_SIZE - 2 * i, curRect.bottom - 28, strUnit);
-		nLength += nUnitX;
-	}
-	dc.TextOut(nLength - 40, curRect.bottom - 50, L"测量进度");
-
-//	CRect drawRect(drawLT, drawRB);
-//	CBrush greyBrush(RGB(192, 192, 192));
-//	dc.FillRect(&drawRect, &greyBrush);
-#endif
-}
-
 
 int CStageInstrumentView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
@@ -223,7 +157,7 @@ int CStageInstrumentView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	CRect rect;
 	GetClientRect(rect);
-	m_wndDrawing.Create(_T("Graph Window"), rect, this, 11000);
+	m_wndDrawing.Create(_T("Graph Window"), rect, this, 40000);
 
 	return 0;
 }
