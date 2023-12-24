@@ -15,13 +15,13 @@ class CAxisPropertyPage : public CPropertyPage
 {
 	DECLARE_DYNCREATE(CAxisPropertyPage)
 
-// Construction
+	// Construction
 public:
 	CAxisPropertyPage();
 	~CAxisPropertyPage();
 
-// Dialog Data
-	//{{AFX_DATA(CAxisPropertyPage)
+	// Dialog Data
+		//{{AFX_DATA(CAxisPropertyPage)
 	enum { IDD = IDD_GRAPH_AXIS_PROP_PAGE };
 	long	m_x_precision;
 	CString	m_x_title;
@@ -35,7 +35,7 @@ public:
 // Overrides
 	// ClassWizard generate virtual function overrides
 	//{{AFX_VIRTUAL(CAxisPropertyPage)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
@@ -54,7 +54,7 @@ protected:
 
 class CGraphPropsComboBox : public CGraphComboBox
 {
-    public:
+public:
 	virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
 };
 
@@ -62,13 +62,13 @@ class CGraphicsPropertyPage : public CPropertyPage, public CGraphBaseClass
 {
 	DECLARE_DYNCREATE(CGraphicsPropertyPage)
 
-// Construction
+	// Construction
 public:
 	CGraphicsPropertyPage();
 	CGraphicsPropertyPage(CGraphWnd* main_wnd);
 	~CGraphicsPropertyPage();
 
-// Dialog Data
+	// Dialog Data
 
 	CArray<CGraphProps*, CGraphProps*> grprops;
 
@@ -85,7 +85,7 @@ public:
 // Overrides
 	// ClassWizard generate virtual function overrides
 	//{{AFX_VIRTUAL(CGraphicsPropertyPage)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
@@ -108,12 +108,12 @@ protected:
 
 class CGraphTitlePrompt : public CDialog
 {
-// Construction
+	// Construction
 public:
 	CGraphTitlePrompt(CWnd* pParent = NULL);   // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CGraphTitlePrompt)
+	// Dialog Data
+		//{{AFX_DATA(CGraphTitlePrompt)
 	enum { IDD = IDD_GRAPH_CHANGE_TITLE };
 	CString	m_title;
 	//}}AFX_DATA
@@ -122,7 +122,7 @@ public:
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CGraphTitlePrompt)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 

@@ -28,6 +28,7 @@ protected:
 
 	CWnd* m_pParent;
 	int m_nID;
+	UINT_PTR m_nTimer;
 
 	DECLARE_MESSAGE_MAP()
 public:
@@ -40,4 +41,6 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	CStatic m_staticTimer;
 	CStatic m_staticPercent;
+//	virtual BOOL DestroyWindow();
+	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 };

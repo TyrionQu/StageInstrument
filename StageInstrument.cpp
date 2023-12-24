@@ -48,7 +48,6 @@ CStageInstrumentApp::CStageInstrumentApp() noexcept
 	m_bHiColorIcons = TRUE;
 
 
-	m_nAppLook = 0;
 	// support Restart Manager
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_ALL_ASPECTS;
 #ifdef _MANAGED

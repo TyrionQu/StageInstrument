@@ -3,13 +3,13 @@
 
 class FOffScreen
 {
-    public:
+public:
 	FOffScreen(int cx, int cy);
 	~FOffScreen();
 	// access to members
-	BYTE* GetBits(){return Dib;};
-	int GetWidth(){return Width;};
-	int GetHeight(){return Height;};
+	BYTE* GetBits() { return Dib; };
+	int GetWidth() { return Width; };
+	int GetHeight() { return Height; };
 	// DC from offscreens
 	HDC GetDibDC();
 	CDC* GetDibCDC();
@@ -19,27 +19,27 @@ class FOffScreen
 	void DrawCross(int x, int y, int size, BYTE color);
 
 	// resize options
-	void ResizeDib(int cx, int cy, BOOL clear=TRUE, char ch=0);
+	void ResizeDib(int cx, int cy, BOOL clear = TRUE, char ch = 0);
 
 	// Fill options
-	void FillBits(char ch=0);
+	void FillBits(char ch = 0);
 	void SetBits(LPVOID src, int count);
 
 	//misc
 	void ShiftDibData(int cx, int cy);
-	BOOL IsDIBReady(){return IsReady;};
-	void SetReady(BOOL Flag){IsReady=Flag;};
-    protected:
+	BOOL IsDIBReady() { return IsReady; };
+	void SetReady(BOOL Flag) { IsReady = Flag; };
+protected:
 	BYTE* Dib;
 	int Width;
 	int Height;
 	BITMAPINFO* fbmi;
 	HDC DibDC;
-	CDC *DibCDC;
+	CDC* DibCDC;
 	HBITMAP DibBMP, oldDibBMP;
 	BOOL IsReady;
 
-	void CreateDib(BOOL clear=TRUE, char ch=0);
+	void CreateDib(BOOL clear = TRUE, char ch = 0);
 	void KillDib();
 };
 

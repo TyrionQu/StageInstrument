@@ -3,8 +3,8 @@
 
 /////////////////////////////////////////////////////////////////////////////
 //class CPointsCollection
-CGraphProps::CGraphProps(COLORREF newColor, const TCHAR* newTitle, BOOL VisibleFlag, 
-	BOOL _bResources, int _index/* = -1*/, BOOL b_sort_x/* = TRUE*/, BOOL b_keep_same_x/* = FALSE*/) 
+CGraphProps::CGraphProps(COLORREF newColor, const TCHAR* newTitle, BOOL VisibleFlag,
+	BOOL _bResources, int _index/* = -1*/, BOOL b_sort_x/* = TRUE*/, BOOL b_keep_same_x/* = FALSE*/)
 	: CPointsCollection(b_sort_x, b_keep_same_x)
 {
 	m_grcolor = newColor;
@@ -16,7 +16,8 @@ CGraphProps::CGraphProps(COLORREF newColor, const TCHAR* newTitle, BOOL VisibleF
 	{
 		pen = new CPen(PS_SOLID, 1, m_grcolor);
 		brush = new CBrush(m_grcolor);
-	} else
+	}
+	else
 	{
 		pen = NULL;
 		brush = NULL;
@@ -25,8 +26,8 @@ CGraphProps::CGraphProps(COLORREF newColor, const TCHAR* newTitle, BOOL VisibleF
 
 CGraphProps::~CGraphProps()
 {
-	if (pen!=NULL) delete pen;
-	if (brush!=NULL) delete brush;
+	if (pen != NULL) delete pen;
+	if (brush != NULL) delete brush;
 }
 
 CGraphProps::CGraphProps(CGraphProps* grprop, BOOL bCopyPoints /*= TRUE*/)
@@ -34,7 +35,7 @@ CGraphProps::CGraphProps(CGraphProps* grprop, BOOL bCopyPoints /*= TRUE*/)
 	pen = NULL;
 	brush = NULL;
 	if (bCopyPoints) CPointsCollection(grprop);
-		else CPointsCollection();
+	else CPointsCollection();
 	SetGraphProps(grprop);
 }
 
@@ -53,8 +54,8 @@ void CGraphProps::SetGraphColor(COLORREF newColor)
 	//recreate pen and brush
 	if (AreResourcesPrivate())
 	{
-		if (pen!=NULL) delete pen;
-		if (brush!=NULL) delete brush;
+		if (pen != NULL) delete pen;
+		if (brush != NULL) delete brush;
 		pen = new CPen(PS_SOLID, 1, m_grcolor);
 		brush = new CBrush(m_grcolor);
 	};
@@ -64,27 +65,28 @@ void CGraphProps::SetGraphColor(COLORREF newColor)
 CAxisProps::CAxisProps()
 {
 	formatStrings[0] = formatStrings[1] = formatStrings[2] = NULL;
-	m_Title = ""; 
-	m_UOM = ""; 
+	m_Title = "";
+	m_UOM = "";
 	m_Precision = 3;
 	CalculateFormatStrings();
 }
 
 CAxisProps::~CAxisProps()
 {
-	for (int i=0; i<3; i++) 
+	for (int i = 0; i < 3; i++)
 	{
-		if (formatStrings[i]!=NULL) delete formatStrings[i];
+		if (formatStrings[i] != NULL) delete formatStrings[i];
 		formatStrings[i] = NULL;
 	};
 }
 
 void CAxisProps::GetFormattedOutput(double value, int formatLevel, CString* str)
 {
-	if (formatLevel<0 || formatLevel>2) 
+	if (formatLevel < 0 || formatLevel>2)
 	{
 		*str = "";
-	} else
+	}
+	else
 	{
 		str->Format(formatStrings[formatLevel], value);
 	};
@@ -115,9 +117,9 @@ void CAxisProps::SetNewPrecision(int newPrecision)
 
 void CAxisProps::CalculateFormatStrings()
 {
-	for (int i=0; i<3; i++) 
+	for (int i = 0; i < 3; i++)
 	{
-		if (formatStrings[i]!=NULL) delete formatStrings[i];
+		if (formatStrings[i] != NULL) delete formatStrings[i];
 		formatStrings[i] = NULL;
 	};
 	CString str;

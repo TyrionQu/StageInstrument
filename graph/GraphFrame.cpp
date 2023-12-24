@@ -150,7 +150,6 @@ void CGraphFrame::OnRBMenuCommand(UINT command_id)
 	switch (command_id)
 	{
 	case GRAPH_RBMC_VIEW_POINT_WINDOW:
-	{
 		if (pview_bar.IsWindowVisible())
 		{
 			OperateWithPointView(GRAPH_PO_HIDE);
@@ -159,7 +158,7 @@ void CGraphFrame::OnRBMenuCommand(UINT command_id)
 		{
 			OperateWithPointView(GRAPH_PO_SHOW);
 		};
-	}; break;
+		break;
 	};
 }
 

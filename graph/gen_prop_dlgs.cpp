@@ -59,19 +59,19 @@ END_MESSAGE_MAP()
 
 void CGraphPropsComboBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-    //get pointer to the main graph class
-    CGraphicsPropertyPage* parent_ptr = dynamic_cast<CGraphicsPropertyPage*>(GetParent());
-    ASSERT(parent_ptr != NULL);
-    if (parent_ptr != NULL)
-    {
-	int index = lpDrawItemStruct->itemID;
-	if (index >=0)
+	//get pointer to the main graph class
+	CGraphicsPropertyPage* parent_ptr = dynamic_cast<CGraphicsPropertyPage*>(GetParent());
+	ASSERT(parent_ptr != NULL);
+	if (parent_ptr != NULL)
 	{
-	    CGraphProps* graph_props = parent_ptr->grprops.GetAt(index);
-	    ASSERT(graph_props != NULL);
-	    DrawComboItem(graph_props->GetGraphColor(), graph_props->GetTitle(), lpDrawItemStruct);
+		int index = lpDrawItemStruct->itemID;
+		if (index >= 0)
+		{
+			CGraphProps* graph_props = parent_ptr->grprops.GetAt(index);
+			ASSERT(graph_props != NULL);
+			DrawComboItem(graph_props->GetGraphColor(), graph_props->GetTitle(), lpDrawItemStruct);
+		};
 	};
-    };
 }
 
 // CGraphicsPropertyPage property page
@@ -80,7 +80,7 @@ IMPLEMENT_DYNCREATE(CGraphicsPropertyPage, CPropertyPage)
 
 CGraphicsPropertyPage::CGraphicsPropertyPage() : CPropertyPage(CGraphicsPropertyPage::IDD)
 {
-    ASSERT(FALSE);  //should never be called
+	ASSERT(FALSE);  //should never be called
 }
 
 CGraphicsPropertyPage::CGraphicsPropertyPage(CGraphWnd* main_wnd) : CPropertyPage(CGraphicsPropertyPage::IDD)
@@ -89,26 +89,26 @@ CGraphicsPropertyPage::CGraphicsPropertyPage(CGraphWnd* main_wnd) : CPropertyPag
 	m_graph_title = _T("");
 	//}}AFX_DATA_INIT
 
-    //fill array of graph properties
-    if (main_wnd != NULL && main_wnd->GetGraphCount() != 0)
-    {
-	//fill new array with data
-	int index;
-	CGraphProps* grp;
-	CGraphProps* grprop = main_wnd->GetFirstGraph(&index);
-	while (grprop!=NULL)
+	//fill array of graph properties
+	if (main_wnd != NULL && main_wnd->GetGraphCount() != 0)
 	{
-	    grp = new CGraphProps(grprop, FALSE);
-	    grp->SetIndex(index);
-	    grprops.Add(grp);
-	    grprop = main_wnd->GetNextGraph(&index);
+		//fill new array with data
+		int index;
+		CGraphProps* grp;
+		CGraphProps* grprop = main_wnd->GetFirstGraph(&index);
+		while (grprop != NULL)
+		{
+			grp = new CGraphProps(grprop, FALSE);
+			grp->SetIndex(index);
+			grprops.Add(grp);
+			grprop = main_wnd->GetNextGraph(&index);
+		};
 	};
-    };
 }
 
 CGraphicsPropertyPage::~CGraphicsPropertyPage()
 {
-    for (int i=0; i<grprops.GetSize(); i++) delete grprops.GetAt(i);
+	for (int i = 0; i < grprops.GetSize(); i++) delete grprops.GetAt(i);
 }
 
 void CGraphicsPropertyPage::DoDataExchange(CDataExchange* pDX)
@@ -133,100 +133,101 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CGraphicsPropertyPage message handlers
-BOOL CGraphicsPropertyPage::OnInitDialog() 
+BOOL CGraphicsPropertyPage::OnInitDialog()
 {
 	CPropertyPage::OnInitDialog();
-	
+
 	//fill graph combobox
-	for (int i=0; i<grprops.GetSize(); i++)
+	for (int i = 0; i < grprops.GetSize(); i++)
 	{
-	    m_graph_combo.AddString(_T(""));
+		m_graph_combo.AddString(_T(""));
 	};
 	m_graph_combo.SetCurSel(0);
-	
+
 	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void CGraphicsPropertyPage::OnGraphChColor() 
+void CGraphicsPropertyPage::OnGraphChColor()
 {
-    int index = m_graph_combo.GetCurSel();
-    if (index == -1) return;
-    CGraphProps* grprop = grprops.GetAt(index);
-    CColorDialog dlg(grprop->GetGraphColor());
-    if (dlg.DoModal() == IDOK)
-    {
-	grprop->SetGraphColor(dlg.GetColor());
-	m_graph_combo.RedrawWindow();
-    };
+	int index = m_graph_combo.GetCurSel();
+	if (index == -1) return;
+	CGraphProps* grprop = grprops.GetAt(index);
+	CColorDialog dlg(grprop->GetGraphColor());
+	if (dlg.DoModal() == IDOK)
+	{
+		grprop->SetGraphColor(dlg.GetColor());
+		m_graph_combo.RedrawWindow();
+	};
 }
 
-void CGraphicsPropertyPage::OnGraphChTitle() 
+void CGraphicsPropertyPage::OnGraphChTitle()
 {
-    int index = m_graph_combo.GetCurSel();
-    if (index == -1) return;
-    CGraphProps* grprop = grprops.GetAt(index);
-    CGraphTitlePrompt dlg;
-    dlg.m_title = grprop->GetTitle();
-    if (dlg.DoModal() == IDOK)
-    {
-	grprop->SetTitle(dlg.m_title);
-	m_graph_combo.RedrawWindow();
-	m_graph_title = grprop->GetTitle();
-	UpdateData(FALSE);
-    };
+	int index = m_graph_combo.GetCurSel();
+	if (index == -1) return;
+	CGraphProps* grprop = grprops.GetAt(index);
+	CGraphTitlePrompt dlg;
+	dlg.m_title = grprop->GetTitle();
+	if (dlg.DoModal() == IDOK)
+	{
+		grprop->SetTitle(dlg.m_title);
+		m_graph_combo.RedrawWindow();
+		m_graph_title = grprop->GetTitle();
+		UpdateData(FALSE);
+	};
 }
 
-void CGraphicsPropertyPage::OnGraphHideshow() 
+void CGraphicsPropertyPage::OnGraphHideshow()
 {
-    int index = m_graph_combo.GetCurSel();
-    if (index == -1) return;
-    CGraphProps* grprop = grprops.GetAt(index);
-    grprop->SetVisible(!grprop->IsVisible());
-    SetHideShowAttr(index);
+	int index = m_graph_combo.GetCurSel();
+	if (index == -1) return;
+	CGraphProps* grprop = grprops.GetAt(index);
+	grprop->SetVisible(!grprop->IsVisible());
+	SetHideShowAttr(index);
 }
 
-void CGraphicsPropertyPage::OnGraphsShowall() 
+void CGraphicsPropertyPage::OnGraphsShowall()
 {
-    int index = m_graph_combo.GetCurSel();
-    if (index == -1) return;
-    CGraphProps* grprop;
-    for (int i=0; i<grprops.GetSize(); i++)
-    {
-	grprop = grprops.GetAt(i);
-	grprop->SetVisible(TRUE);
-    };
-    SetHideShowAttr(index);
+	int index = m_graph_combo.GetCurSel();
+	if (index == -1) return;
+	CGraphProps* grprop;
+	for (int i = 0; i < grprops.GetSize(); i++)
+	{
+		grprop = grprops.GetAt(i);
+		grprop->SetVisible(TRUE);
+	};
+	SetHideShowAttr(index);
 }
 
-void CGraphicsPropertyPage::OnSelchangeGraphChoice() 
+void CGraphicsPropertyPage::OnSelchangeGraphChoice()
 {
-    SetActiveSel(m_graph_combo.GetCurSel());
+	SetActiveSel(m_graph_combo.GetCurSel());
 }
 
 void CGraphicsPropertyPage::SetActiveSel(int selnum)
 {
-    if (selnum<0 || selnum>=grprops.GetSize()) return;
-    m_graph_combo.SetCurSel(selnum);
-    SetHideShowAttr(selnum);
-    CGraphProps* grprop = grprops.GetAt(selnum);
-    m_graph_title = grprop->GetTitle();
-    UpdateData(FALSE);
+	if (selnum < 0 || selnum >= grprops.GetSize()) return;
+	m_graph_combo.SetCurSel(selnum);
+	SetHideShowAttr(selnum);
+	CGraphProps* grprop = grprops.GetAt(selnum);
+	m_graph_title = grprop->GetTitle();
+	UpdateData(FALSE);
 }
 
 void CGraphicsPropertyPage::SetHideShowAttr(int selnum)
 {
-    if (selnum == -1) return;
-    CGraphProps* grprop = grprops.GetAt(selnum);
-    CWnd* wnd = GetDlgItem(IDC_GRAPH_HIDESHOW);
-    if (wnd == NULL) return;
-    if (grprop->IsVisible()) 
-    {
-	wnd->SetWindowText(_T("Hide"));
-    } else
-    {
-	wnd->SetWindowText(_T("Show"));
-    };
+	if (selnum == -1) return;
+	CGraphProps* grprop = grprops.GetAt(selnum);
+	CWnd* wnd = GetDlgItem(IDC_GRAPH_HIDESHOW);
+	if (wnd == NULL) return;
+	if (grprop->IsVisible())
+	{
+		wnd->SetWindowText(_T("Hide"));
+	}
+	else
+	{
+		wnd->SetWindowText(_T("Show"));
+	};
 }
 /////////////////////////////////////////////////////////////////////////////
 // CGraphTitlePrompt dialog

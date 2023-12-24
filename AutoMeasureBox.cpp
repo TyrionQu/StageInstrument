@@ -52,6 +52,7 @@ BOOL CAutoMeasureBox::Create()
 void CAutoMeasureBox::OnBnClickedCancel()
 {
 	((CMainFrame*)m_pParent)->DisableAutoMeasure();
+	KillTimer(m_nTimer);
 	DestroyWindow();
 }
 
@@ -69,7 +70,7 @@ BOOL CAutoMeasureBox::OnInitDialog()
 	m_progressMeasure.SetRange(0, 1000);
 	m_progressMeasure.SetStep(5);
 
-	SetTimer(0, 1000, nullptr);
+	m_nTimer = SetTimer(1, 1000, nullptr);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -94,4 +95,15 @@ void CAutoMeasureBox::OnTimer(UINT_PTR nIDEvent)
 	m_staticPercent.SetWindowTextW(strPercent);
 
 	CDialogEx::OnTimer(nIDEvent);
+}
+
+
+LRESULT CAutoMeasureBox::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if (message == WM_TIMER)
+	{
+		OnTimer(wParam);
+	}
+
+	return CDialogEx::WindowProc(message, wParam, lParam);
 }

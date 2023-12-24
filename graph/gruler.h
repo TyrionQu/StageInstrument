@@ -9,26 +9,26 @@ class FRuler : public CWnd
 protected:
 	DECLARE_DYNCREATE(FRuler)
 
-// Attributes
+	// Attributes
 public:
 	LOGFONT MainFontRec;
-//	int MinShift,MaxShift;
+	//	int MinShift,MaxShift;
 	double MinValue, MaxValue;
 	CString sUnit, sTitle;
 	CToolTipCtrl tooltip;
 
-// Operations
+	// Operations
 public:
 	int ConvertLogPixToRealPix(CDC* dest_dc, double log_pix_num, BOOL b_x_axis);
-	virtual int Width(CDC* dest_dc){return 0;};
+	virtual int Width(CDC* dest_dc) { return 0; };
 	void SetMinMax(double minv, double maxv, BOOL bRedraw);
 	void SetNewTitles(char* newUOM, char* newTitle);
-	virtual int GetNMax(CDC* dc_to_draw, CRect rect_to_draw){return 0;};
-	virtual void DrawRuler(CDC* dc_to_draw, CRect rect_to_draw){};
+	virtual int GetNMax(CDC* dc_to_draw, CRect rect_to_draw) { return 0; };
+	virtual void DrawRuler(CDC* dc_to_draw, CRect rect_to_draw) {};
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(FRuler)
+	// Overrides
+		// ClassWizard generated virtual function overrides
+		//{{AFX_VIRTUAL(FRuler)
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	//}}AFX_VIRTUAL
 
@@ -56,7 +56,7 @@ protected:
 class FHRuler : public FRuler
 {
 	DECLARE_DYNAMIC(FHRuler)
-  public:
+public:
 	FHRuler();
 	virtual int Width(CDC* dest_dc);
 	virtual int GetNMax(CDC* dc_to_draw, CRect rect_to_draw);
@@ -71,7 +71,7 @@ protected:
 class FVRuler : public FRuler
 {
 	DECLARE_DYNAMIC(FVRuler)
-  public:
+public:
 	FVRuler();
 	virtual int Width(CDC* dest_dc);
 	virtual int GetNMax(CDC* dc_to_draw, CRect rect_to_draw);
