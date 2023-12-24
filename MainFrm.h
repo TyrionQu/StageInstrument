@@ -14,7 +14,7 @@
 
 #pragma once
 #include "FileView.h"
-#include "ClassView.h"
+#include "MeasureSetupView.h"
 #include "PropertiesWnd.h"
 #include "AutoMeasureBox.h"
 
@@ -50,7 +50,7 @@ protected:  // control bar embedded members
 	CMFCRibbonStatusBar  m_wndStatusBar;
 	CMFCShellTreeCtrl m_wndTree;
 	CFileView         m_wndFileView;
-	CClassView        m_wndClassView;
+	CMeasureSetupView m_wndMeasureSetupView;
 	CPropertiesWnd    m_wndProperties;
 	CAutoMeasureBox*  m_pAutoMeasureBox{ nullptr };
 	BOOL              m_bStartButton{ TRUE };
@@ -61,7 +61,6 @@ protected:  // control bar embedded members
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnWindowManager();
-	afx_msg void OnUpdateApplicationLook(CCmdUI* pCmdUI);
 	afx_msg void OnOptions();
 	DECLARE_MESSAGE_MAP()
 

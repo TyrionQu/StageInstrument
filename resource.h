@@ -91,6 +91,7 @@
 #define IDB_ANALYSIS_VIEW               502
 #define IDD_MEASURE_SETUP_BOX           503
 #define IDD_AUTOMEASURE_BOX             507
+#define IDD_MEASURE_PARAMETER_FORMVIEW  511
 #define IDC_OPTIONS_TAB                 1000
 #define IDC_SLIDER_ZOOM                 1001
 #define IDC_SLIDER_INTENSITY            1002
@@ -129,6 +130,11 @@
 #define IDC_GEN_GRAPH_PROPS_AXIS        1036
 #define IDD_MEASURE_PORP_BOX            1037
 #define IDC_TAB_MEASURE_OPTIONS         1038
+#define IDC_COMBO_MEASURE_RANGE         1039
+#define IDC_EDIT_LENGTH                 1040
+#define IDC_EDIT_DURATION               1041
+#define IDC_EDIT_DURATION2              1042
+#define IDC_EDIT_FORCE                  1042
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_OPEN                         32771
 #define ID_OPEN_WITH                    32772
@@ -142,9 +148,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        511
+#define _APS_NEXT_RESOURCE_VALUE        514
 #define _APS_NEXT_COMMAND_VALUE         32779
-#define _APS_NEXT_CONTROL_VALUE         1039
+#define _APS_NEXT_CONTROL_VALUE         1041
 #define _APS_NEXT_SYMED_VALUE           600
 #endif
 #endif

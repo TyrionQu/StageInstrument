@@ -188,7 +188,7 @@
     <ClInclude Include="calendarbar.h" />
     <ClInclude Include="CameraFormView.h" />
     <ClInclude Include="ChildFrm.h" />
-    <ClInclude Include="ClassView.h" />
+    <ClInclude Include="MeasureSetupView.h" />
     <ClInclude Include="ColorStatic.h" />
     <ClInclude Include="DigitalEdit.h" />
     <ClInclude Include="FileView.h" />
@@ -210,6 +210,7 @@
     <ClInclude Include="graph\sizecbar.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MeasureOptionsBox.h" />
+    <ClInclude Include="MeasureParamFormView.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
@@ -224,7 +225,7 @@
     <ClCompile Include="calendarbar.cpp" />
     <ClCompile Include="CameraFormView.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
-    <ClCompile Include="ClassView.cpp" />
+    <ClCompile Include="MeasureSetupView.cpp" />
     <ClCompile Include="ColorStatic.cpp" />
     <ClCompile Include="DigitalEdit.cpp" />
     <ClCompile Include="FileView.cpp" />
@@ -244,6 +245,7 @@
     <ClCompile Include="graph\sizecbar.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MeasureOptionsBox.cpp" />
+    <ClCompile Include="MeasureParamFormView.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
