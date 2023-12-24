@@ -34,7 +34,7 @@ void CMeasureParamFormView::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_DURATION, m_nScanDuration);
 	DDV_MinMaxUInt(pDX, m_nScanDuration, 1, 300);
 	DDX_Text(pDX, IDC_EDIT_FORCE, m_nForce);
-	DDV_MinMaxUInt(pDX, m_nForce, 1, 500);
+	DDV_MinMaxDouble(pDX, m_nForce, 0.1, 15.0);
 	DDX_Control(pDX, IDC_COMBO_MEASURE_RANGE, m_comboScanRange);
 }
 
@@ -71,7 +71,7 @@ void CMeasureParamFormView::OnInitialUpdate()
 
 	// Set 1mm as default scan
 	m_comboScanRange.SetCurSel(3);
-	m_nForce = 3;
+	m_nForce = 3.0;
 	m_nScanDuration = 10;
 	m_nScanLength = 2000;
 

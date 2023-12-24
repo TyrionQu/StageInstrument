@@ -33,7 +33,7 @@ public:
 	CDigitalEdit m_editForce;
 	UINT m_nScanLength;
 	UINT m_nScanDuration;
-	UINT m_nForce;
+	double m_nForce;
 	CComboBox m_comboScanRange;
 	virtual void OnInitialUpdate();
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
