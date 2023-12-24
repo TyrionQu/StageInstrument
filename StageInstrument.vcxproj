@@ -76,6 +76,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files\opencv\build\include\opencv2;C:\Program Files\opencv\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\opencv\build\x64\vc16\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -96,7 +98,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>Vfw32.lib</AdditionalDependencies>
+      <AdditionalDependencies>Vfw32.lib;opencv_world480d.lib</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -278,7 +280,9 @@
     <Image Include="res\file_view_hc.ico" />
     <Image Include="res\icon1.ico" />
     <Image Include="res\info.bmp" />
+    <Image Include="res\load_sample.bmp" />
     <Image Include="res\main.bmp" />
+    <Image Include="res\make_horizontal.bmp" />
     <Image Include="res\nav_large.bmp" />
     <Image Include="res\nav_large_hc.bmp" />
     <Image Include="res\output_wnd_hc.ico" />
@@ -297,6 +301,10 @@
     <Image Include="res\toolbar1.bmp" />
     <Image Include="res\toolbar2.bmp" />
     <Image Include="res\Toolbar256.bmp" />
+    <Image Include="res\tower_down.bmp" />
+    <Image Include="res\tower_home.bmp" />
+    <Image Include="res\tower_up.bmp" />
+    <Image Include="res\unload_sample.bmp" />
     <Image Include="res\writelarge.bmp" />
     <Image Include="res\writesmall.bmp" />
   </ItemGroup>

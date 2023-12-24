@@ -51,9 +51,6 @@
     <ClInclude Include="PropertiesWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ClassView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FileView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -120,6 +117,12 @@
     <ClInclude Include="graph\GraphWnd.h">
       <Filter>2DPlot</Filter>
     </ClInclude>
+    <ClInclude Include="MeasureSetupView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeasureParamFormView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StageInstrument.cpp">
@@ -144,9 +147,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PropertiesWnd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ClassView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileView.cpp">
@@ -211,6 +211,12 @@
     </ClCompile>
     <ClCompile Include="graph\GraphWnd.cpp">
       <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasureSetupView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasureParamFormView.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,6 +334,24 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\Analysis.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tower_up.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tower_down.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tower_home.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\load_sample.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\unload_sample.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\make_horizontal.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
