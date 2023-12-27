@@ -66,6 +66,7 @@ protected:
 	afx_msg void OnUpdateViewCaptionBar(CCmdUI* pCmdUI);
 	afx_msg void OnOptions();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);
 	DECLARE_MESSAGE_MAP()
 
 	BOOL CreateOutlookBar(CMFCOutlookBar& bar, UINT uiID, CMFCShellTreeCtrl& tree, CCalendarBar& calendar, int nInitialWidth);
@@ -78,7 +79,8 @@ protected:
 	CMFCOutlookBarPane*    m_pCurrOutlookPage;
 
 private:
-	void OnTimerEvent();
+	void OnVikeyTimerEvent();
+	void OnUpdateTimerEvent();
 	bool m_bNeedToPop;
 };
 

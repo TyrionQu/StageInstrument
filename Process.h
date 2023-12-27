@@ -30,7 +30,7 @@ public:
 	Process(const TCHAR* cmd, const TCHAR* args, const TCHAR* cDir)
 		:m_command(cmd), m_args(args), m_curDir(cDir) {}
 
-	void run() const;
+	bool run() const;
 
 protected:
 	generic_string m_command;

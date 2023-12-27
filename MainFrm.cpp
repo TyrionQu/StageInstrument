@@ -19,8 +19,11 @@
 #include "MainFrm.h"
 
 #include "input/CryptoppVikey/include/CryptoppVikey.h"
+#include "Process.h"
 
 #include <iostream>
+#include <afxwin.h>
+#include <tlhelp32.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -39,6 +42,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_CAPTION_BAR, &CMainFrame::OnUpdateViewCaptionBar)
 	ON_COMMAND(ID_TOOLS_OPTIONS, &CMainFrame::OnOptions)
 	ON_WM_TIMER()
+	ON_WM_COPYDATA()
 END_MESSAGE_MAP()
 
 #if defined _M_X64 && defined(_MSC_VER) && (_MSC_VER >= 1920)
@@ -48,7 +52,31 @@ END_MESSAGE_MAP()
 #pragma comment(lib, "input/CryptoppVikey/lib/atls.lib")
 #endif
 
-static const UINT_PTR IDT_VIKEY_CHECK_TIMER = 1;
+static const UINT_PTR IDT_VIKEY_CHECK_TIMER = 1000;
+static const UINT_PTR IDT_UPDATE_CHECK_TIMER = 1001;
+static const UINT_PTR IDM_UPDATE_CHECK_MESSAGE = 1002;
+
+static const UINT VIKEY_CHECK_INTERVAL_MS = 5000;
+static const UINT UPDATE_CHECK_INTERVAL_MS = 5000;
+
+bool IsProcessRunning(const CString& processName) {
+	PROCESSENTRY32 entry;
+	entry.dwSize = sizeof(PROCESSENTRY32);
+
+	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+
+	if (Process32First(snapshot, &entry)) {
+		do {
+			if (_tcsicmp(entry.szExeFile, processName) == 0) {
+				CloseHandle(snapshot);
+				return true;
+			}
+		} while (Process32Next(snapshot, &entry));
+	}
+
+	CloseHandle(snapshot);
+	return false;
+}
 
 // CMainFrame construction/destruction
 
@@ -62,28 +90,51 @@ CMainFrame::CMainFrame() noexcept
 CMainFrame::~CMainFrame()
 {
 	KillTimer(IDT_VIKEY_CHECK_TIMER); //TODO
+	KillTimer(IDT_UPDATE_CHECK_TIMER); //TODO
+}
+
+BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
+{
+	if (pCopyDataStruct->dwData == IDM_UPDATE_CHECK_MESSAGE) {
+		char* pData = static_cast<char*>(pCopyDataStruct->lpData);
+		DWORD dataSize = pCopyDataStruct->cbData;
+		std::string receivedData(pData, dataSize);
+
+		std::cout << receivedData << std::endl;
+
+		AfxMessageBox(_T("Detected a mandatory version update. We need to exit the main program. After installing the latest version, please restart the app."), MB_OK);
+		PostQuitMessage(0);
+
+		return TRUE;
+	}
+
+	return CMDIFrameWndEx::OnCopyData(pWnd, pCopyDataStruct);
 }
 
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
 	if (nIDEvent == IDT_VIKEY_CHECK_TIMER)
 	{
-		OnTimerEvent();
+		OnVikeyTimerEvent();
+	}
+	else if (nIDEvent == IDT_UPDATE_CHECK_TIMER)
+	{
+		OnUpdateTimerEvent();
 	}
 	CFrameWnd::OnTimer(nIDEvent);
 }
 
-void CMainFrame::OnTimerEvent()
+void CMainFrame::OnVikeyTimerEvent()
 {
 	CryptoppVikey vikey;
 	DWORD dwRetCode = vikey.verifyVikey("ec.public.key");
-	std::cout << "dwRetCode=" << dwRetCode << std::endl;
+	//std::cout << "dwRetCode=" << dwRetCode << std::endl;
 	if (dwRetCode && m_bNeedToPop) {
 		m_bNeedToPop = false;
 		int result = AfxMessageBox(_T("Verify Vikey failed!"), MB_OK);
 		if (result == IDOK) {
 			dwRetCode = vikey.verifyVikey("ec.public.key");
-			std::cout << "newRetCode=" << dwRetCode << std::endl;
+			//std::cout << "newRetCode=" << dwRetCode << std::endl;
 			if (dwRetCode) {
 				PostQuitMessage(0);
 			}
@@ -92,6 +143,28 @@ void CMainFrame::OnTimerEvent()
 	if (!dwRetCode) {
 		m_bNeedToPop = true;
 	}
+}
+
+void CMainFrame::OnUpdateTimerEvent()
+{
+	if (IsProcessRunning(_T("GUP.exe")))
+		return;
+
+	// Get path
+	TCHAR appPath[MAX_PATH];
+	::GetModuleFileName(NULL, appPath, MAX_PATH);
+	PathRemoveFileSpec(appPath);
+	std::wstring updaterDir = appPath;
+	updaterDir += TEXT("\\updater\\");
+
+	// Update check
+	std::wstring updaterFullPath = updaterDir + TEXT("gup.exe");
+	std::wstring updaterParams = TEXT("");
+
+	Process updater(updaterFullPath.c_str(), updaterParams.c_str(), updaterDir.c_str());
+	bool res = updater.run();
+
+	std::cout << "OnUpdateTimerEvent" << std::endl;
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -162,7 +235,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// improves the usability of the taskbar because the document name is visible with the thumbnail.
 	ModifyStyle(0, FWS_PREFIXTITLE);
 
-	SetTimer(IDT_VIKEY_CHECK_TIMER, 5000, nullptr);
+	SetTimer(IDT_VIKEY_CHECK_TIMER, VIKEY_CHECK_INTERVAL_MS, nullptr);
+	SetTimer(IDT_UPDATE_CHECK_TIMER, UPDATE_CHECK_INTERVAL_MS, nullptr);
 
 	return 0;
 }
@@ -173,6 +247,25 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		return FALSE;
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
+
+	// Modify lpszClass name
+	// Used for the updater exe to exit the main program
+	WNDCLASS wndcls;
+	ZeroMemory(&wndcls, sizeof(WNDCLASS));   // start with NULL
+
+	HINSTANCE hInst;
+	hInst = AfxGetInstanceHandle();
+	ASSERT(hInst != 0);
+
+	GetClassInfo(hInst, cs.lpszClass, &wndcls);
+	wndcls.lpszClassName = _T("StageInstrument");
+
+	if (FALSE == AfxRegisterClass(&wndcls))
+	{
+		AfxThrowResourceException();
+		return FALSE;
+	}
+	cs.lpszClass = wndcls.lpszClassName;
 
 	return TRUE;
 }
@@ -388,4 +481,3 @@ void CMainFrame::OnOptions()
 	pOptionsDlg->DoModal();
 	delete pOptionsDlg;
 }
-

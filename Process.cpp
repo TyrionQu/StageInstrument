@@ -18,11 +18,13 @@
 #include "Process.h"
 
 
-void Process::run() const
+bool Process::run() const
 {
 	const TCHAR* opVerb = TEXT("open");
 	HINSTANCE result = ::ShellExecute(NULL, opVerb, m_command.c_str(), m_args.c_str(), m_curDir.c_str(), SW_SHOWNORMAL);
 	if (result <= (HINSTANCE)32) {
 		DWORD error = GetLastError();
+		return false;
 	}
+	return true;
 }

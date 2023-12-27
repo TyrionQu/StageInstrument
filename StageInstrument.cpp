@@ -22,9 +22,9 @@
 #include "ChildFrm.h"
 #include "StageInstrumentDoc.h"
 #include "StageInstrumentView.h"
-
 #include "Process.h"
 
+#include <iostream>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -161,31 +161,11 @@ BOOL CStageInstrumentApp::InitInstance()
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 
-	// Auto update
-	UpdateApp();
-
 	// The main window has been initialized, so show and update it
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
 
 	return TRUE;
-}
-
-void CStageInstrumentApp::UpdateApp()
-{
-	// Get path
-	TCHAR appPath[MAX_PATH];
-	::GetModuleFileName(NULL, appPath, MAX_PATH);
-	PathRemoveFileSpec(appPath);
-	std::wstring updaterDir = appPath;
-	updaterDir += TEXT("\\updater\\");
-
-	// Auto update
-	std::wstring updaterFullPath = updaterDir + TEXT("gup.exe");
-	std::wstring updaterParams = TEXT("");
-
-	Process updater(updaterFullPath.c_str(), updaterParams.c_str(), updaterDir.c_str());
-	updater.run();
 }
 
 int CStageInstrumentApp::ExitInstance()

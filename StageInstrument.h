@@ -35,8 +35,6 @@ public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 
-	void UpdateApp();
-
 // Implementation
 	UINT  m_nAppLook;
 	BOOL  m_bHiColorIcons;
