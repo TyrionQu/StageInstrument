@@ -164,6 +164,12 @@ void CMainFrame::OnUpdateTimerEvent()
 	Process updater(updaterFullPath.c_str(), updaterParams.c_str(), updaterDir.c_str());
 	bool res = updater.run();
 
+	if (!res)
+	{
+		AfxMessageBox(_T("Updater can't be found. We will exit the main program."), MB_OK);
+		PostQuitMessage(0);
+	}
+
 	std::cout << "OnUpdateTimerEvent" << std::endl;
 }
 
