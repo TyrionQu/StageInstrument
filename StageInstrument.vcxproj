@@ -269,6 +269,7 @@
     <Image Include="res\classview.bmp" />
     <Image Include="res\classview_hc.bmp" />
     <Image Include="res\class_view_hc.ico" />
+    <Image Include="res\DeviceStatus_hc.png" />
     <Image Include="res\explorer.bmp" />
     <Image Include="res\explorer_hc.bmp" />
     <Image Include="res\filelarge.bmp" />
