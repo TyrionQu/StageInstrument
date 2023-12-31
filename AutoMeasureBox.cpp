@@ -79,6 +79,8 @@ BOOL CAutoMeasureBox::OnInitDialog()
 
 void CAutoMeasureBox::OnTimer(UINT_PTR nIDEvent)
 {
+	if (m_bPauseTimer) return;
+
 	m_nProgress++;
 	m_progressMeasure.SetPos(m_nProgress);
 	CString strTimer(L"≤‚¡ø ±º‰£∫00:00:00");

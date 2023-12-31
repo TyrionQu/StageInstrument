@@ -32,6 +32,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	BOOL m_bPauseTimer{ FALSE };
 	CColorStatic m_staticTitle;
 	UINT32  m_nProgress{ 0 };
 	afx_msg void OnBnClickedCancel();

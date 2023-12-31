@@ -55,6 +55,7 @@ protected:  // control bar embedded members
 	CAutoMeasureBox*  m_pAutoMeasureBox{ nullptr };
 	BOOL              m_bStartButton{ TRUE };
 	BOOL              m_bPauseButton{ FALSE };
+	BOOL              m_bResume{ FALSE };
 	BOOL              m_bStopButton{ FALSE };
 
 // Generated message map functions

@@ -251,6 +251,22 @@ void CMainFrame::OnBtnPause()
 	m_bStartButton = FALSE;
 	m_bPauseButton = TRUE;
 	m_bStopButton = TRUE;
+	CMFCRibbonButton* pButton = DYNAMIC_DOWNCAST(CMFCRibbonButton, m_wndRibbonBar.FindByID(ID_BTN_PAUSE));
+	if (pButton == NULL) return;
+
+	m_bResume = !m_bResume;
+	if (m_bResume)
+	{
+		pButton->SetText(L"¼ÌÐø");
+		m_pAutoMeasureBox->m_bPauseTimer = TRUE;
+		m_pAutoMeasureBox->ShowWindow(SW_HIDE);
+	}
+	else
+	{
+		pButton->SetText(L"ÔÝÍ£");
+		m_pAutoMeasureBox->m_bPauseTimer = FALSE;
+		m_pAutoMeasureBox->ShowWindow(SW_SHOW);
+	}
 }
 
 
