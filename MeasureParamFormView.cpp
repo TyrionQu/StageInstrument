@@ -30,16 +30,17 @@ void CMeasureParamFormView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT_DURATION, m_editDuration);
 	DDX_Control(pDX, IDC_EDIT_FORCE, m_editForce);
 	DDX_Text(pDX, IDC_EDIT_LENGTH, m_nScanLength);
-	DDV_MinMaxUInt(pDX, m_nScanLength, 1, 5000);
 	DDX_Text(pDX, IDC_EDIT_DURATION, m_nScanDuration);
-	DDV_MinMaxUInt(pDX, m_nScanDuration, 1, 300);
 	DDX_Text(pDX, IDC_EDIT_FORCE, m_nForce);
-	DDV_MinMaxDouble(pDX, m_nForce, 0.1, 15.0);
 	DDX_Control(pDX, IDC_COMBO_MEASURE_RANGE, m_comboScanRange);
 }
 
 BEGIN_MESSAGE_MAP(CMeasureParamFormView, CFormView)
 	ON_WM_DESTROY()
+	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, &CMeasureParamFormView::SetToolTipText)
+	ON_EN_KILLFOCUS(IDC_EDIT_FORCE, &CMeasureParamFormView::OnEnKillfocusEditForce)
+	ON_WM_CTLCOLOR()
+	ON_EN_CHANGE(IDC_EDIT_FORCE, &CMeasureParamFormView::OnEnChangeEditForce)
 END_MESSAGE_MAP()
 
 
@@ -69,6 +70,8 @@ void CMeasureParamFormView::OnInitialUpdate()
 	EnableScrollBarCtrl(SB_BOTH, FALSE);
 	SetScrollSizes(MM_TEXT, CSize(0, 0));
 
+	EnableToolTips(TRUE);
+
 	// Set 1mm as default scan
 	m_comboScanRange.SetCurSel(3);
 	m_nForce = 3.0;
@@ -90,4 +93,88 @@ void CMeasureParamFormView::OnDestroy()
 	CFormView::OnDestroy();
 
 	// TODO: Add your message handler code here
+}
+
+BOOL CMeasureParamFormView::SetToolTipText(UINT id, NMHDR* pToolTipStruct, LRESULT* pResult)
+{
+	UNREFERENCED_PARAMETER(id);
+	*pResult = 0;
+
+	TOOLTIPTEXT* pText = (TOOLTIPTEXT*)pToolTipStruct;
+	HWND nID = (HWND)pToolTipStruct->idFrom;
+	if (pText->uFlags & TTF_IDISHWND)
+	{
+		if (nID == NULL)
+			return FALSE;
+
+		int nEditID = ::GetDlgCtrlID(nID);
+
+		switch (nEditID)
+		{
+		case IDC_EDIT_FORCE:
+			_stprintf_s(pText->lpszText, sizeof(pText->szText) / sizeof(TCHAR), L"力大小在0-15mg之间");
+			break;
+		default:
+			break;
+		}
+		return TRUE;
+	}
+	return FALSE;
+}
+
+
+void CMeasureParamFormView::OnEnKillfocusEditForce()
+{
+	UpdateForceEdit();
+}
+
+
+HBRUSH CMeasureParamFormView::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CFormView::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	if (nCtlColor == CTLCOLOR_EDIT && pWnd->GetDlgCtrlID() == IDC_EDIT_FORCE)
+	{
+		if (m_editForce.m_bWarning)
+		{
+			COLORREF warningColor(RGB(255, 175, 200));
+			pDC->SetBkColor(warningColor);
+			hbr = CreateSolidBrush(warningColor);
+		}
+		else
+		{
+			COLORREF white(RGB(255, 255, 255));
+			pDC->SetBkColor(white);
+			hbr = CreateSolidBrush(white);
+		}
+		return hbr;
+	}
+
+	return hbr;
+}
+
+
+void CMeasureParamFormView::OnEnChangeEditForce()
+{
+	UpdateForceEdit();
+}
+
+
+void CMeasureParamFormView::UpdateForceEdit()
+{
+	UpdateData(TRUE);
+	if (m_nForce > MAX_FORCE)
+		m_nForce = MAX_FORCE;
+	else if (m_nForce < MIN_FORCE)
+		m_nForce = MIN_FORCE;
+	else
+	{
+		m_editForce.m_bWarning = FALSE;
+		m_editForce.Invalidate();
+		return;
+	}
+	UpdateData(FALSE);
+	m_editForce.m_bWarning = TRUE;
+
+	m_editForce.Invalidate(TRUE);
 }

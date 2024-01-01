@@ -16,6 +16,7 @@ protected:
 public:
 	int m_nX;
 	int m_nY;
+	BOOL m_bWarning{ FALSE };
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnWindowPosChanging(WINDOWPOS* lpwndpos);
 };

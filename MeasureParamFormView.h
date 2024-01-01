@@ -4,6 +4,9 @@
 
 // CMeasureParamFormView form view
 
+const double MAX_FORCE = 15.0;
+const double MIN_FORCE = 0.1;
+
 class CMeasureParamFormView : public CFormView
 {
 	DECLARE_DYNCREATE(CMeasureParamFormView)
@@ -38,6 +41,12 @@ public:
 	virtual void OnInitialUpdate();
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
 	afx_msg void OnDestroy();
+	afx_msg BOOL SetToolTipText(UINT id, NMHDR* pToolTipStruct, LRESULT* pResult);
+	afx_msg void OnEnKillfocusEditForce();
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg void OnEnChangeEditForce();
+private:
+	void UpdateForceEdit();
 };
 
 
