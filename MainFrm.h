@@ -49,7 +49,6 @@ protected:  // control bar embedded members
 	CMFCToolBarImages m_PanelImages;
 	CMFCRibbonStatusBar  m_wndStatusBar;
 	CMFCShellTreeCtrl m_wndTree;
-	CFileView         m_wndFileView;
 	CMeasureSetupView m_wndMeasureSetupView;
 	CPropertiesWnd    m_wndProperties;
 	CAutoMeasureBox*  m_pAutoMeasureBox{ nullptr };
