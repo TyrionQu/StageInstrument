@@ -112,7 +112,7 @@ BOOL CMeasureParamFormView::SetToolTipText(UINT id, NMHDR* pToolTipStruct, LRESU
 		switch (nEditID)
 		{
 		case IDC_EDIT_FORCE:
-			_stprintf_s(pText->lpszText, sizeof(pText->szText) / sizeof(TCHAR), L"力大小在0-15mg之间");
+			_stprintf_s(pText->lpszText, sizeof(pText->szText) / sizeof(TCHAR), L"力大小在%.1f-%.1fmg之间", MIN_FORCE, MAX_FORCE);
 			break;
 		default:
 			break;
