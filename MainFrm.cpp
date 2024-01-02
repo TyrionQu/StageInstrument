@@ -163,7 +163,7 @@ BOOL CMainFrame::CreateDockingWindows()
 {
 	// Create class view
 	CString strParamView(L"设置测量参数");
-	if (!m_wndMeasureSetupView.Create(strParamView, this, CRect(0, 0, 300, 200), TRUE, ID_VIEW_CLASSVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	if (!m_wndMeasureSetupView.Create(strParamView, this, CRect(0, 0, 250, 200), TRUE, ID_VIEW_CLASSVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
 	{
 		TRACE0("Failed to create Measure Parameter window\n");
 		return FALSE; // failed to create

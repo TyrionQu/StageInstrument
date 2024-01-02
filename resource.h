@@ -94,6 +94,8 @@
 #define IDD_MEASURE_PARAMETER_FORMVIEW  511
 #define IDB_PNG1                        514
 #define IDB_DEVICE_STATUS_HC            514
+#define IDD_DETAILED_PARAMETER_FORMVIEW 515
+#define IDD_ADVANCED_PARAMETER_FORMVIEW 518
 #define IDC_OPTIONS_TAB                 1000
 #define IDC_SLIDER_ZOOM                 1001
 #define IDC_SLIDER_INTENSITY            1002
@@ -136,6 +138,40 @@
 #define IDC_EDIT_LENGTH                 1040
 #define IDC_EDIT_DURATION               1041
 #define IDC_EDIT_FORCE                  1042
+#define IDC_BTN_MEASURE_OPTIONS         1044
+#define IDC_BTN_ADVANCE_OPTIONS         1045
+#define IDC_TOWER_UP_AFTER_SCAN         1045
+#define IDC_SAFE_TOUCHDOWN              1046
+#define IDC_SAFE_MODE                   1047
+#define IDC_COMBO_SCANTYPE              1048
+#define IDC_COMBO_SCANRANGE             1049
+#define IDC_COMBO_SCANPROFILE           1050
+#define IDC_COMBO_STYLUS_TYPE           1051
+#define IDC_EDIT_STYLUS_FORCE           1052
+#define IDC_EDIT_SAMPLE_LENGTH          1053
+#define IDC_EDIT_DELAY_SEC              1053
+#define IDC_EDIT_SCAN_DURATION          1054
+#define IDC_EDIT_DELAY_SEC2             1054
+#define IDC_EDIT_SCAN_RESOLUTION        1055
+#define IDC_CHECK_SAVE_WARNING          1055
+#define IDC_EDIT_SCAN_SAMPLE            1056
+#define IDC_EDIT_FILENAME               1056
+#define IDC_EDIT_SCAN_SAMPLE2           1057
+#define IDC_BUTTON_BROWSE_FILENAME      1057
+#define IDC_BUTTON_INSERT_MACRO         1058
+#define IDC_EDIT_USERDATA_TITLE         1059
+#define IDC_BUTTON_INSERT_MACRO2        1060
+#define IDC_EDIT_USERDATA_NOTE          1061
+#define IDC_EDIT_USERDATA_MSG           1062
+#define IDC_BUTTON_INSERT_MACRO3        1063
+#define IDC_BUTTON_INSERT_MACRO4        1064
+#define IDC_BUTTON_ANNOTATIONS          1065
+#define IDC_EDIT_EXTERNAL_PROGRAM       1066
+#define IDC_BUTTON_BROWSE_EXTERNAL_PROGRAM 1067
+#define IDC_EDIT_CMDLINE_PARAMETER      1068
+#define IDC_BUTTON_INSERT_MACRO5        1069
+#define IDC_CHECK_SAVE_WARNING2         1070
+#define IDC_CHECK_WAIT_EXIT             1070
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_OPEN                         32771
 #define ID_OPEN_WITH                    32772
@@ -149,9 +185,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        515
+#define _APS_NEXT_RESOURCE_VALUE        520
 #define _APS_NEXT_COMMAND_VALUE         32779
-#define _APS_NEXT_CONTROL_VALUE         1041
+#define _APS_NEXT_CONTROL_VALUE         1066
 #define _APS_NEXT_SYMED_VALUE           600
 #endif
 #endif

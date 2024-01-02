@@ -41,6 +41,8 @@ BEGIN_MESSAGE_MAP(CMeasureParamFormView, CFormView)
 	ON_EN_KILLFOCUS(IDC_EDIT_FORCE, &CMeasureParamFormView::OnEnKillfocusEditForce)
 	ON_WM_CTLCOLOR()
 	ON_EN_CHANGE(IDC_EDIT_FORCE, &CMeasureParamFormView::OnEnChangeEditForce)
+	ON_BN_CLICKED(IDC_BTN_MEASURE_OPTIONS, &CMeasureParamFormView::OnBnClickedBtnMeasureOptions)
+	ON_BN_CLICKED(IDC_BTN_ADVANCE_OPTIONS, &CMeasureParamFormView::OnBnClickedBtnAdvanceOptions)
 END_MESSAGE_MAP()
 
 
@@ -177,4 +179,16 @@ void CMeasureParamFormView::UpdateForceEdit()
 	m_editForce.m_bWarning = TRUE;
 
 	m_editForce.Invalidate(TRUE);
+}
+
+
+void CMeasureParamFormView::OnBnClickedBtnMeasureOptions()
+{
+	MessageBox(L"Show more parameters!");
+}
+
+
+void CMeasureParamFormView::OnBnClickedBtnAdvanceOptions()
+{
+	MessageBox(L"Show Advanced parameters!");
 }

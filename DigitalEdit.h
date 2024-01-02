@@ -1,6 +1,9 @@
 #pragma once
 
 
+const double MAX_FORCE = 15.0;
+const double MIN_FORCE = 0.1;
+
 // CDigitalEdit
 
 class CDigitalEdit : public CEdit

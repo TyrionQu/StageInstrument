@@ -188,6 +188,7 @@
     <ClInclude Include="calendarbar.h" />
     <ClInclude Include="CameraFormView.h" />
     <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="MeasureDetailedParameterFormView.h" />
     <ClInclude Include="MeasureSetupView.h" />
     <ClInclude Include="ColorStatic.h" />
     <ClInclude Include="DigitalEdit.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="calendarbar.cpp" />
     <ClCompile Include="CameraFormView.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="MeasureDetailedParameterFormView.cpp" />
     <ClCompile Include="MeasureSetupView.cpp" />
     <ClCompile Include="ColorStatic.cpp" />
     <ClCompile Include="DigitalEdit.cpp" />

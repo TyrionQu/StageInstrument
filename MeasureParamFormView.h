@@ -4,9 +4,6 @@
 
 // CMeasureParamFormView form view
 
-const double MAX_FORCE = 15.0;
-const double MIN_FORCE = 0.1;
-
 class CMeasureParamFormView : public CFormView
 {
 	DECLARE_DYNCREATE(CMeasureParamFormView)
@@ -25,6 +22,9 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 #endif
+
+private:
+	void UpdateForceEdit();
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -45,8 +45,8 @@ public:
 	afx_msg void OnEnKillfocusEditForce();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnEnChangeEditForce();
-private:
-	void UpdateForceEdit();
+	afx_msg void OnBnClickedBtnMeasureOptions();
+	afx_msg void OnBnClickedBtnAdvanceOptions();
 };
 
 

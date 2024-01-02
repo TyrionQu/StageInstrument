@@ -123,6 +123,9 @@
     <ClInclude Include="MeasureParamFormView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MeasureDetailedParameterFormView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StageInstrument.cpp">
@@ -216,6 +219,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MeasureParamFormView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasureDetailedParameterFormView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
