@@ -4,6 +4,10 @@
 const double MAX_FORCE = 15.0;
 const double MIN_FORCE = 0.1;
 
+const UINT MIN_SAMPLE_LENGTH = 1;
+// Finally this value should be modified by hardware
+const UINT MAX_SAMPLE_LENGTH = 55000;
+
 // CDigitalEdit
 
 class CDigitalEdit : public CEdit

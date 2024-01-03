@@ -43,6 +43,8 @@ BEGIN_MESSAGE_MAP(CMeasureParamFormView, CFormView)
 	ON_EN_CHANGE(IDC_EDIT_FORCE, &CMeasureParamFormView::OnEnChangeEditForce)
 	ON_BN_CLICKED(IDC_BTN_MEASURE_OPTIONS, &CMeasureParamFormView::OnBnClickedBtnMeasureOptions)
 	ON_BN_CLICKED(IDC_BTN_ADVANCE_OPTIONS, &CMeasureParamFormView::OnBnClickedBtnAdvanceOptions)
+	ON_EN_CHANGE(IDC_EDIT_LENGTH, &CMeasureParamFormView::OnEnChangeEditLength)
+	ON_EN_KILLFOCUS(IDC_EDIT_LENGTH, &CMeasureParamFormView::OnEnKillfocusEditLength)
 END_MESSAGE_MAP()
 
 
@@ -116,6 +118,9 @@ BOOL CMeasureParamFormView::SetToolTipText(UINT id, NMHDR* pToolTipStruct, LRESU
 		case IDC_EDIT_FORCE:
 			_stprintf_s(pText->lpszText, sizeof(pText->szText) / sizeof(TCHAR), L"力大小在%.1f-%.1fmg之间", MIN_FORCE, MAX_FORCE);
 			break;
+		case IDC_EDIT_LENGTH:
+			_stprintf_s(pText->lpszText, sizeof(pText->szText) / sizeof(TCHAR), L"扫描长度小于%d微米", MAX_SAMPLE_LENGTH);
+			break;
 		default:
 			break;
 		}
@@ -135,40 +140,60 @@ HBRUSH CMeasureParamFormView::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CFormView::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	if (nCtlColor == CTLCOLOR_EDIT && pWnd->GetDlgCtrlID() == IDC_EDIT_FORCE)
-	{
-		if (m_editForce.m_bWarning)
-		{
-			COLORREF warningColor(RGB(255, 175, 200));
-			pDC->SetBkColor(warningColor);
-			hbr = CreateSolidBrush(warningColor);
-		}
-		else
-		{
-			COLORREF white(RGB(255, 255, 255));
-			pDC->SetBkColor(white);
-			hbr = CreateSolidBrush(white);
-		}
+	if (nCtlColor != CTLCOLOR_EDIT)
 		return hbr;
-	}
 
+	int nID = pWnd->GetDlgCtrlID();
+	if (nID != IDC_EDIT_FORCE && nID != IDC_EDIT_LENGTH)
+		return hbr;
+
+	CDigitalEdit* pEdit = nullptr;
+	switch (nID)
+	{
+	case IDC_EDIT_FORCE:
+		pEdit = &m_editForce;
+		break;
+	case IDC_EDIT_LENGTH:
+		pEdit = &m_editScanLength;
+		break;
+	default:
+		break;
+	}
+	if (pEdit == nullptr)
+		return hbr;
+
+	if (pEdit->m_bWarning)
+	{
+		COLORREF warningColor(RGB(255, 175, 200));
+		pDC->SetBkColor(warningColor);
+		hbr = CreateSolidBrush(warningColor);
+	}
+	else
+	{
+		COLORREF white(RGB(255, 255, 255));
+		pDC->SetBkColor(white);
+		hbr = CreateSolidBrush(white);
+	}
 	return hbr;
 }
 
 
 void CMeasureParamFormView::OnEnChangeEditForce()
 {
-	UpdateForceEdit();
+	UpdateForceEdit(TRUE);
 }
 
 
-void CMeasureParamFormView::UpdateForceEdit()
+void CMeasureParamFormView::UpdateForceEdit(BOOL bEditing)
 {
 	UpdateData(TRUE);
 	if (m_nForce > MAX_FORCE)
 		m_nForce = MAX_FORCE;
-	else if (m_nForce < MIN_FORCE)
-		m_nForce = MIN_FORCE;
+	else if (m_nForce < MIN_FORCE && m_nForce != 0)
+	{
+		if ((bEditing && m_nForce != 0) || !bEditing)
+			m_nForce = MIN_FORCE;
+	}
 	else
 	{
 		m_editForce.m_bWarning = FALSE;
@@ -181,6 +206,30 @@ void CMeasureParamFormView::UpdateForceEdit()
 	m_editForce.Invalidate(TRUE);
 }
 
+void CMeasureParamFormView::UpdateScanLength(BOOL bEditing)
+{
+	UpdateData(TRUE);
+	if (m_nScanLength > MAX_SAMPLE_LENGTH)
+		m_nScanLength = MAX_SAMPLE_LENGTH;
+	else if (m_nScanLength < MIN_SAMPLE_LENGTH)
+	{
+		if ((bEditing && m_nScanLength != 0) || !bEditing)
+		{
+			m_nScanLength = MIN_SAMPLE_LENGTH;
+		}
+	}
+	else
+	{
+		m_editScanLength.m_bWarning = FALSE;
+		m_editScanLength.Invalidate();
+		return;
+	}
+	UpdateData(FALSE);
+	m_editScanLength.m_bWarning = TRUE;
+
+	m_editScanLength.Invalidate(TRUE);
+}
+
 
 void CMeasureParamFormView::OnBnClickedBtnMeasureOptions()
 {
@@ -191,4 +240,16 @@ void CMeasureParamFormView::OnBnClickedBtnMeasureOptions()
 void CMeasureParamFormView::OnBnClickedBtnAdvanceOptions()
 {
 	MessageBox(L"Show Advanced parameters!");
+}
+
+
+void CMeasureParamFormView::OnEnChangeEditLength()
+{
+	UpdateScanLength(TRUE);
+}
+
+
+void CMeasureParamFormView::OnEnKillfocusEditLength()
+{
+	UpdateScanLength();
 }

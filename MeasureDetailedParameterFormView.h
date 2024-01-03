@@ -25,7 +25,8 @@ public:
 #endif
 
 private:
-	void UpdateForceEdit();
+	void UpdateForceEdit(BOOL bEditing = FALSE);
+	void UpdateScanLength(BOOL bEditing = FALSE);
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -40,7 +41,7 @@ public:
 	CDigitalEdit m_editSampleLength;
 	CDigitalEdit m_editScanDuration;
 	CDigitalEdit m_editResolution;
-	CDigitalEdit m_editSample;
+	CDigitalEdit m_editSampleRate;
 	CDigitalEdit m_editSpeed;
 	double m_nStylusForce;
 	virtual void OnInitialUpdate();
@@ -48,6 +49,9 @@ public:
 	afx_msg BOOL SetToolTipText(UINT id, NMHDR* pToolTipStruct, LRESULT* pResult);
 	afx_msg void OnEnChangeEditStylusForce();
 	afx_msg void OnEnKillfocusEditStylusForce();
+	afx_msg void OnEnChangeEditSampleLength();
+	afx_msg void OnEnKillfocusEditSampleLength();
+	UINT m_nSampleLength;
 };
 
 

@@ -24,7 +24,8 @@ public:
 #endif
 
 private:
-	void UpdateForceEdit();
+	void UpdateForceEdit(BOOL bEditing = FALSE);
+	void UpdateScanLength(BOOL bEditing = FALSE);
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -47,6 +48,8 @@ public:
 	afx_msg void OnEnChangeEditForce();
 	afx_msg void OnBnClickedBtnMeasureOptions();
 	afx_msg void OnBnClickedBtnAdvanceOptions();
+	afx_msg void OnEnChangeEditLength();
+	afx_msg void OnEnKillfocusEditLength();
 };
 
 
