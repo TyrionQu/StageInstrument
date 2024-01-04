@@ -106,8 +106,6 @@ BOOL CStageInstrumentApp::InitInstance()
 	// of your final executable, you should remove from the following
 	// the specific initialization routines you do not need
 	// Change the registry key under which our settings are stored
-	// TODO: You should modify this string to be something appropriate
-	// such as the name of your company or organization
 	SetRegistryKey(_T("StageInstrument"));
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
 
@@ -255,6 +253,11 @@ BOOL CStageInstrumentApp::CreateNewCameraView()
 
 BOOL CStageInstrumentApp::CreateNewMeasureView()
 {
+	// if find one document and view, use old one.
+	POSITION pos = m_pMeasureMDT->GetFirstDocPosition();
+	if (pos)
+		return TRUE;
+
 	CStageInstrumentDoc* pDoc = (CStageInstrumentDoc*)m_pMeasureMDT->OpenDocumentFile(NULL);
 	if (!pDoc)
 		return FALSE;

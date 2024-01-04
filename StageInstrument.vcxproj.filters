@@ -117,13 +117,16 @@
     <ClInclude Include="graph\GraphWnd.h">
       <Filter>2DPlot</Filter>
     </ClInclude>
-    <ClInclude Include="MeasureSetupView.h">
+    <ClInclude Include="MeasureSetupBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MeasureParamFormView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MeasureDetailedParameterFormView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdvancedParameterFormView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -215,13 +218,16 @@
     <ClCompile Include="graph\GraphWnd.cpp">
       <Filter>2DPlot</Filter>
     </ClCompile>
-    <ClCompile Include="MeasureSetupView.cpp">
+    <ClCompile Include="MeasureSetupBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MeasureParamFormView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MeasureDetailedParameterFormView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AdvancedParameterFormView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

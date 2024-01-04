@@ -9,7 +9,7 @@ class CMeasureDetailedParameterFormView : public CFormView
 {
 	DECLARE_DYNCREATE(CMeasureDetailedParameterFormView)
 
-protected:
+public:
 	CMeasureDetailedParameterFormView();           // protected constructor used by dynamic creation
 	virtual ~CMeasureDetailedParameterFormView();
 
@@ -52,6 +52,7 @@ public:
 	afx_msg void OnEnChangeEditSampleLength();
 	afx_msg void OnEnKillfocusEditSampleLength();
 	UINT m_nSampleLength;
+	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
 };
 
 

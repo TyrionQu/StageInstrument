@@ -231,15 +231,29 @@ void CMeasureParamFormView::UpdateScanLength(BOOL bEditing)
 }
 
 
+void CMeasureParamFormView::ResizeParentPane()
+{
+	if (m_bExtendedPane)
+		return;
+	m_bExtendedPane = TRUE;
+
+	// 
+}
+
+
 void CMeasureParamFormView::OnBnClickedBtnMeasureOptions()
 {
-	MessageBox(L"Show more parameters!");
+	ResizeParentPane();
+
+	// Show detailed measure options pane
 }
 
 
 void CMeasureParamFormView::OnBnClickedBtnAdvanceOptions()
 {
-	MessageBox(L"Show Advanced parameters!");
+	ResizeParentPane();
+
+	// Show advanced options pane
 }
 
 

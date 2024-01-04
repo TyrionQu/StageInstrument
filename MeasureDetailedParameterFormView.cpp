@@ -217,3 +217,9 @@ void CMeasureDetailedParameterFormView::OnEnKillfocusEditSampleLength()
 {
 	UpdateScanLength(TRUE);
 }
+
+
+BOOL CMeasureDetailedParameterFormView::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext)
+{
+	return CFormView::Create(lpszClassName, lpszWindowName, dwStyle, rect, pParentWnd, nID, pContext);
+}

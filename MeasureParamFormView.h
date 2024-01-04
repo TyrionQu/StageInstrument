@@ -26,12 +26,14 @@ public:
 private:
 	void UpdateForceEdit(BOOL bEditing = FALSE);
 	void UpdateScanLength(BOOL bEditing = FALSE);
+	void ResizeParentPane();
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
 public:
+	BOOL m_bExtendedPane{ FALSE };
 	CDigitalEdit m_editScanLength;
 	CDigitalEdit m_editDuration;
 	CDigitalEdit m_editForce;

@@ -185,11 +185,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AutoMeasureBox.h" />
+    <ClInclude Include="AdvancedParameterFormView.h" />
     <ClInclude Include="calendarbar.h" />
     <ClInclude Include="CameraFormView.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="MeasureDetailedParameterFormView.h" />
-    <ClInclude Include="MeasureSetupView.h" />
+    <ClInclude Include="MeasureSetupBar.h" />
     <ClInclude Include="ColorStatic.h" />
     <ClInclude Include="DigitalEdit.h" />
     <ClInclude Include="FileView.h" />
@@ -223,11 +224,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AutoMeasureBox.cpp" />
+    <ClCompile Include="AdvancedParameterFormView.cpp" />
     <ClCompile Include="calendarbar.cpp" />
     <ClCompile Include="CameraFormView.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="MeasureDetailedParameterFormView.cpp" />
-    <ClCompile Include="MeasureSetupView.cpp" />
+    <ClCompile Include="MeasureSetupBar.cpp" />
     <ClCompile Include="ColorStatic.cpp" />
     <ClCompile Include="DigitalEdit.cpp" />
     <ClCompile Include="FileView.cpp" />

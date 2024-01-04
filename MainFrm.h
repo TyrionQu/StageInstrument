@@ -14,7 +14,7 @@
 
 #pragma once
 #include "FileView.h"
-#include "MeasureSetupView.h"
+#include "MeasureSetupBar.h"
 #include "PropertiesWnd.h"
 #include "AutoMeasureBox.h"
 
@@ -43,13 +43,13 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-protected:  // control bar embedded members
+public:  // control bar embedded members
 	CMFCRibbonBar     m_wndRibbonBar;
 	CMFCRibbonApplicationButton m_MainButton;
 	CMFCToolBarImages m_PanelImages;
 	CMFCRibbonStatusBar  m_wndStatusBar;
 	CMFCShellTreeCtrl m_wndTree;
-	CMeasureSetupView m_wndMeasureSetupView;
+	CMeasureSetupBar m_wndMeasureSetupBar;
 	CPropertiesWnd    m_wndProperties;
 	CAutoMeasureBox*  m_pAutoMeasureBox{ nullptr };
 	BOOL              m_bStartButton{ TRUE };
