@@ -14,6 +14,10 @@ CMeasureDetailedParameterFormView::CMeasureDetailedParameterFormView()
 	: CFormView(IDD_DETAILED_PARAMETER_FORMVIEW)
 	, m_nStylusForce(0)
 	, m_nSampleLength(0)
+	, m_nDuration(0)
+	, m_nResolution(0)
+	, m_nSampleDot(0)
+	, m_nScanSpeed(0)
 {
 
 }
@@ -37,6 +41,10 @@ void CMeasureDetailedParameterFormView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT_SCAN_SAMPLE2, m_editSpeed);
 	DDX_Text(pDX, IDC_EDIT_STYLUS_FORCE, m_nStylusForce);
 	DDX_Text(pDX, IDC_EDIT_SAMPLE_LENGTH, m_nSampleLength);
+	DDX_Text(pDX, IDC_EDIT_SCAN_DURATION, m_nDuration);
+	DDX_Text(pDX, IDC_EDIT_SCAN_RESOLUTION, m_nResolution);
+	DDX_Text(pDX, IDC_EDIT_SCAN_SAMPLE, m_nSampleDot);
+	DDX_Text(pDX, IDC_EDIT_SCAN_SCANSPEED, m_nScanSpeed);
 }
 
 BEGIN_MESSAGE_MAP(CMeasureDetailedParameterFormView, CFormView)
@@ -73,7 +81,26 @@ void CMeasureDetailedParameterFormView::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
 
-	// TODO: Add your specialized code here and/or call the base class
+	m_comboScanType.SetCurSel(1);
+	m_comboScanRange.SetCurSel(2);
+	m_comboScanProfile.SetCurSel(2);
+	m_comboStylusType.InsertString(0, L"r:50nm");
+	m_comboStylusType.InsertString(1, L"r:0.2¦Ìm");
+	m_comboStylusType.InsertString(1, L"r:0.7¦Ìm");
+	m_comboStylusType.InsertString(1, L"r:2¦Ìm");
+	m_comboStylusType.InsertString(1, L"r:2.5¦Ìm");
+	m_comboStylusType.InsertString(2, L"r:5¦Ìm");
+	m_comboStylusType.InsertString(3, L"r:10¦Ìm");
+	m_comboStylusType.InsertString(4, L"r:12.5¦Ìm");
+	m_comboStylusType.InsertString(5, L"r:25¦Ìm");
+	m_comboStylusType.SetCurSel(3);
+	m_nStylusForce = 3.0;
+	m_nSampleLength = 2000;
+	m_nResolution = 0.666;
+	m_nSampleDot = 300;
+	m_nScanSpeed = 200;
+
+	UpdateData(0);
 }
 
 

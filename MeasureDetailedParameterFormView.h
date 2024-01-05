@@ -36,6 +36,7 @@ public:
 	CComboBox m_comboScanType;
 	CComboBox m_comboScanRange;
 	CComboBox m_comboScanProfile;
+	// Should be read from database in future
 	CComboBox m_comboStylusType;
 	CDigitalEdit m_editStylusForce;
 	CDigitalEdit m_editSampleLength;
@@ -53,6 +54,10 @@ public:
 	afx_msg void OnEnKillfocusEditSampleLength();
 	UINT m_nSampleLength;
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
+	UINT m_nDuration;
+	double m_nResolution;
+	UINT m_nSampleDot;
+	UINT m_nScanSpeed;
 };
 
 

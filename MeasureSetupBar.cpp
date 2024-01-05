@@ -38,15 +38,16 @@ int CMeasureSetupBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rectDummy.SetRectEmpty();
 
 	// Create views:
-	m_pwndMeasureParamView = new CMeasureParamFormView;
-	if (!m_pwndMeasureParamView->Create(NULL, L"测量参数设置", AFX_WS_DEFAULT_VIEW, rectDummy, this, AFX_IDW_PANE_FIRST, NULL))
+	m_pwndDetailedView = new CMeasureDetailedParameterFormView;
+	DWORD dwStyle = WS_CHILD | WS_VISIBLE;
+	if (!m_pwndDetailedView->Create(NULL, L"详细测量参数设置", dwStyle, rectDummy, this, AFX_IDW_PANE_FIRST + 1, NULL))
 	{
-		TRACE0("Failed to create Measure Parameter View\n");
+		TRACE0("Failed to create Detailed Measure Parameter View\n");
 		return -1;      // fail to create
 	}
 
-	m_pwndDetailedView = new CMeasureDetailedParameterFormView;
-	if (!m_pwndDetailedView->Create(NULL, L"详细测量参数设置", AFX_WS_DEFAULT_VIEW, rectDummy, this, AFX_IDW_PANE_FIRST, NULL))
+	m_pwndAdvancedView = new CAdvancedParameterFormView;
+	if (!m_pwndAdvancedView->Create(NULL, L"详细测量参数设置", dwStyle, rectDummy, this, AFX_IDW_PANE_FIRST + 2, NULL))
 	{
 		TRACE0("Failed to create Detailed Measure Parameter View\n");
 		return -1;      // fail to create
@@ -66,14 +67,16 @@ void CMeasureSetupBar::OnSetFocus(CWnd* pOldWnd)
 {
 	CMFCTasksPane::OnSetFocus(pOldWnd);
 
-	m_pwndMeasureParamView->SetFocus();
+	m_pwndDetailedView->SetFocus();
 }
 
 void CMeasureSetupBar::OnChangeVisualStyle()
 {
-	int nGroup1 = AddGroup(_T("基本探测参数设置"), FALSE, TRUE);
-	AddWindow(nGroup1, m_pwndMeasureParamView->GetSafeHwnd(), 600);
+	int nGroup1 = AddGroup(_T("详细探测参数设置"), FALSE, TRUE);
+	//AddWindow(nGroup1, m_pwndMeasureParamView->GetSafeHwnd(), 600);
+	AddWindow(nGroup1, m_pwndDetailedView->GetSafeHwnd(), 420);
+//	CollapseGroup(nGroup1, FALSE);
 
-	int nGroup2 = AddGroup(_T("详细参数设置"));
-	AddWindow(nGroup2, m_pwndDetailedView->GetSafeHwnd(), 400);
+	int nGroup2 = AddGroup(_T("高级设置"), TRUE);
+	AddWindow(nGroup2, m_pwndAdvancedView->GetSafeHwnd(), 720);
 }

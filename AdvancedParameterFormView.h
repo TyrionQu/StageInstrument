@@ -8,7 +8,7 @@ class CAdvancedParameterFormView : public CFormView
 {
 	DECLARE_DYNCREATE(CAdvancedParameterFormView)
 
-protected:
+public:
 	CAdvancedParameterFormView();           // protected constructor used by dynamic creation
 	virtual ~CAdvancedParameterFormView();
 
@@ -27,6 +27,8 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
 };
 
 

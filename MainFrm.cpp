@@ -90,6 +90,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
+	m_wndBasicParamPane.EnableDocking(CBRS_ALIGN_LEFT);
+	DockPane(&m_wndBasicParamPane);
 	m_wndMeasureSetupBar.EnableDocking(CBRS_ALIGN_LEFT);
 	DockPane(&m_wndMeasureSetupBar);
 	// It will introduce assert warning if try to fix pane windows
@@ -170,14 +172,19 @@ BOOL CMainFrame::CreateDockingWindows()
 {
 	// Create class view
 	CString strParamView(L"设置测量参数");
-	if (!m_wndMeasureSetupBar.Create(strParamView, this, CRect(0, 0, 280, 200), 
+	if (!m_wndBasicParamPane.Create(strParamView, this, CRect(0, 0, 260, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Failed to create Basic Measure Parameter window\n");
+		return FALSE;
+	}
+	if (!m_wndMeasureSetupBar.Create(strParamView, this, CRect(0, 0, 516, 200), 
 		TRUE,
 		ID_VIEW_CLASSVIEW,
 		WS_CHILD | WS_VISIBLE | CBRS_LEFT | CBRS_HIDE_INPLACE | WS_CAPTION,
 		AFX_CBRS_OUTLOOK_TABS, 
 		AFX_CBRS_CLOSE | AFX_CBRS_RESIZE))
 	{
-		TRACE0("Failed to create Measure Parameter window\n");
+		TRACE0("Failed to create Advanced Measure Parameter window\n");
 		return FALSE; // failed to create
 	}
 

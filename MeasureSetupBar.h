@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include "MeasureParamFormView.h"
 #include "MeasureDetailedParameterFormView.h"
 #include "AdvancedParameterFormView.h"
+
 
 class CMeasureSetupBar : public CMFCTasksPane
 {
@@ -15,11 +15,10 @@ public:
 
 protected:
 	// CFormView must be pointer, which will release in parent class automatically
-	CMeasureParamFormView* m_pwndMeasureParamView{ nullptr };
 	CMeasureDetailedParameterFormView* m_pwndDetailedView{ nullptr };
 	CAdvancedParameterFormView* m_pwndAdvancedView{ nullptr };
 
-// Overrides
+	// Overrides
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	// Disable resize dockable pane

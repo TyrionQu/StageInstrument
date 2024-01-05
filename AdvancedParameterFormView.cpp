@@ -47,3 +47,9 @@ void CAdvancedParameterFormView::Dump(CDumpContext& dc) const
 
 
 // CAdvancedParameterFormView message handlers
+
+
+BOOL CAdvancedParameterFormView::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext)
+{
+	return CFormView::Create(lpszClassName, lpszWindowName, dwStyle, rect, pParentWnd, nID, pContext);
+}

@@ -13,7 +13,7 @@
 //
 
 #pragma once
-#include "FileView.h"
+#include "BasicParameterPane.h"
 #include "MeasureSetupBar.h"
 #include "PropertiesWnd.h"
 #include "AutoMeasureBox.h"
@@ -49,7 +49,8 @@ public:  // control bar embedded members
 	CMFCToolBarImages m_PanelImages;
 	CMFCRibbonStatusBar  m_wndStatusBar;
 	CMFCShellTreeCtrl m_wndTree;
-	CMeasureSetupBar m_wndMeasureSetupBar;
+	CBasicParameterPane  m_wndBasicParamPane;
+	CMeasureSetupBar  m_wndMeasureSetupBar;
 	CPropertiesWnd    m_wndProperties;
 	CAutoMeasureBox*  m_pAutoMeasureBox{ nullptr };
 	BOOL              m_bStartButton{ TRUE };

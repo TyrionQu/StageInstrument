@@ -193,7 +193,7 @@
     <ClInclude Include="MeasureSetupBar.h" />
     <ClInclude Include="ColorStatic.h" />
     <ClInclude Include="DigitalEdit.h" />
-    <ClInclude Include="FileView.h" />
+    <ClInclude Include="BasicParameterPane.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="graph\coords.h" />
     <ClInclude Include="graph\f2doff.h" />
@@ -232,7 +232,7 @@
     <ClCompile Include="MeasureSetupBar.cpp" />
     <ClCompile Include="ColorStatic.cpp" />
     <ClCompile Include="DigitalEdit.cpp" />
-    <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="BasicParameterPane.cpp" />
     <ClCompile Include="graph\coords.cpp" />
     <ClCompile Include="graph\f2doff.cpp" />
     <ClCompile Include="graph\gen_prop_dlgs.cpp" />
