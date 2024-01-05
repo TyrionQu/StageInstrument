@@ -62,6 +62,8 @@ public:
 
     void DoRedraw(CDC* dc, LPCRECT r);
     void DrawAxis(CDC* pDC, CRect& rect_to_draw);
+    void DrawAxisEX(CDC* pDC, CRect& rect_to_draw);
+    void DrawSin(CDC* pDC, CRect& rect_to_draw);
     void UpdateGraphWindow(LPCRECT rect);
     void DrawToDC(CDC* dc_to_draw, CRect& rect_to_draw);
     int GetSquareSide(CDC* dest_dc);
