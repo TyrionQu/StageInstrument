@@ -351,6 +351,24 @@
     <Image Include="res\DeviceStatus_hc.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\tower_up.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tower_down.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tower_home.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\load_sample.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\unload_sample.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\make_horizontal.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ribbon.mfcribbon-ms">
