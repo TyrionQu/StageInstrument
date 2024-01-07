@@ -20,6 +20,8 @@ protected:
 
 	// Overrides
 public:
+	UINT m_nAdvanceGroup{ 0 };
+	UINT m_nDetaiedGroup{ 0 };
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	// Disable resize dockable pane
 //	virtual BOOL IsResizable() const { return FALSE; }

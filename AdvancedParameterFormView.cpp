@@ -53,3 +53,12 @@ BOOL CAdvancedParameterFormView::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindo
 {
 	return CFormView::Create(lpszClassName, lpszWindowName, dwStyle, rect, pParentWnd, nID, pContext);
 }
+
+
+void CAdvancedParameterFormView::OnInitialUpdate()
+{
+	if (m_bInitialized) return;
+	m_bInitialized = TRUE;
+
+	CFormView::OnInitialUpdate();
+}

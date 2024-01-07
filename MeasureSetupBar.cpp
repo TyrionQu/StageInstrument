@@ -45,6 +45,7 @@ int CMeasureSetupBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create Detailed Measure Parameter View\n");
 		return -1;      // fail to create
 	}
+	m_pwndDetailedView->OnInitialUpdate();
 
 	m_pwndAdvancedView = new CAdvancedParameterFormView;
 	if (!m_pwndAdvancedView->Create(NULL, L"详细测量参数设置", dwStyle, rectDummy, this, AFX_IDW_PANE_FIRST + 2, NULL))
@@ -52,6 +53,7 @@ int CMeasureSetupBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create Detailed Measure Parameter View\n");
 		return -1;      // fail to create
 	}
+	m_pwndAdvancedView->OnInitialUpdate();
 
 	OnChangeVisualStyle();
 
@@ -72,11 +74,11 @@ void CMeasureSetupBar::OnSetFocus(CWnd* pOldWnd)
 
 void CMeasureSetupBar::OnChangeVisualStyle()
 {
-	int nGroup1 = AddGroup(_T("详细探测参数设置"), FALSE, TRUE);
+	m_nDetaiedGroup = AddGroup(_T("详细探测参数设置"), FALSE, TRUE);
 	//AddWindow(nGroup1, m_pwndMeasureParamView->GetSafeHwnd(), 600);
-	AddWindow(nGroup1, m_pwndDetailedView->GetSafeHwnd(), 420);
+	AddWindow(m_nDetaiedGroup, m_pwndDetailedView->GetSafeHwnd(), 420);
 //	CollapseGroup(nGroup1, FALSE);
 
-	int nGroup2 = AddGroup(_T("高级设置"), TRUE);
-	AddWindow(nGroup2, m_pwndAdvancedView->GetSafeHwnd(), 720);
+	m_nAdvanceGroup = AddGroup(_T("高级设置"), TRUE);
+	AddWindow(m_nAdvanceGroup, m_pwndAdvancedView->GetSafeHwnd(), 720);
 }

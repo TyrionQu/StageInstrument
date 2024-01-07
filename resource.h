@@ -156,9 +156,9 @@
 #define IDC_CHECK_SAVE_WARNING          1055
 #define IDC_EDIT_SCAN_SAMPLE            1056
 #define IDC_EDIT_FILENAME               1056
-#define IDC_EDIT_SCAN_SAMPLE2           1057
 #define IDC_BUTTON_BROWSE_FILENAME      1057
 #define IDC_EDIT_SCAN_SCANSPEED         1057
+#define IDC_EDIT_SCAN_SPEED             1057
 #define IDC_BUTTON_INSERT_MACRO         1058
 #define IDC_EDIT_USERDATA_TITLE         1059
 #define IDC_BUTTON_INSERT_MACRO2        1060
@@ -180,13 +180,14 @@
 #define ID_BTN_START                    32775
 #define ID_BTN_PAUSE                    32777
 #define ID_BTN_STOP                     32778
+#define ID_BTN_SCAN_SETTINGS            32779
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        520
-#define _APS_NEXT_COMMAND_VALUE         32779
+#define _APS_NEXT_COMMAND_VALUE         32780
 #define _APS_NEXT_CONTROL_VALUE         1066
 #define _APS_NEXT_SYMED_VALUE           600
 #endif

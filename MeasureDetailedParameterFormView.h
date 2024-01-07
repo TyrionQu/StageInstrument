@@ -25,6 +25,7 @@ public:
 #endif
 
 private:
+	BOOL m_bInitialized{ FALSE };
 	void UpdateForceEdit(BOOL bEditing = FALSE);
 	void UpdateScanLength(BOOL bEditing = FALSE);
 

@@ -38,13 +38,13 @@ void CMeasureDetailedParameterFormView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT_SCAN_DURATION, m_editScanDuration);
 	DDX_Control(pDX, IDC_EDIT_SCAN_RESOLUTION, m_editResolution);
 	DDX_Control(pDX, IDC_EDIT_SCAN_SAMPLE, m_editSampleRate);
-	DDX_Control(pDX, IDC_EDIT_SCAN_SAMPLE2, m_editSpeed);
+	DDX_Control(pDX, IDC_EDIT_SCAN_SPEED, m_editSpeed);
 	DDX_Text(pDX, IDC_EDIT_STYLUS_FORCE, m_nStylusForce);
 	DDX_Text(pDX, IDC_EDIT_SAMPLE_LENGTH, m_nSampleLength);
 	DDX_Text(pDX, IDC_EDIT_SCAN_DURATION, m_nDuration);
 	DDX_Text(pDX, IDC_EDIT_SCAN_RESOLUTION, m_nResolution);
 	DDX_Text(pDX, IDC_EDIT_SCAN_SAMPLE, m_nSampleDot);
-	DDX_Text(pDX, IDC_EDIT_SCAN_SCANSPEED, m_nScanSpeed);
+	DDX_Text(pDX, IDC_EDIT_SCAN_SPEED, m_nScanSpeed);
 }
 
 BEGIN_MESSAGE_MAP(CMeasureDetailedParameterFormView, CFormView)
@@ -79,6 +79,8 @@ void CMeasureDetailedParameterFormView::Dump(CDumpContext& dc) const
 
 void CMeasureDetailedParameterFormView::OnInitialUpdate()
 {
+	if (m_bInitialized) return;
+	m_bInitialized = TRUE;
 	CFormView::OnInitialUpdate();
 
 	m_comboScanType.SetCurSel(1);

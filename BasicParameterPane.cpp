@@ -27,7 +27,6 @@ BEGIN_MESSAGE_MAP(CBasicParameterPane, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
-	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
 
@@ -51,9 +50,7 @@ int CBasicParameterPane::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create Measure Parameter View\n");
 		return -1;      // fail to create
 	}
-
-	// Load view images:
-	//m_pwndMeasureParamView->Create(IDB_FILE_VIEW, 16, 0, RGB(255, 0, 255));
+	m_pwndMeasureParamView->OnInitialUpdate();
 
 	OnChangeVisualStyle();
 
@@ -86,13 +83,6 @@ void CBasicParameterPane::AdjustLayout()
 
 //	m_wndToolBar.SetWindowPos(nullptr, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
 	m_pwndMeasureParamView->SetWindowPos(nullptr, rectClient.left + 1, rectClient.top + 1, rectClient.Width() - 2, rectClient.Height() - 2, SWP_NOACTIVATE | SWP_NOZORDER);
-}
-
-void CBasicParameterPane::OnPaint()
-{
-	CPaintDC dc(this); // device context for painting
-
-	CRect rectTree;
 }
 
 void CBasicParameterPane::OnSetFocus(CWnd* pOldWnd)

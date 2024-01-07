@@ -38,6 +38,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_UPDATE_COMMAND_UI(ID_BTN_PAUSE, &CMainFrame::OnUpdateBtnPause)
 	ON_UPDATE_COMMAND_UI(ID_BTN_START, &CMainFrame::OnUpdateBtnStart)
 	ON_UPDATE_COMMAND_UI(ID_BTN_STOP, &CMainFrame::OnUpdateBtnStop)
+	ON_COMMAND(ID_BTN_SCAN_SETTINGS, &CMainFrame::OnBtnScanSettings)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -81,19 +82,19 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableAutoHidePanes(CBRS_ALIGN_ANY);
 
 	// Navigation pane will be created at left, so temporary disable docking at the left side:
-	EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM | CBRS_ALIGN_RIGHT);
+//	EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM | CBRS_ALIGN_RIGHT);
 
 	// create docking windows
-	if (!CreateDockingWindows())
-	{
-		TRACE0("Failed to create docking windows\n");
-		return -1;
-	}
+//	if (!CreateDockingWindows())
+//	{
+//		TRACE0("Failed to create docking windows\n");
+//		return -1;
+//	}
 
-	m_wndBasicParamPane.EnableDocking(CBRS_ALIGN_LEFT);
-	DockPane(&m_wndBasicParamPane);
-	m_wndMeasureSetupBar.EnableDocking(CBRS_ALIGN_LEFT);
-	DockPane(&m_wndMeasureSetupBar);
+//	m_wndBasicParamPane.EnableDocking(CBRS_ALIGN_LEFT);
+//	DockPane(&m_wndBasicParamPane);
+//	m_wndMeasureSetupBar.EnableDocking(CBRS_ALIGN_LEFT);
+//	DockPane(&m_wndMeasureSetupBar);
 	// It will introduce assert warning if try to fix pane windows
 	// the following two lines will resolve it.
 	// But it cause another problem, which will redraw view in unexpected position.
@@ -101,13 +102,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 //	CDockingManager* pDockManager = GetDockingManager();
 //	pDockManager->AddPane(&m_wndMeasureSetupBar);
 
-	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndProperties);
+//	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
+//	DockPane(&m_wndProperties);
 
 
 	// Outlook bar is created and docking on the left side should be allowed.
-	EnableDocking(CBRS_ALIGN_LEFT);
-	EnableAutoHidePanes(CBRS_ALIGN_RIGHT);
+//	EnableDocking(CBRS_ALIGN_LEFT);
+//	EnableAutoHidePanes(CBRS_ALIGN_RIGHT);
 	// set the visual manager and style based on persisted value
 	CWaitCursor wait;
 	CMFCVisualManagerOffice2007::SetStyle(CMFCVisualManagerOffice2007::Office2007_LunaBlue);
@@ -172,21 +173,6 @@ BOOL CMainFrame::CreateDockingWindows()
 {
 	// Create class view
 	CString strParamView(L"设置测量参数");
-	if (!m_wndBasicParamPane.Create(strParamView, this, CRect(0, 0, 260, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
-	{
-		TRACE0("Failed to create Basic Measure Parameter window\n");
-		return FALSE;
-	}
-	if (!m_wndMeasureSetupBar.Create(strParamView, this, CRect(0, 0, 516, 200), 
-		TRUE,
-		ID_VIEW_CLASSVIEW,
-		WS_CHILD | WS_VISIBLE | CBRS_LEFT | CBRS_HIDE_INPLACE | WS_CAPTION,
-		AFX_CBRS_OUTLOOK_TABS, 
-		AFX_CBRS_CLOSE | AFX_CBRS_RESIZE))
-	{
-		TRACE0("Failed to create Advanced Measure Parameter window\n");
-		return FALSE; // failed to create
-	}
 
 	// Create properties window
 	CString strPropertiesWnd;
@@ -304,4 +290,59 @@ void CMainFrame::OnUpdateBtnStart(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateBtnStop(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_bStopButton);
+}
+
+
+void CMainFrame::OnBtnScanSettings()
+{
+	if (m_wndBasicParamPane.GetSafeHwnd())
+	{
+		BOOL bShow = !(m_wndBasicParamPane.IsVisible());
+		m_wndBasicParamPane.ShowPane(bShow, FALSE, TRUE);
+		RecalcLayout();
+		return;
+	}
+
+	CString strParamView(L"设置测量参数");
+	UINT nID = ID_BASIC_SCAN_PARAMETER_PANE;
+	if (!m_wndBasicParamPane.Create(strParamView, this, CRect(0, 0, 260, 200), TRUE, nID, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Failed to create Basic Measure Parameter window\n");
+		return;
+	}
+	m_wndBasicParamPane.EnableDocking(CBRS_ALIGN_LEFT);
+	DockPane(&m_wndBasicParamPane, AFX_IDW_DOCKBAR_LEFT);
+	ShowPane(&m_wndBasicParamPane, TRUE, FALSE, TRUE);
+	RecalcLayout();
+}
+
+void CMainFrame::TiggerAdvancedSetting(UINT nOption)
+{
+	// 0 for detailed setting, 1 for advanced setting
+	if (m_wndMeasureSetupBar.GetSafeHwnd())
+	{
+		m_wndMeasureSetupBar.ShowPane(TRUE, FALSE, TRUE);
+		if (nOption > 1) return;
+		m_wndMeasureSetupBar.CollapseGroup(nOption, FALSE);
+		RecalcLayout();
+		return;
+	}
+	CString strParamView(L"高级测量参数");
+	UINT nID = ID_ADVANCED_PARAMETER_PANE;
+	if (!m_wndMeasureSetupBar.Create(strParamView, this, CRect(0, 0, 516, 200),
+		TRUE, nID,
+		WS_CHILD | WS_VISIBLE | CBRS_LEFT | CBRS_HIDE_INPLACE | WS_CAPTION,
+		AFX_CBRS_OUTLOOK_TABS,
+		AFX_CBRS_CLOSE))
+	{
+		TRACE0("Failed to create Advanced Measure Parameter window\n");
+		return; // failed to create
+	}
+	m_wndMeasureSetupBar.EnableDocking(CBRS_ALIGN_LEFT);
+	DockPane(&m_wndMeasureSetupBar, AFX_IDW_DOCKBAR_LEFT);
+	ShowPane(&m_wndMeasureSetupBar, TRUE, FALSE, TRUE);
+	if (nOption > 1) return;
+	m_wndMeasureSetupBar.CollapseAllGroups();
+	m_wndMeasureSetupBar.CollapseGroup(nOption, FALSE);
+	RecalcLayout();
 }

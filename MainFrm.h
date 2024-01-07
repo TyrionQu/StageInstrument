@@ -75,6 +75,8 @@ public:
 	afx_msg void OnUpdateBtnPause(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateBtnStart(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateBtnStop(CCmdUI* pCmdUI);
+	afx_msg void OnBtnScanSettings();
+	void TiggerAdvancedSetting(UINT nOption);
 };
 
 

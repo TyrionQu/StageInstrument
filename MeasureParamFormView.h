@@ -9,6 +9,7 @@ class CMeasureParamFormView : public CFormView
 	DECLARE_DYNCREATE(CMeasureParamFormView)
 
 public:
+	BOOL m_bInitialized{ FALSE };
 	CMeasureParamFormView();           // protected constructor used by dynamic creation
 	virtual ~CMeasureParamFormView();
 
@@ -26,7 +27,6 @@ public:
 private:
 	void UpdateForceEdit(BOOL bEditing = FALSE);
 	void UpdateScanLength(BOOL bEditing = FALSE);
-	void ResizeParentPane();
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

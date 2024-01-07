@@ -5,6 +5,8 @@
 #include "StageInstrument.h"
 #include "MeasureParamFormView.h"
 
+#include "MainFrm.h"
+
 
 // CMeasureParamFormView
 
@@ -70,6 +72,8 @@ void CMeasureParamFormView::Dump(CDumpContext& dc) const
 
 void CMeasureParamFormView::OnInitialUpdate()
 {
+	if (m_bInitialized) return;
+	m_bInitialized = TRUE;
 	CFormView::OnInitialUpdate();
 	EnableScrollBarCtrl(SB_BOTH, FALSE);
 	SetScrollSizes(MM_TEXT, CSize(0, 0));
@@ -231,29 +235,21 @@ void CMeasureParamFormView::UpdateScanLength(BOOL bEditing)
 }
 
 
-void CMeasureParamFormView::ResizeParentPane()
-{
-	if (m_bExtendedPane)
-		return;
-	m_bExtendedPane = TRUE;
-
-	// 
-}
-
-
 void CMeasureParamFormView::OnBnClickedBtnMeasureOptions()
 {
-	ResizeParentPane();
-
 	// Show detailed measure options pane
+	CMainFrame *pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	if (pMainFrame)
+		pMainFrame->TiggerAdvancedSetting(pMainFrame->m_wndMeasureSetupBar.m_nDetaiedGroup);
 }
 
 
 void CMeasureParamFormView::OnBnClickedBtnAdvanceOptions()
 {
-	ResizeParentPane();
-
 	// Show advanced options pane
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	if (pMainFrame)
+		pMainFrame->TiggerAdvancedSetting(pMainFrame->m_wndMeasureSetupBar.m_nAdvanceGroup);
 }
 
 
