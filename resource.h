@@ -96,6 +96,12 @@
 #define IDB_DEVICE_STATUS_HC            514
 #define IDD_DETAILED_PARAMETER_FORMVIEW 515
 #define IDD_ADVANCED_PARAMETER_FORMVIEW 518
+#define IDB_TOWER_UP                    519
+#define IDB_TOWER_DOWN                  520
+#define IDB_TOWER_HOME                  521
+#define IDB_LOAD_SAMPLE                 522
+#define IDB_UNLOAD_SAMPLE               523
+#define IDB_MAKE_HORIZONTAL             524
 #define IDC_OPTIONS_TAB                 1000
 #define IDC_SLIDER_ZOOM                 1001
 #define IDC_SLIDER_INTENSITY            1002
@@ -172,6 +178,7 @@
 #define IDC_EDIT_CMDLINE_PARAMETER      1068
 #define IDC_BUTTON_INSERT_MACRO5        1069
 #define IDC_CHECK_WAIT_EXIT             1070
+#define IDC_CAMERA_DISPLAY              1071
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_OPEN                         32771
 #define ID_OPEN_WITH                    32772
@@ -186,9 +193,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        520
+#define _APS_NEXT_RESOURCE_VALUE        524
 #define _APS_NEXT_COMMAND_VALUE         32780
-#define _APS_NEXT_CONTROL_VALUE         1066
+#define _APS_NEXT_CONTROL_VALUE         1071
 #define _APS_NEXT_SYMED_VALUE           600
 #endif
 #endif
