@@ -4,11 +4,11 @@
 //
 
 //all followinf sizes are in logical units
-const double FRulerWidth = 1 / 6.0;
+const double FRulerWidth = 1 /4.8;
 
-const double FFontSize = FRulerWidth / 1.13;
+const double FFontSize = FRulerWidth / 1.4125;
 const double FBigMarkSize = FRulerWidth / 4;
-const double FSmallMarkSize = FRulerWidth / 4;
+const double FSmallMarkSize = FRulerWidth / 6;
 
 
 #ifdef _DEBUG
@@ -39,6 +39,11 @@ FRuler::FRuler() : CWnd()
 	MainFontRec.lfPitchAndFamily = FF_ROMAN | VARIABLE_PITCH;
 	MainFontRec.lfFaceName[0] = '\0';
 	sUnit = _T("");
+	zeroPosition = 0; 
+	unit_display_length = 0.1;
+	minUnit_pix_length = 15;
+	unit_divisor = 5;//number of small grids
+	rect_has_drawn = CRect(0,0,0,0);
 }
 
 FRuler::~FRuler()
@@ -135,6 +140,13 @@ int FRuler::ConvertLogPixToRealPix(CDC* dest_dc, double log_pix_num, BOOL b_x_ax
 	return res;
 }
 
+void FRuler::SetUnitAttributes(int izeroPosition, double iunit_display_length, int iminUnit_pix_length, int iunit_divisor)
+{
+	zeroPosition = izeroPosition;
+	unit_display_length = iunit_display_length;
+	minUnit_pix_length = iminUnit_pix_length;
+	unit_divisor = iunit_divisor;
+}
 /////////////////////////////////////////////////////////////////////////////
 // FHRuler
 
@@ -185,6 +197,8 @@ int FHRuler::GetNMax(CDC* dc_to_draw, CRect rect_to_draw)
 
 void FHRuler::DrawRuler(CDC* dc_to_draw, CRect rect_to_draw)
 {
+	DrawRulerEX(dc_to_draw, rect_to_draw);
+	return;
 	int ruler_width = Width(dc_to_draw);
 	int MinShift = ruler_width;
 	int MaxShift = 0;
@@ -286,6 +300,121 @@ void FHRuler::DrawRuler(CDC* dc_to_draw, CRect rect_to_draw)
 	};
 }
 
+void FHRuler::DrawRulerEX(CDC* dc_to_draw, CRect rect_to_draw)
+{
+	if (!NeedRedraw(dc_to_draw,rect_to_draw))
+	{
+		rect_has_drawn = rect_to_draw;
+		return;
+	}
+	CRect rect_to_draw2 = rect_to_draw;
+
+	int ruler_width = Width(dc_to_draw);
+	int MinShift = ruler_width;
+	int MaxShift = 0;
+	int unitPixLength = minUnit_pix_length * unit_divisor;
+	int oldRulerLength = rect_has_drawn.right - MinShift;
+	CRect rectNeedDraw = rect_to_draw;
+	CPen* OldPen = (CPen*)dc_to_draw->SelectStockObject(NULL_PEN);
+	CBrush* OldBrush = (CBrush*)dc_to_draw->SelectStockObject(LTGRAY_BRUSH);
+	// Filling Rectangle
+	/*if (oldRulerLength > 0)
+	{
+		int oldGridNum = (rect_has_drawn.right - MinShift) / unitPixLength;
+		if ()
+		rectNeedDraw.left = rect_to_draw.left + MinShift + oldGridNum * unitPixLength;
+	}*/
+
+	rectNeedDraw.right += 1;
+	rectNeedDraw.bottom += 1;
+	dc_to_draw->Rectangle(rectNeedDraw);
+
+    rect_to_draw.right -= 1;
+	rect_to_draw.bottom -= 1;
+	dc_to_draw->SelectStockObject(BLACK_PEN);
+	dc_to_draw->MoveTo(rect_to_draw.left + MinShift, rect_to_draw.bottom);
+	dc_to_draw->LineTo(rect_to_draw.right, rect_to_draw.bottom);
+	dc_to_draw->LineTo(rect_to_draw.right, rect_to_draw.top);
+	dc_to_draw->SelectStockObject(WHITE_PEN);
+	dc_to_draw->LineTo(rect_to_draw.left + MinShift, rect_to_draw.top);
+	dc_to_draw->LineTo(rect_to_draw.left + MinShift, rect_to_draw.bottom);
+	if (rect_to_draw.bottom >= rect_to_draw.top + ruler_width - 1 && rect_to_draw.right - rect_to_draw.left > MinShift + MaxShift + 5)
+	{
+		// Counting grid value
+		CString s;
+		s = _T("9.99 ");
+		CString UnitName = sUnit + _T("-10");
+
+		TEXTMETRIC TM;
+		tagSIZE Sz, UnitNameSize;
+		CFont* newfont;
+		newfont = new CFont();
+		MainFontRec.lfEscapement = 0;
+		MainFontRec.lfOrientation = 0;
+		MainFontRec.lfHeight = ConvertLogPixToRealPix(dc_to_draw, FFontSize, FALSE);
+		MainFontRec.lfWidth = 0;
+		newfont->CreateFontIndirect(&MainFontRec);
+		CFont* OldFont = (CFont*)dc_to_draw->SelectObject(newfont);
+		dc_to_draw->GetTextMetrics(&TM);
+		GetTextExtentPoint32(dc_to_draw->m_hAttribDC, LPCTSTR(s), s.GetLength(), &Sz);
+		GetTextExtentPoint32(dc_to_draw->m_hAttribDC, LPCTSTR(UnitName), UnitName.GetLength(), &UnitNameSize);
+		UnitNameSize.cx += ConvertLogPixToRealPix(dc_to_draw, FRulerWidth / 10, FALSE);
+
+	
+		// drawing grid points
+		dc_to_draw->SelectStockObject(BLACK_PEN);
+		dc_to_draw->SetBkMode(TRANSPARENT);
+		
+		int CurrentX = rect_to_draw.left + MinShift;
+		double CurrentValue = 0.0 - zeroPosition*unit_display_length;
+		while ( CurrentX <= rect_to_draw.right - MaxShift )
+		{
+			//big marks
+			dc_to_draw->MoveTo(CurrentX, rect_to_draw.bottom);
+			dc_to_draw->LineTo(CurrentX, rect_to_draw.bottom - ConvertLogPixToRealPix(dc_to_draw, FBigMarkSize, FALSE));
+			//write text above big marks
+			s.Format(_T("%.1f"), CurrentValue);
+			GetTextExtentPoint32(dc_to_draw->m_hAttribDC, LPCTSTR(s), s.GetLength(), &Sz);
+			if (CurrentX - (Sz.cx >> 1) > rect_to_draw.left + MinShift && CurrentX + (Sz.cx >> 1) < rect_to_draw.right)
+			{
+				//  Draw current measuring unit
+				dc_to_draw->TextOut(CurrentX - (Sz.cx >> 1), rect_to_draw.bottom - (int)(TM.tmHeight * 1.2), s);
+			}
+			CurrentValue += unit_display_length;
+			//little marks
+			CurrentX += minUnit_pix_length;
+			for (int i = 1; i < unit_divisor && CurrentX <= rect_to_draw.right - MaxShift; i++)
+			{
+				dc_to_draw->MoveTo(CurrentX, rect_to_draw.bottom);
+				dc_to_draw->LineTo(CurrentX, rect_to_draw.bottom - ConvertLogPixToRealPix(dc_to_draw, FSmallMarkSize, FALSE));
+				CurrentX += minUnit_pix_length;
+			};
+		}
+
+		dc_to_draw->SelectObject(OldFont);
+		delete newfont;
+	};
+	rect_has_drawn = rect_to_draw2;
+}
+BOOL FHRuler::NeedRedraw(CDC* dc_to_draw, CRect rect_to_draw)
+{
+	if (rect_has_drawn == rect_to_draw)
+		return FALSE;
+	if (rect_has_drawn.right > rect_to_draw.right
+		&& rect_has_drawn.left == rect_to_draw.left
+		&& rect_has_drawn.top == rect_to_draw.top
+		&& rect_has_drawn.bottom == rect_to_draw.bottom)
+	{
+		rect_to_draw.right -= 1;
+		rect_to_draw.bottom -= 1;
+		dc_to_draw->SelectStockObject(BLACK_PEN);
+		dc_to_draw->MoveTo(rect_to_draw.right, rect_to_draw.bottom);
+		dc_to_draw->LineTo(rect_to_draw.right, rect_to_draw.top);
+		return FALSE;
+	}
+	return TRUE;
+}
+
 BEGIN_MESSAGE_MAP(FHRuler, FRuler)
 	//{{AFX_MSG_MAP(FRuler)
 	//}}AFX_MSG_MAP
@@ -336,6 +465,8 @@ int FVRuler::GetNMax(CDC* dc_to_draw, CRect rect_to_draw)
 
 void FVRuler::DrawRuler(CDC* dc_to_draw, CRect rect_to_draw)
 {
+	DrawRulerEX(dc_to_draw, rect_to_draw);
+	return;
 	int ruler_width = Width(dc_to_draw);
 	int MinShift = ruler_width;
 	int MaxShift = 0;
@@ -432,6 +563,86 @@ void FVRuler::DrawRuler(CDC* dc_to_draw, CRect rect_to_draw)
 
 		if (sp != NULL) delete sp;
 		if (wp != NULL) delete wp;
+
+		dc_to_draw->SelectObject(OldFont);
+		delete newfont;
+	};
+}
+
+void FVRuler::DrawRulerEX(CDC* dc_to_draw, CRect rect_to_draw)
+{
+	if (rect_has_drawn == rect_to_draw)
+		return;
+	rect_has_drawn = rect_to_draw;
+
+	int ruler_width = Width(dc_to_draw);
+	int MinShift = ruler_width;
+	int MaxShift = 0;
+
+	CPen* OldPen = (CPen*)dc_to_draw->SelectStockObject(NULL_PEN);
+	CBrush* OldBrush = (CBrush*)dc_to_draw->SelectStockObject(LTGRAY_BRUSH);
+	rect_to_draw.right += 1;
+	rect_to_draw.bottom += 1;
+	dc_to_draw->Rectangle(rect_to_draw);
+	rect_to_draw.right -= 2;
+	rect_to_draw.bottom -= 2;
+	dc_to_draw->SelectStockObject(BLACK_PEN);
+	dc_to_draw->MoveTo(rect_to_draw.left, rect_to_draw.bottom);
+	dc_to_draw->LineTo(rect_to_draw.right, rect_to_draw.bottom);
+	dc_to_draw->LineTo(rect_to_draw.right, rect_to_draw.top + MinShift);
+	dc_to_draw->SelectStockObject(WHITE_PEN);
+	dc_to_draw->LineTo(rect_to_draw.left, rect_to_draw.top + MinShift);
+	dc_to_draw->LineTo(rect_to_draw.left, rect_to_draw.bottom);
+	if (rect_to_draw.bottom - rect_to_draw.top > MinShift + MaxShift + 5 && rect_to_draw.right >= rect_to_draw.left + ruler_width - 1)
+	{
+		// Counting grid value
+		CString s;
+		s = _T("9.99 ");
+		CString UnitName = sUnit + _T("-10");
+		TEXTMETRIC TM;
+		tagSIZE Sz, UnitNameSize;
+		CFont* newfont;
+		newfont = new CFont();
+		MainFontRec.lfEscapement = 900;
+		MainFontRec.lfOrientation = 900;
+		MainFontRec.lfHeight = ConvertLogPixToRealPix(dc_to_draw, FFontSize, TRUE);
+		MainFontRec.lfWidth = 0;
+		newfont->CreateFontIndirect(&MainFontRec);
+		CFont* OldFont = (CFont*)dc_to_draw->SelectObject(newfont);
+		dc_to_draw->GetTextMetrics(&TM);
+		GetTextExtentPoint32(dc_to_draw->m_hAttribDC, LPCTSTR(s), s.GetLength(), &Sz);
+		GetTextExtentPoint32(dc_to_draw->m_hAttribDC, LPCTSTR(UnitName), UnitName.GetLength(), &UnitNameSize);
+		UnitNameSize.cx += ConvertLogPixToRealPix(dc_to_draw, FRulerWidth / 10, TRUE);
+
+		// drawing grid points
+		dc_to_draw->SelectStockObject(BLACK_PEN);
+		dc_to_draw->SetBkMode(TRANSPARENT);
+
+		int unit_pix_length = minUnit_pix_length * unit_divisor;
+		double CurrentValue = 0.0 - zeroPosition * unit_display_length;
+		int CurrentY = rect_to_draw.bottom - MaxShift;
+		while (CurrentY >= rect_to_draw.top + MinShift)
+		{
+			//big marks
+			dc_to_draw->MoveTo(rect_to_draw.right, CurrentY);
+			dc_to_draw->LineTo(rect_to_draw.right - ConvertLogPixToRealPix(dc_to_draw, FBigMarkSize, TRUE), CurrentY);
+			//write text above big marks
+			s.Format(_T("%.1f"), CurrentValue);
+			GetTextExtentPoint32(dc_to_draw->m_hAttribDC, LPCTSTR(s), s.GetLength(), &Sz);
+			if (CurrentY + (Sz.cx >> 1) < rect_to_draw.bottom && CurrentY - (Sz.cx >> 1) > rect_to_draw.top + MinShift)
+			{
+				dc_to_draw->TextOut(rect_to_draw.right - TM.tmHeight, CurrentY + (Sz.cx >> 1), s);
+			};
+			CurrentValue += unit_display_length;
+			//little marks
+			CurrentY -= minUnit_pix_length;
+			for (int i = 1; i < unit_divisor && CurrentY >= rect_to_draw.top + MinShift; i++)
+			{
+				dc_to_draw->MoveTo(rect_to_draw.right, CurrentY);
+				dc_to_draw->LineTo(rect_to_draw.right - ConvertLogPixToRealPix(dc_to_draw, FSmallMarkSize, TRUE), CurrentY);
+				CurrentY -= minUnit_pix_length;
+			};
+		}
 
 		dc_to_draw->SelectObject(OldFont);
 		delete newfont;

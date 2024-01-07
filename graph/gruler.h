@@ -17,6 +17,14 @@ public:
 	CString sUnit, sTitle;
 	CToolTipCtrl tooltip;
 
+	//Annie
+	int zeroPosition; // 0: 0,1,2,3...  1:-1,0,1,2...   2:-2,-1,0,1...   3:-3,-2,-1,0...
+	double unit_display_length;
+	int minUnit_pix_length;//small grid
+	int unit_divisor;//number of small grids
+	CRect rect_has_drawn;
+	//
+
 	// Operations
 public:
 	int ConvertLogPixToRealPix(CDC* dest_dc, double log_pix_num, BOOL b_x_axis);
@@ -25,13 +33,17 @@ public:
 	void SetNewTitles(char* newUOM, char* newTitle);
 	virtual int GetNMax(CDC* dc_to_draw, CRect rect_to_draw) { return 0; };
 	virtual void DrawRuler(CDC* dc_to_draw, CRect rect_to_draw) {};
-
+	virtual void DrawRulerX(CDC* dc_to_draw, CRect rect_to_draw) {};
 	// Overrides
 		// ClassWizard generated virtual function overrides
 		//{{AFX_VIRTUAL(FRuler)
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	//}}AFX_VIRTUAL
 
+	//Annie
+	void SetUnitAttributes(int izeroPosition, double iunit_display_length, int iminUnit_pix_length, int iunit_divisor);
+	int GetUnitPix() { return minUnit_pix_length * unit_divisor; };
+	// 
 // Implementation
 protected:
 	FRuler();
@@ -61,7 +73,8 @@ public:
 	virtual int Width(CDC* dest_dc);
 	virtual int GetNMax(CDC* dc_to_draw, CRect rect_to_draw);
 	virtual void DrawRuler(CDC* dc_to_draw, CRect rect_to_draw);
-
+	virtual void DrawRulerEX(CDC* dc_to_draw, CRect rect_to_draw);
+	BOOL NeedRedraw(CDC* dc_to_draw, CRect rect_to_draw);
 protected:
 	//{{AFX_MSG(FHRuler)
 	//}}AFX_MSG
@@ -76,6 +89,7 @@ public:
 	virtual int Width(CDC* dest_dc);
 	virtual int GetNMax(CDC* dc_to_draw, CRect rect_to_draw);
 	virtual void DrawRuler(CDC* dc_to_draw, CRect rect_to_draw);
+	virtual void DrawRulerEX(CDC* dc_to_draw, CRect rect_to_draw);
 protected:
 	//{{AFX_MSG(FVRuler)
 	//}}AFX_MSG
