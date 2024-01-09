@@ -50,6 +50,7 @@ END_MESSAGE_MAP()
 #pragma comment(lib, "input/CryptoppVikey/lib/cryptlib.lib")
 #pragma comment(lib, "input/CryptoppVikey/lib/ViKey_X64_VS2019_MT.lib")
 #pragma comment(lib, "input/CryptoppVikey/lib/atls.lib")
+#pragma comment(lib, "input/spdlog/lib/spdlog.lib")
 #endif
 
 static const UINT_PTR IDT_VIKEY_CHECK_TIMER = 1000;
@@ -85,6 +86,10 @@ CMainFrame::CMainFrame() noexcept
 	// TODO: add member initialization code here
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_OFF_2007_BLUE);
 	m_bNeedToPop = true;
+
+	// Create a file rotating logger with 50mb size max and 10 rotated files.
+	m_logger = spdlog::rotating_logger_mt("stage_instrument", "logs/stage_instrument.log", 1048576 * 50, 10);
+	spdlog::flush_every(std::chrono::seconds(1));
 }
 
 CMainFrame::~CMainFrame()
@@ -101,6 +106,8 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 		std::string receivedData(pData, dataSize);
 
 		std::cout << receivedData << std::endl;
+
+		m_logger->info("Exit app due to the updated check message.");
 
 		AfxMessageBox(_T("Detected a mandatory version update. We need to exit the main program. After installing the latest version, please restart the app."), MB_OK);
 		PostQuitMessage(0);
@@ -136,6 +143,7 @@ void CMainFrame::OnVikeyTimerEvent()
 			dwRetCode = vikey.verifyVikey("ec.public.key");
 			//std::cout << "newRetCode=" << dwRetCode << std::endl;
 			if (dwRetCode) {
+				m_logger->info("Exit app due to the vikey fail, error code is #{}", dwRetCode);
 				PostQuitMessage(0);
 			}
 		}
@@ -166,6 +174,7 @@ void CMainFrame::OnUpdateTimerEvent()
 
 	if (!res)
 	{
+		m_logger->info("Exit app due to the updater fail.");
 		AfxMessageBox(_T("Updater can't be found. We will exit the main program."), MB_OK);
 		PostQuitMessage(0);
 	}

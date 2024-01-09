@@ -16,6 +16,12 @@
 #include "CalendarBar.h"
 #include "Resource.h"
 
+#include "spdlog/sinks/rotating_file_sink.h"
+#include "spdlog/spdlog.h"
+#include "spdlog/cfg/env.h"   // support for loading levels from the environment variable
+#include "spdlog/fmt/ostr.h"  // support for user defined types
+
+
 class COutlookBar : public CMFCOutlookBar
 {
 	virtual BOOL AllowShowOnPaneMenu() const { return TRUE; }
@@ -82,6 +88,7 @@ private:
 	void OnVikeyTimerEvent();
 	void OnUpdateTimerEvent();
 	bool m_bNeedToPop;
+	std::shared_ptr<spdlog::logger> m_logger;
 };
 
 
