@@ -54,15 +54,18 @@ static const UINT_PTR IDM_UPDATE_CHECK_MESSAGE = 1002;
 static const UINT VIKEY_CHECK_INTERVAL_MS = 5000;
 static const UINT UPDATE_CHECK_INTERVAL_MS = 1000 * 3600 * 24; // one day
 
-bool IsProcessRunning(const CString& processName) {
+bool IsProcessRunning(const CString& processName)
+{
 	PROCESSENTRY32 entry;
 	entry.dwSize = sizeof(PROCESSENTRY32);
 
 	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
-	if (Process32First(snapshot, &entry)) {
+	if (Process32First(snapshot, &entry))
+	{
 		do {
-			if (_tcsicmp(entry.szExeFile, processName) == 0) {
+			if (_tcsicmp(entry.szExeFile, processName) == 0)
+			{
 				CloseHandle(snapshot);
 				return true;
 			}
@@ -100,7 +103,8 @@ void CMainFrame::OnDestroy()
 
 BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 {
-	if (pCopyDataStruct->dwData == IDM_UPDATE_CHECK_MESSAGE) {
+	if (pCopyDataStruct->dwData == IDM_UPDATE_CHECK_MESSAGE)
+	{
 		char* pData = static_cast<char*>(pCopyDataStruct->lpData);
 		DWORD dataSize = pCopyDataStruct->cbData;
 		std::string receivedData(pData, dataSize);
@@ -133,12 +137,15 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 void CMainFrame::OnVikeyTimerEvent()
 {
 	DWORD dwRetCode = m_vikey.verifyVikey("ec.public.key");
-	if (dwRetCode && m_bNeedToPop) {
+	if (dwRetCode && m_bNeedToPop)
+	{
 		m_bNeedToPop = false;
 		int result = AfxMessageBox(_T("Verify Vikey failed! Please insert the verified Vikey"), MB_OK);
-		if (result == IDOK) {
+		if (result == IDOK)
+		{
 			dwRetCode = m_vikey.verifyVikey("ec.public.key");
-			if (dwRetCode) {
+			if (dwRetCode)
+			{
 				m_logger->info("Exit app due to the vikey fail, error code is #{}", dwRetCode);
 				PostQuitMessage(0);
 			}
@@ -152,7 +159,8 @@ void CMainFrame::OnVikeyTimerEvent()
 void CMainFrame::OnUpdateTimerEvent()
 {
 	DWORD dwRetCode = m_vikey.verifyVikey("ec.public.key");
-	if (dwRetCode) {
+	if (dwRetCode)
+	{
 		return;
 	}
 
