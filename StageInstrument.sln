@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33027.164
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StageInstrument", "StageInstrument.vcxproj", "{DCDD3090-D4DF-4306-96CD-71A8BE557C6D}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "..\Setup\Setup.vdproj", "{05E33C52-F83F-4DD9-B302-F93E3A0A9956}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{DCDD3090-D4DF-4306-96CD-71A8BE557C6D}.Release|x64.Build.0 = Release|x64
 		{DCDD3090-D4DF-4306-96CD-71A8BE557C6D}.Release|x86.ActiveCfg = Release|Win32
 		{DCDD3090-D4DF-4306-96CD-71A8BE557C6D}.Release|x86.Build.0 = Release|Win32
-		{05E33C52-F83F-4DD9-B302-F93E3A0A9956}.Debug|x64.ActiveCfg = Debug
-		{05E33C52-F83F-4DD9-B302-F93E3A0A9956}.Debug|x86.ActiveCfg = Debug
-		{05E33C52-F83F-4DD9-B302-F93E3A0A9956}.Release|x64.ActiveCfg = Release
-		{05E33C52-F83F-4DD9-B302-F93E3A0A9956}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

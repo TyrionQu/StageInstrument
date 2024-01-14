@@ -34,6 +34,7 @@ IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWndEx)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_WM_CREATE()
+    ON_WM_DESTROY()
 	ON_COMMAND(ID_WINDOW_MANAGER, &CMainFrame::OnWindowManager)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
@@ -93,8 +94,15 @@ CMainFrame::CMainFrame() noexcept
 
 CMainFrame::~CMainFrame()
 {
-	KillTimer(IDT_VIKEY_CHECK_TIMER); //TODO
-	KillTimer(IDT_UPDATE_CHECK_TIMER); //TODO
+}
+
+void CMainFrame::OnDestroy()
+{
+	CMDIFrameWndEx::OnDestroy();
+
+	// TODO: Add your message handler code here
+	KillTimer(IDT_VIKEY_CHECK_TIMER);
+	KillTimer(IDT_UPDATE_CHECK_TIMER);
 }
 
 BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
@@ -104,9 +112,10 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 		DWORD dataSize = pCopyDataStruct->cbData;
 		std::string receivedData(pData, dataSize);
 
-		m_logger->info("Exit app due to the updated check message.");
-
-		AfxMessageBox(_T("Detected a mandatory version update. We need to exit the main program. After installing the latest version, please restart the app."), MB_OK);
+		std::string tip = "Exit the app! " + receivedData;
+		m_logger->info(tip);
+		CString csTip(tip.c_str());
+		AfxMessageBox(csTip, MB_OK);
 		PostQuitMessage(0);
 
 		return TRUE;
@@ -133,7 +142,7 @@ void CMainFrame::OnVikeyTimerEvent()
 	DWORD dwRetCode = m_vikey.verifyVikey("ec.public.key");
 	if (dwRetCode && m_bNeedToPop) {
 		m_bNeedToPop = false;
-		int result = AfxMessageBox(_T("Verify Vikey failed!"), MB_OK);
+		int result = AfxMessageBox(_T("Verify Vikey failed! Please insert the verified Vikey"), MB_OK);
 		if (result == IDOK) {
 			dwRetCode = m_vikey.verifyVikey("ec.public.key");
 			if (dwRetCode) {
@@ -151,7 +160,6 @@ void CMainFrame::OnUpdateTimerEvent()
 {
 	DWORD dwRetCode = m_vikey.verifyVikey("ec.public.key");
 	if (dwRetCode) {
-		m_logger->debug("Skip updater checker due to the vikey fail.");
 		return;
 	}
 

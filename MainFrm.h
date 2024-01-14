@@ -66,6 +66,7 @@ protected:  // control bar embedded members
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnDestroy();
 	afx_msg void OnWindowManager();
 	afx_msg void OnApplicationLook(UINT id);
 	afx_msg void OnUpdateApplicationLook(CCmdUI* pCmdUI);
@@ -88,9 +89,9 @@ protected:
 private:
 	void OnVikeyTimerEvent();
 	void OnUpdateTimerEvent();
+
 	bool m_bNeedToPop;
 	CryptoppVikey m_vikey;
-
 	std::shared_ptr<spdlog::logger> m_logger;
 };
 

@@ -22,11 +22,11 @@
 #include "ChildFrm.h"
 #include "StageInstrumentDoc.h"
 #include "StageInstrumentView.h"
-#include "Process.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
 
 // CStageInstrumentApp
 
@@ -154,7 +154,6 @@ BOOL CStageInstrumentApp::InitInstance()
 	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
-
 	// The main window has been initialized, so show and update it
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
