@@ -33,7 +33,7 @@ IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWndEx)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_WM_CREATE()
-    ON_WM_DESTROY()
+	ON_WM_DESTROY()
 	ON_COMMAND(ID_WINDOW_MANAGER, &CMainFrame::OnWindowManager)
 	ON_COMMAND(ID_TOOLS_OPTIONS, &CMainFrame::OnOptions)
 	ON_WM_TIMER()
@@ -52,7 +52,7 @@ static const UINT_PTR IDT_UPDATE_CHECK_TIMER = 1001;
 static const UINT_PTR IDM_UPDATE_CHECK_MESSAGE = 1002;
 
 static const UINT VIKEY_CHECK_INTERVAL_MS = 5000;
-static const UINT UPDATE_CHECK_INTERVAL_MS = 5000;
+static const UINT UPDATE_CHECK_INTERVAL_MS = 1000 * 3600 * 24; // one day
 
 bool IsProcessRunning(const CString& processName) {
 	PROCESSENTRY32 entry;
