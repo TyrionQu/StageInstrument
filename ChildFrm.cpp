@@ -47,7 +47,8 @@ CChildFrame::~CChildFrame()
 
 BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: Modify the Window class or styles here by modifying the CREATESTRUCT cs
+	cs.style &= ~WS_MINIMIZEBOX;
+	cs.style &= ~WS_MAXIMIZEBOX;
 	if( !CMDIChildWndEx::PreCreateWindow(cs) )
 		return FALSE;
 

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="2DPlot">
+      <UniqueIdentifier>{e66f3556-bc93-4254-b51a-155e6d229584}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StageInstrument.h">
@@ -48,16 +51,85 @@
     <ClInclude Include="PropertiesWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ClassView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileView.h">
+    <ClInclude Include="BasicParameterPane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ViewTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Process.h">
+	<ClInclude Include="Process.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraFormView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DigitalEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoMeasureBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorStatic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeasureOptionsBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\gruler.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\pch.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\points.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\pviewbar.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\sizecbar.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\coords.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\f2doff.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\gen_prop_dlgs.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\graph_general.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\graph_props.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\graphcombobox.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\GraphContainer.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\GraphFrame.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\graphpanel.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\GraphWnd.h">
+      <Filter>2DPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="MeasureSetupBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeasureParamFormView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeasureDetailedParameterFormView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdvancedParameterFormView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,16 +158,82 @@
     <ClCompile Include="PropertiesWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ClassView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FileView.cpp">
+    <ClCompile Include="BasicParameterPane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ViewTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Process.cpp">
+	<ClCompile Include="Process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraFormView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DigitalEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoMeasureBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorStatic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasureOptionsBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\gruler.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\points.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\pviewbar.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\sizecbar.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\coords.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\f2doff.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\gen_prop_dlgs.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\graph_general.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\graph_props.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\graphcombobox.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\GraphContainer.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\GraphFrame.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\graphpanel.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="graph\GraphWnd.cpp">
+      <Filter>2DPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasureSetupBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasureParamFormView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasureDetailedParameterFormView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AdvancedParameterFormView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -190,6 +328,51 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\explorer.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\class_view_hc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\file_view_hc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\output_wnd_hc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\properties_wnd_hc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Analysis.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Analysis.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\DeviceStatus_hc.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tower_up.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tower_down.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tower_home.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\load_sample.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\unload_sample.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\make_horizontal.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

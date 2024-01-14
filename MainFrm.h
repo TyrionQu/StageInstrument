@@ -13,8 +13,10 @@
 //
 
 #pragma once
-#include "CalendarBar.h"
-#include "Resource.h"
+#include "BasicParameterPane.h"
+#include "MeasureSetupBar.h"
+#include "PropertiesWnd.h"
+#include "AutoMeasureBox.h"
 
 #include "CryptoppVikey/CryptoppVikey.h"
 #include "spdlog/sinks/rotating_file_sink.h"
@@ -22,12 +24,6 @@
 #include "spdlog/cfg/env.h"   // support for loading levels from the environment variable
 #include "spdlog/fmt/ostr.h"  // support for user defined types
 
-
-class COutlookBar : public CMFCOutlookBar
-{
-	virtual BOOL AllowShowOnPaneMenu() const { return TRUE; }
-	virtual void GetPaneName(CString& strName) const { BOOL bNameValid = strName.LoadString(IDS_OUTLOOKBAR); ASSERT(bNameValid); if (!bNameValid) strName.Empty(); }
-};
 
 class CMainFrame : public CMDIFrameWndEx
 {
@@ -53,38 +49,43 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-protected:  // control bar embedded members
+public:  // control bar embedded members
 	CMFCRibbonBar     m_wndRibbonBar;
 	CMFCRibbonApplicationButton m_MainButton;
 	CMFCToolBarImages m_PanelImages;
 	CMFCRibbonStatusBar  m_wndStatusBar;
-	COutlookBar       m_wndNavigationBar;
 	CMFCShellTreeCtrl m_wndTree;
-	CCalendarBar      m_wndCalendar;
-	CMFCCaptionBar    m_wndCaptionBar;
+	CBasicParameterPane  m_wndBasicParamPane;
+	CMeasureSetupBar  m_wndMeasureSetupBar;
+	CPropertiesWnd    m_wndProperties;
+	CAutoMeasureBox*  m_pAutoMeasureBox{ nullptr };
+	BOOL              m_bStartButton{ TRUE };
+	BOOL              m_bPauseButton{ FALSE };
+	BOOL              m_bResume{ FALSE };
+	BOOL              m_bStopButton{ FALSE };
 
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnDestroy();
 	afx_msg void OnWindowManager();
-	afx_msg void OnApplicationLook(UINT id);
-	afx_msg void OnUpdateApplicationLook(CCmdUI* pCmdUI);
-	afx_msg void OnViewCaptionBar();
-	afx_msg void OnUpdateViewCaptionBar(CCmdUI* pCmdUI);
 	afx_msg void OnOptions();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);
 	DECLARE_MESSAGE_MAP()
 
-	BOOL CreateOutlookBar(CMFCOutlookBar& bar, UINT uiID, CMFCShellTreeCtrl& tree, CCalendarBar& calendar, int nInitialWidth);
-	BOOL CreateCaptionBar();
-
-	int FindFocusedOutlookWnd(CMFCOutlookBarTabCtrl** ppOutlookWnd);
-
-	CMFCOutlookBarTabCtrl* FindOutlookParent(CWnd* pWnd);
-	CMFCOutlookBarTabCtrl* m_pCurrOutlookWnd;
-	CMFCOutlookBarPane*    m_pCurrOutlookPage;
+	BOOL CreateDockingWindows();
+	void SetDockingWindowIcons();
+public:
+	afx_msg void OnBtnStart();
+	afx_msg void OnBtnPause();
+	afx_msg void OnBtnStop();
+	void DisableAutoMeasure();
+	afx_msg void OnUpdateBtnPause(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateBtnStart(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateBtnStop(CCmdUI* pCmdUI);
+	afx_msg void OnBtnScanSettings();
+	void TiggerAdvancedSetting(UINT nOption);
 
 private:
 	void OnVikeyTimerEvent();

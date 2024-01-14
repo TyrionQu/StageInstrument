@@ -14,6 +14,7 @@
 
 #pragma once
 
+#include "graph/GraphWnd.h"
 
 class CStageInstrumentView : public CView
 {
@@ -46,6 +47,7 @@ public:
 #endif
 
 protected:
+	CGraphWnd m_wndDrawing;
 
 // Generated message map functions
 protected:
@@ -53,6 +55,10 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual void OnInitialUpdate();
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
 
 #ifndef _DEBUG  // debug version in StageInstrumentView.cpp

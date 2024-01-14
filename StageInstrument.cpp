@@ -22,6 +22,7 @@
 #include "ChildFrm.h"
 #include "StageInstrumentDoc.h"
 #include "StageInstrumentView.h"
+#include "CameraFormView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -47,7 +48,6 @@ CStageInstrumentApp::CStageInstrumentApp() noexcept
 	m_bHiColorIcons = TRUE;
 
 
-	m_nAppLook = 0;
 	// support Restart Manager
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_ALL_ASPECTS;
 #ifdef _MANAGED
@@ -106,9 +106,7 @@ BOOL CStageInstrumentApp::InitInstance()
 	// of your final executable, you should remove from the following
 	// the specific initialization routines you do not need
 	// Change the registry key under which our settings are stored
-	// TODO: You should modify this string to be something appropriate
-	// such as the name of your company or organization
-	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+	SetRegistryKey(_T("StageInstrument"));
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
 
 
@@ -129,10 +127,21 @@ BOOL CStageInstrumentApp::InitInstance()
 	pDocTemplate = new CMultiDocTemplate(IDR_StageInstrumentTYPE,
 		RUNTIME_CLASS(CStageInstrumentDoc),
 		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
+		RUNTIME_CLASS(CCameraFormView));
+	if (!pDocTemplate)
+		return FALSE;
+	AddDocTemplate(pDocTemplate);
+	m_pCameraMDT = pDocTemplate;
+
+	pDocTemplate = new CMultiDocTemplate(IDR_StageInstrumentTYPE,
+		RUNTIME_CLASS(CStageInstrumentDoc),
+		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
 		RUNTIME_CLASS(CStageInstrumentView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);
+	m_pMeasureMDT = pDocTemplate;
+
 
 	// create main MDI Frame window
 	CMainFrame* pMainFrame = new CMainFrame;
@@ -143,17 +152,12 @@ BOOL CStageInstrumentApp::InitInstance()
 	}
 	m_pMainWnd = pMainFrame;
 
-
-	// Parse command line for standard shell commands, DDE, file open
-	CCommandLineInfo cmdInfo;
-	ParseCommandLine(cmdInfo);
-
-
-
-	// Dispatch commands specified on the command line.  Will return FALSE if
-	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.
-	if (!ProcessShellCommand(cmdInfo))
+	if (!CreateNewCameraView())
+	{
+		delete pMainFrame;
 		return FALSE;
+	}
+
 	// The main window has been initialized, so show and update it
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
@@ -234,3 +238,29 @@ void CStageInstrumentApp::SaveCustomState()
 
 
 
+
+BOOL CStageInstrumentApp::CreateNewCameraView()
+{
+	// The following code will create one new view and set it into active view;
+	// don't call mainframe class to set active view again, 
+	// or will set CMainFrame's m_pActiveView, which can't be set into 0 during Destroy windows
+	// and cause crash.
+	CStageInstrumentDoc* pDoc = (CStageInstrumentDoc*)m_pCameraMDT->OpenDocumentFile(NULL);
+	if (!pDoc)
+		return FALSE;
+	return TRUE;
+}
+
+BOOL CStageInstrumentApp::CreateNewMeasureView()
+{
+	// if find one document and view, use old one.
+	POSITION pos = m_pMeasureMDT->GetFirstDocPosition();
+	if (pos)
+		return TRUE;
+
+	CStageInstrumentDoc* pDoc = (CStageInstrumentDoc*)m_pMeasureMDT->OpenDocumentFile(NULL);
+	if (!pDoc)
+		return FALSE;
+
+	return TRUE;
+}

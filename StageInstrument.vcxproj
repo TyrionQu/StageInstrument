@@ -46,7 +46,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -76,6 +76,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)\include\opencv2;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -98,6 +100,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>Vfw32.lib;opencv_world481d.lib</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -173,7 +176,7 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>atls.lib;cryptlib.lib;libCryptoppVikey.lib;ViKey_X64_VS2022_MT.lib;spdlog.lib</AdditionalDependencies>
+      <AdditionalDependencies>Vfw32.lib;opencv_world481.lib;atls.lib;cryptlib.lib;libCryptoppVikey.lib;ViKey_X64_VS2022_MT.lib;spdlog.lib</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -187,12 +190,35 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AutoMeasureBox.h" />
+    <ClInclude Include="AdvancedParameterFormView.h" />
     <ClInclude Include="calendarbar.h" />
+    <ClInclude Include="CameraFormView.h" />
     <ClInclude Include="ChildFrm.h" />
-    <ClInclude Include="ClassView.h" />
-    <ClInclude Include="FileView.h" />
+    <ClInclude Include="MeasureDetailedParameterFormView.h" />
+    <ClInclude Include="MeasureSetupBar.h" />
+    <ClInclude Include="ColorStatic.h" />
+    <ClInclude Include="DigitalEdit.h" />
+    <ClInclude Include="BasicParameterPane.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="graph\coords.h" />
+    <ClInclude Include="graph\f2doff.h" />
+    <ClInclude Include="graph\gen_prop_dlgs.h" />
+    <ClInclude Include="graph\graphcombobox.h" />
+    <ClInclude Include="graph\GraphContainer.h" />
+    <ClInclude Include="graph\GraphFrame.h" />
+    <ClInclude Include="graph\graphpanel.h" />
+    <ClInclude Include="graph\GraphWnd.h" />
+    <ClInclude Include="graph\graph_general.h" />
+    <ClInclude Include="graph\graph_props.h" />
+    <ClInclude Include="graph\gruler.h" />
+    <ClInclude Include="graph\pch.h" />
+    <ClInclude Include="graph\points.h" />
+    <ClInclude Include="graph\pviewbar.h" />
+    <ClInclude Include="graph\sizecbar.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MeasureOptionsBox.h" />
+    <ClInclude Include="MeasureParamFormView.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="PropertiesWnd.h" />
@@ -204,11 +230,33 @@
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AutoMeasureBox.cpp" />
+    <ClCompile Include="AdvancedParameterFormView.cpp" />
     <ClCompile Include="calendarbar.cpp" />
+    <ClCompile Include="CameraFormView.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
-    <ClCompile Include="ClassView.cpp" />
-    <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="MeasureDetailedParameterFormView.cpp" />
+    <ClCompile Include="MeasureSetupBar.cpp" />
+    <ClCompile Include="ColorStatic.cpp" />
+    <ClCompile Include="DigitalEdit.cpp" />
+    <ClCompile Include="BasicParameterPane.cpp" />
+    <ClCompile Include="graph\coords.cpp" />
+    <ClCompile Include="graph\f2doff.cpp" />
+    <ClCompile Include="graph\gen_prop_dlgs.cpp" />
+    <ClCompile Include="graph\graphcombobox.cpp" />
+    <ClCompile Include="graph\GraphContainer.cpp" />
+    <ClCompile Include="graph\GraphFrame.cpp" />
+    <ClCompile Include="graph\graphpanel.cpp" />
+    <ClCompile Include="graph\GraphWnd.cpp" />
+    <ClCompile Include="graph\graph_general.cpp" />
+    <ClCompile Include="graph\graph_props.cpp" />
+    <ClCompile Include="graph\gruler.cpp" />
+    <ClCompile Include="graph\points.cpp" />
+    <ClCompile Include="graph\pviewbar.cpp" />
+    <ClCompile Include="graph\sizecbar.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MeasureOptionsBox.cpp" />
+    <ClCompile Include="MeasureParamFormView.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -226,25 +274,36 @@
     <ResourceCompile Include="StageInstrument.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\Analysis.bmp" />
+    <Image Include="res\Analysis.png" />
+    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\buttons.bmp" />
     <Image Include="res\classview.bmp" />
     <Image Include="res\classview_hc.bmp" />
+    <Image Include="res\class_view_hc.ico" />
+    <Image Include="res\DeviceStatus_hc.png" />
     <Image Include="res\explorer.bmp" />
     <Image Include="res\explorer_hc.bmp" />
     <Image Include="res\filelarge.bmp" />
     <Image Include="res\filesmall.bmp" />
     <Image Include="res\fileview.bmp" />
     <Image Include="res\fileview_hc.bmp" />
+    <Image Include="res\file_view_hc.ico" />
+    <Image Include="res\icon1.ico" />
     <Image Include="res\info.bmp" />
+    <Image Include="res\load_sample.bmp" />
     <Image Include="res\main.bmp" />
+    <Image Include="res\make_horizontal.bmp" />
     <Image Include="res\nav_large.bmp" />
     <Image Include="res\nav_large_hc.bmp" />
+    <Image Include="res\output_wnd_hc.ico" />
     <Image Include="res\pages.bmp" />
     <Image Include="res\pages_hc.bmp" />
     <Image Include="res\pages_small.bmp" />
     <Image Include="res\pages_small_hc.bmp" />
     <Image Include="res\properties.bmp" />
     <Image Include="res\properties_hc.bmp" />
+    <Image Include="res\properties_wnd_hc.ico" />
     <Image Include="res\sort.bmp" />
     <Image Include="res\sort_hc.bmp" />
     <Image Include="res\StageInstrument.ico" />
@@ -253,6 +312,10 @@
     <Image Include="res\toolbar1.bmp" />
     <Image Include="res\toolbar2.bmp" />
     <Image Include="res\Toolbar256.bmp" />
+    <Image Include="res\tower_down.bmp" />
+    <Image Include="res\tower_home.bmp" />
+    <Image Include="res\tower_up.bmp" />
+    <Image Include="res\unload_sample.bmp" />
     <Image Include="res\writelarge.bmp" />
     <Image Include="res\writesmall.bmp" />
   </ItemGroup>

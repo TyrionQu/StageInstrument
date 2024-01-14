@@ -39,6 +39,8 @@ BEGIN_MESSAGE_MAP(CStageInstrumentView, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CStageInstrumentView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_WM_CREATE()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CStageInstrumentView construction/destruction
@@ -136,3 +138,33 @@ CStageInstrumentDoc* CStageInstrumentView::GetDocument() const // non-debug vers
 
 
 // CStageInstrumentView message handlers
+
+
+void CStageInstrumentView::OnInitialUpdate()
+{
+	CView::OnInitialUpdate();
+}
+
+
+#define BUFSIZE 4096
+#define MARGIN_SIZE 40
+
+
+int CStageInstrumentView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	CRect rect;
+	GetClientRect(rect);
+	m_wndDrawing.Create(_T("Graph Window"), rect, this, 40000);
+
+	return 0;
+}
+
+
+void CStageInstrumentView::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
+	m_wndDrawing.MoveWindow(0, 0, cx, cy);
+}
