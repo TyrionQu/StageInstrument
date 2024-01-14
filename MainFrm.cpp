@@ -15,10 +15,7 @@
 #include "pch.h"
 #include "framework.h"
 #include "StageInstrument.h"
-
 #include "MainFrm.h"
-
-#include "input/CryptoppVikey/include/CryptoppVikey.h"
 #include "Process.h"
 
 #include <afxwin.h>
@@ -44,14 +41,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_WM_TIMER()
 	ON_WM_COPYDATA()
 END_MESSAGE_MAP()
-
-#if defined _M_X64 && defined(_MSC_VER) && (_MSC_VER >= 1921)
-#pragma comment(lib, "input/CryptoppVikey/lib/libCryptoppVikey.lib")
-#pragma comment(lib, "input/CryptoppVikey/lib/cryptlib.lib")
-#pragma comment(lib, "input/CryptoppVikey/lib/ViKey_X64_VS2022_MT.lib")
-#pragma comment(lib, "input/CryptoppVikey/lib/atls.lib")
-#pragma comment(lib, "input/spdlog/lib/spdlog.lib")
-#endif
 
 static const UINT_PTR IDT_VIKEY_CHECK_TIMER = 1000;
 static const UINT_PTR IDT_UPDATE_CHECK_TIMER = 1001;
