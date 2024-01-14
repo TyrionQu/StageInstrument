@@ -133,14 +133,13 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
 void CMainFrame::OnVikeyTimerEvent()
 {
-	CryptoppVikey vikey;
-	DWORD dwRetCode = vikey.verifyVikey("ec.public.key");
+	DWORD dwRetCode = m_vikey.verifyVikey("ec.public.key");
 	//std::cout << "dwRetCode=" << dwRetCode << std::endl;
 	if (dwRetCode && m_bNeedToPop) {
 		m_bNeedToPop = false;
 		int result = AfxMessageBox(_T("Verify Vikey failed!"), MB_OK);
 		if (result == IDOK) {
-			dwRetCode = vikey.verifyVikey("ec.public.key");
+			dwRetCode = m_vikey.verifyVikey("ec.public.key");
 			//std::cout << "newRetCode=" << dwRetCode << std::endl;
 			if (dwRetCode) {
 				m_logger->info("Exit app due to the vikey fail, error code is #{}", dwRetCode);
@@ -155,6 +154,12 @@ void CMainFrame::OnVikeyTimerEvent()
 
 void CMainFrame::OnUpdateTimerEvent()
 {
+	DWORD dwRetCode = m_vikey.verifyVikey("ec.public.key");
+	if (dwRetCode) {
+		m_logger->debug("Skip updater checker due to the vikey fail.");
+		return;
+	}
+
 	if (IsProcessRunning(_T("GUP.exe")))
 		return;
 

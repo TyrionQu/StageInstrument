@@ -16,6 +16,7 @@
 #include "CalendarBar.h"
 #include "Resource.h"
 
+#include "input/CryptoppVikey/include/CryptoppVikey.h"
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/cfg/env.h"   // support for loading levels from the environment variable
@@ -88,6 +89,8 @@ private:
 	void OnVikeyTimerEvent();
 	void OnUpdateTimerEvent();
 	bool m_bNeedToPop;
+	CryptoppVikey m_vikey;
+
 	std::shared_ptr<spdlog::logger> m_logger;
 };
 
