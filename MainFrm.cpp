@@ -45,10 +45,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_WM_COPYDATA()
 END_MESSAGE_MAP()
 
-#if defined _M_X64 && defined(_MSC_VER) && (_MSC_VER >= 1920)
+#if defined _M_X64 && defined(_MSC_VER) && (_MSC_VER >= 1921)
 #pragma comment(lib, "input/CryptoppVikey/lib/libCryptoppVikey.lib")
 #pragma comment(lib, "input/CryptoppVikey/lib/cryptlib.lib")
-#pragma comment(lib, "input/CryptoppVikey/lib/ViKey_X64_VS2019_MT.lib")
+#pragma comment(lib, "input/CryptoppVikey/lib/ViKey_X64_VS2022_MT.lib")
 #pragma comment(lib, "input/CryptoppVikey/lib/atls.lib")
 #pragma comment(lib, "input/spdlog/lib/spdlog.lib")
 #endif
