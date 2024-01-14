@@ -24,8 +24,6 @@
 #include "StageInstrumentView.h"
 #include "Process.h"
 
-#include <iostream>
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -76,10 +74,6 @@ CStageInstrumentApp theApp;
 
 BOOL CStageInstrumentApp::InitInstance()
 {
-	AllocConsole();
-	FILE* stream = nullptr;
-	freopen_s(&stream, "CONOUT$", "w", stdout);
-
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
@@ -172,8 +166,6 @@ int CStageInstrumentApp::ExitInstance()
 {
 	//TODO: handle additional resources you may have added
 	AfxOleTerm(FALSE);
-
-	FreeConsole();
 
 	return CWinAppEx::ExitInstance();
 }

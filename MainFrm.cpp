@@ -21,7 +21,6 @@
 #include "input/CryptoppVikey/include/CryptoppVikey.h"
 #include "Process.h"
 
-#include <iostream>
 #include <afxwin.h>
 #include <tlhelp32.h>
 
@@ -105,8 +104,6 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 		DWORD dataSize = pCopyDataStruct->cbData;
 		std::string receivedData(pData, dataSize);
 
-		std::cout << receivedData << std::endl;
-
 		m_logger->info("Exit app due to the updated check message.");
 
 		AfxMessageBox(_T("Detected a mandatory version update. We need to exit the main program. After installing the latest version, please restart the app."), MB_OK);
@@ -134,13 +131,11 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 void CMainFrame::OnVikeyTimerEvent()
 {
 	DWORD dwRetCode = m_vikey.verifyVikey("ec.public.key");
-	//std::cout << "dwRetCode=" << dwRetCode << std::endl;
 	if (dwRetCode && m_bNeedToPop) {
 		m_bNeedToPop = false;
 		int result = AfxMessageBox(_T("Verify Vikey failed!"), MB_OK);
 		if (result == IDOK) {
 			dwRetCode = m_vikey.verifyVikey("ec.public.key");
-			//std::cout << "newRetCode=" << dwRetCode << std::endl;
 			if (dwRetCode) {
 				m_logger->info("Exit app due to the vikey fail, error code is #{}", dwRetCode);
 				PostQuitMessage(0);
@@ -183,8 +178,6 @@ void CMainFrame::OnUpdateTimerEvent()
 		AfxMessageBox(_T("Updater can't be found. We will exit the main program."), MB_OK);
 		PostQuitMessage(0);
 	}
-
-	std::cout << "OnUpdateTimerEvent" << std::endl;
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
