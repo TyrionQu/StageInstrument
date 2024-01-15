@@ -52,8 +52,9 @@ int CGraphContainer::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//set initial values for rulers
 	double x1 = 0, x2 = 10, y1 = 0, y2 = 10;
 	hruler.SetMinMax(x1, x2, TRUE);
+	hruler.SetUnitAttributes(0, 10, 15, 5);
 	vruler.SetMinMax(y1, y2, TRUE);
-
+	vruler.SetUnitAttributes(10, 0.1, 10, 5);
 	//create graph panel
 	graph_panel = new CGraphPanel(&vruler, &hruler);
 	b = graph_panel->Create(NULL, _T(""), WS_CHILD | WS_VISIBLE, rect, this, 0);

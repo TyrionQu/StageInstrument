@@ -142,6 +142,8 @@ void CGraphPanel::OnPaint()
 
 void CGraphPanel::DrawAxis(CDC* pDC, CRect& rect_to_draw)
 {
+	DrawAxisEX(pDC, rect_to_draw);
+	return;
 	int i;
 	if (CurrentCoordsX == NULL || CurrentCoordsY == NULL) return;
 
@@ -184,6 +186,65 @@ void CGraphPanel::DrawAxis(CDC* pDC, CRect& rect_to_draw)
 	pDC->SelectObject(OldPen);
 }
 
+void CGraphPanel::DrawAxisEX(CDC* pDC, CRect& rect_to_draw)
+{
+	int x, y, unit_length;
+
+	//draw axis and zero line first
+	CPen BlackDashPen(PS_DOT, 1, RGB(0, 0, 0));
+	CPen bkPen(PS_SOLID, 1, bkColor);
+	CPen* OldPen = (CPen*)pDC->SelectObject(&BlackDashPen);
+	pDC->SetBkMode(TRANSPARENT);
+	//horizontal
+	unit_length = hruler->GetUnitPix();
+	for (x = rect_to_draw.left + unit_length; x <= rect_to_draw.right; x += unit_length)
+	{
+		pDC->MoveTo(x, rect_to_draw.bottom);
+		pDC->LineTo(x, rect_to_draw.top);
+	}
+
+	//vertical
+	unit_length = vruler->GetUnitPix();
+	for (y = rect_to_draw.bottom; y >= rect_to_draw.top; y -= unit_length)
+	{
+		//big marks
+		pDC->MoveTo(rect_to_draw.right, y);
+		pDC->LineTo(rect_to_draw.left, y);
+	}
+
+	pDC->SelectObject(OldPen);
+}
+
+void CGraphPanel::DrawSin(CDC* pDC, CRect& rect_to_draw)
+{
+	int i, j;
+	if (CurrentCoordsX == NULL || CurrentCoordsY == NULL) return;
+
+	//create new set of CCoordinates
+	CCoordinates coords_x(rect_to_draw.left, rect_to_draw.right, CurrentCoordsX->v1(), CurrentCoordsX->v2());
+	CCoordinates coords_y(rect_to_draw.bottom, rect_to_draw.top, CurrentCoordsY->v1(), CurrentCoordsY->v2());
+
+	//horizontal
+	double Delta;
+	double* wp;
+	double* sp;
+	int count, maxexp, NMax;
+	NMax = vruler->GetNMax(pDC, rect_to_draw);
+	coords_y.DivideInterval(NMax, &maxexp, &Delta, &count, &sp, &wp);
+	for (i = 1; i < count - 1; i += 2)
+	{
+		int line_x = (int)sp[i];
+		for (j = 0; j <= rect_to_draw.right; j++)
+		{
+			int PointY=30*sin(j/30.0);
+			pDC->SetPixel(j, line_x - PointY, RGB(255, 0, 0));
+		}
+	}
+	if (sp != NULL) delete sp;
+	if (wp != NULL) delete wp;
+
+}
+
 void CGraphPanel::UpdateGraphWindow(LPCRECT rect)
 {
 	if (!offscreen)
@@ -224,7 +285,10 @@ void CGraphPanel::DrawToDC(CDC* dc_to_draw, CRect& rect_to_draw)
 	DrawPoints(dc_to_draw, rect_to_draw);
 
 	//axis
-	if ((m_grflags & GRAPH_DRAW_AXIS) == GRAPH_DRAW_AXIS) DrawAxis(dc_to_draw, rect_to_draw);
+	if ((m_grflags & GRAPH_DRAW_AXIS) == GRAPH_DRAW_AXIS)
+	{
+		DrawAxis(dc_to_draw, rect_to_draw);
+	}
 }
 
 void CGraphPanel::InitCoords(double x1, double x2, double y1, double y2)
