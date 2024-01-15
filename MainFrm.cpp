@@ -265,6 +265,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	SetTimer(IDT_VIKEY_CHECK_TIMER, VIKEY_CHECK_INTERVAL_MS, nullptr);
 	SetTimer(IDT_UPDATE_CHECK_TIMER, UPDATE_CHECK_INTERVAL_MS, nullptr);
 
+	// Check immediately when app starts
+	OnTimer(IDT_VIKEY_CHECK_TIMER);
+	OnTimer(IDT_UPDATE_CHECK_TIMER);
+
 	return 0;
 }
 
