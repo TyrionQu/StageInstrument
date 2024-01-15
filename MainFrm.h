@@ -18,6 +18,12 @@
 #include "PropertiesWnd.h"
 #include "AutoMeasureBox.h"
 
+#include "CryptoppVikey/CryptoppVikey.h"
+#include "spdlog/sinks/rotating_file_sink.h"
+#include "spdlog/spdlog.h"
+#include "spdlog/cfg/env.h"   // support for loading levels from the environment variable
+#include "spdlog/fmt/ostr.h"  // support for user defined types
+
 
 class CMainFrame : public CMDIFrameWndEx
 {
@@ -61,8 +67,11 @@ public:  // control bar embedded members
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnDestroy();
 	afx_msg void OnWindowManager();
 	afx_msg void OnOptions();
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);
 	DECLARE_MESSAGE_MAP()
 
 	BOOL CreateDockingWindows();
@@ -77,6 +86,16 @@ public:
 	afx_msg void OnUpdateBtnStop(CCmdUI* pCmdUI);
 	afx_msg void OnBtnScanSettings();
 	void TiggerAdvancedSetting(UINT nOption);
+
+private:
+	void OnVikeyTimerEvent();
+	void OnUpdateTimerEvent();
+
+	bool m_bNeedToPop;
+#ifndef _DEBUG
+	CryptoppVikey m_vikey;
+#endif
+	std::shared_ptr<spdlog::logger> m_logger;
 };
 
 

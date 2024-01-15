@@ -15,9 +15,12 @@
 #include "pch.h"
 #include "framework.h"
 #include "StageInstrument.h"
-
 #include "MainFrm.h"
+#include "Process.h"
 #include "Resource.h"
+
+#include <afxwin.h>
+#include <tlhelp32.h>
 
 
 #ifdef _DEBUG
@@ -30,8 +33,11 @@ IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWndEx)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_WM_CREATE()
+	ON_WM_DESTROY()
 	ON_COMMAND(ID_WINDOW_MANAGER, &CMainFrame::OnWindowManager)
 	ON_COMMAND(ID_TOOLS_OPTIONS, &CMainFrame::OnOptions)
+	ON_WM_TIMER()
+	ON_WM_COPYDATA()
 	ON_COMMAND(ID_BTN_START, &CMainFrame::OnBtnStart)
 	ON_COMMAND(ID_BTN_PAUSE, &CMainFrame::OnBtnPause)
 	ON_COMMAND(ID_BTN_STOP, &CMainFrame::OnBtnStop)
@@ -41,14 +47,150 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_COMMAND(ID_BTN_SCAN_SETTINGS, &CMainFrame::OnBtnScanSettings)
 END_MESSAGE_MAP()
 
+static const UINT_PTR IDT_VIKEY_CHECK_TIMER = 1000;
+static const UINT_PTR IDT_UPDATE_CHECK_TIMER = 1001;
+static const UINT_PTR IDM_UPDATE_CHECK_MESSAGE = 1002;
+
+static const UINT VIKEY_CHECK_INTERVAL_MS = 5000;
+static const UINT UPDATE_CHECK_INTERVAL_MS = 1000 * 3600 * 24; // one day
+
+bool IsProcessRunning(const CString& processName)
+{
+	PROCESSENTRY32 entry;
+	entry.dwSize = sizeof(PROCESSENTRY32);
+
+	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+
+	if (Process32First(snapshot, &entry))
+	{
+		do {
+			if (_tcsicmp(entry.szExeFile, processName) == 0)
+			{
+				CloseHandle(snapshot);
+				return true;
+			}
+		} while (Process32Next(snapshot, &entry));
+	}
+
+	CloseHandle(snapshot);
+	return false;
+}
+
 // CMainFrame construction/destruction
 
 CMainFrame::CMainFrame() noexcept
 {
+	// TODO: add member initialization code here
+	m_bNeedToPop = true;
+
+	// Create a file rotating logger with 50mb size max and 10 rotated files.
+	m_logger = spdlog::rotating_logger_mt("stage_instrument", "logs/stage_instrument.log", 1048576 * 50, 10);
+	spdlog::flush_every(std::chrono::seconds(1));
 }
 
 CMainFrame::~CMainFrame()
 {
+}
+
+void CMainFrame::OnDestroy()
+{
+	CMDIFrameWndEx::OnDestroy();
+
+	// TODO: Add your message handler code here
+	KillTimer(IDT_VIKEY_CHECK_TIMER);
+	KillTimer(IDT_UPDATE_CHECK_TIMER);
+}
+
+BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
+{
+	if (pCopyDataStruct->dwData == IDM_UPDATE_CHECK_MESSAGE)
+	{
+		char* pData = static_cast<char*>(pCopyDataStruct->lpData);
+		DWORD dataSize = pCopyDataStruct->cbData;
+		std::string receivedData(pData, dataSize);
+
+		std::string tip = "Exit the app! " + receivedData;
+		m_logger->info(tip);
+		CString csTip(tip.c_str());
+		AfxMessageBox(csTip, MB_OK);
+		PostQuitMessage(0);
+
+		return TRUE;
+	}
+
+	return CMDIFrameWndEx::OnCopyData(pWnd, pCopyDataStruct);
+}
+
+void CMainFrame::OnTimer(UINT_PTR nIDEvent)
+{
+	if (nIDEvent == IDT_VIKEY_CHECK_TIMER)
+	{
+		OnVikeyTimerEvent();
+	}
+	else if (nIDEvent == IDT_UPDATE_CHECK_TIMER)
+	{
+		OnUpdateTimerEvent();
+	}
+	CFrameWnd::OnTimer(nIDEvent);
+}
+
+void CMainFrame::OnVikeyTimerEvent()
+{
+#ifndef _DEBUG
+	DWORD dwRetCode = m_vikey.verifyVikey("ec.public.key");
+	if (dwRetCode && m_bNeedToPop)
+	{
+		m_bNeedToPop = false;
+		int result = AfxMessageBox(_T("Verify Vikey failed! Please insert the verified Vikey"), MB_OK);
+		if (result == IDOK)
+		{
+			dwRetCode = m_vikey.verifyVikey("ec.public.key");
+			if (dwRetCode)
+			{
+				m_logger->info("Exit app due to the vikey fail, error code is #{}", dwRetCode);
+				PostQuitMessage(0);
+			}
+		}
+	}
+	if (!dwRetCode) {
+		m_bNeedToPop = true;
+	}
+#endif
+}
+
+void CMainFrame::OnUpdateTimerEvent()
+{
+#ifndef _DEBUG
+	DWORD dwRetCode = m_vikey.verifyVikey("ec.public.key");
+	if (dwRetCode)
+	{
+		return;
+	}
+
+	if (IsProcessRunning(_T("GUP.exe")))
+		return;
+
+	// Get path
+	TCHAR appPath[MAX_PATH];
+	::GetModuleFileName(NULL, appPath, MAX_PATH);
+	PathRemoveFileSpec(appPath);
+	std::wstring updaterDir = appPath;
+	updaterDir += TEXT("\\updater\\");
+
+	// Update check
+	std::wstring updaterFullPath = updaterDir + TEXT("gup.exe");
+	std::wstring updaterParams = TEXT("");
+
+	Process updater(updaterFullPath.c_str(), updaterParams.c_str(), updaterDir.c_str());
+	bool res = updater.run();
+
+	if (!res)
+	{
+		m_logger->info("Exit app due to the updater fail.");
+		AfxMessageBox(_T("Updater can't be found. We will exit the main program."), MB_OK);
+		PostQuitMessage(0);
+	}
+#endif
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -124,6 +266,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// improves the usability of the taskbar because the document name is visible with the thumbnail.
 	ModifyStyle(0, FWS_PREFIXTITLE);
 
+	SetTimer(IDT_VIKEY_CHECK_TIMER, VIKEY_CHECK_INTERVAL_MS, nullptr);
+	SetTimer(IDT_UPDATE_CHECK_TIMER, UPDATE_CHECK_INTERVAL_MS, nullptr);
+
+	// Check immediately when app starts
+	OnTimer(IDT_VIKEY_CHECK_TIMER);
+	OnTimer(IDT_UPDATE_CHECK_TIMER);
+
 	return 0;
 }
 
@@ -133,6 +282,25 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		return FALSE;
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
+
+	// Modify lpszClass name
+	// Used for the updater exe to exit the main program
+	WNDCLASS wndcls;
+	ZeroMemory(&wndcls, sizeof(WNDCLASS));   // start with NULL
+
+	HINSTANCE hInst;
+	hInst = AfxGetInstanceHandle();
+	ASSERT(hInst != 0);
+
+	GetClassInfo(hInst, cs.lpszClass, &wndcls);
+	wndcls.lpszClassName = _T("StageInstrument");
+
+	if (FALSE == AfxRegisterClass(&wndcls))
+	{
+		AfxThrowResourceException();
+		return FALSE;
+	}
+	cs.lpszClass = wndcls.lpszClassName;
 
 	return TRUE;
 }
