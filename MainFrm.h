@@ -92,7 +92,9 @@ private:
 	void OnUpdateTimerEvent();
 
 	bool m_bNeedToPop;
+#ifndef _DEBUG
 	CryptoppVikey m_vikey;
+#endif
 	std::shared_ptr<spdlog::logger> m_logger;
 };
 

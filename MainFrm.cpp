@@ -136,6 +136,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
 void CMainFrame::OnVikeyTimerEvent()
 {
+#ifndef _DEBUG
 	DWORD dwRetCode = m_vikey.verifyVikey("ec.public.key");
 	if (dwRetCode && m_bNeedToPop)
 	{
@@ -154,10 +155,12 @@ void CMainFrame::OnVikeyTimerEvent()
 	if (!dwRetCode) {
 		m_bNeedToPop = true;
 	}
+#endif
 }
 
 void CMainFrame::OnUpdateTimerEvent()
 {
+#ifndef _DEBUG
 	DWORD dwRetCode = m_vikey.verifyVikey("ec.public.key");
 	if (dwRetCode)
 	{
@@ -187,6 +190,7 @@ void CMainFrame::OnUpdateTimerEvent()
 		AfxMessageBox(_T("Updater can't be found. We will exit the main program."), MB_OK);
 		PostQuitMessage(0);
 	}
+#endif
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
