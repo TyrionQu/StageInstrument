@@ -179,6 +179,7 @@
 #define IDC_BUTTON_INSERT_MACRO5        1069
 #define IDC_CHECK_WAIT_EXIT             1070
 #define IDC_CAMERA_DISPLAY              1071
+#define IDC_MFCBUTTON1                  1073
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_OPEN                         32771
 #define ID_OPEN_WITH                    32772
@@ -195,7 +196,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        524
 #define _APS_NEXT_COMMAND_VALUE         32780
-#define _APS_NEXT_CONTROL_VALUE         1071
+#define _APS_NEXT_CONTROL_VALUE         1074
 #define _APS_NEXT_SYMED_VALUE           600
 #endif
 #endif
