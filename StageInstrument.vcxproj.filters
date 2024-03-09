@@ -129,6 +129,9 @@
     <ClInclude Include="AdvancedParameterFormView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StepProfilerInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StageInstrument.cpp">
@@ -228,6 +231,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AdvancedParameterFormView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StepProfilerInterface_client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

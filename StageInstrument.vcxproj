@@ -76,7 +76,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)\include\opencv2;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\include\erpc;$(ProjectDir)\include\opencv2;$(ProjectDir)\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -228,6 +228,7 @@
     <ClInclude Include="StageInstrument.h" />
     <ClInclude Include="StageInstrumentDoc.h" />
     <ClInclude Include="StageInstrumentView.h" />
+    <ClInclude Include="StepProfilerInterface.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
@@ -269,6 +270,7 @@
     <ClCompile Include="StageInstrument.cpp" />
     <ClCompile Include="StageInstrumentDoc.cpp" />
     <ClCompile Include="StageInstrumentView.cpp" />
+    <ClCompile Include="StepProfilerInterface_client.cpp" />
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
