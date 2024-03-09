@@ -100,7 +100,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>Vfw32.lib;opencv_world481d.lib</AdditionalDependencies>
+      <AdditionalDependencies>Vfw32.lib;opencv_world481d.lib;liberpc.a</AdditionalDependencies>
       <DelayLoadDLLs>opencv_world481d.dll</DelayLoadDLLs>
     </Link>
     <Midl>
